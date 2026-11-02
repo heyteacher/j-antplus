@@ -9,7 +9,7 @@ import be.glever.ant.constants.AntNetworkKeys;
 import be.glever.ant.constants.AntPlusDeviceType;
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
-import be.glever.ant.message.data.AchnowledgeDataMessage;
+import be.glever.ant.message.data.AcknowledgeDataMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
 import be.glever.ant.usb.AntUsbDevice;
 import be.glever.ant.util.ByteUtils;
@@ -68,11 +68,6 @@ public class HRMChannel extends AntChannel {
 
 //        messageFlux.take(1).subscribe(message -> requestHrmInfo());
 	}
-
-	private void requestHrmInfo() {
-		this.device.send(new AchnowledgeDataMessage(this.getChannelNumber(), HrmDataPage6Capabilities.PAGE_NR));
-	}
-
 
 	@Override
 	public Flux<AntMessage> getEvents() {

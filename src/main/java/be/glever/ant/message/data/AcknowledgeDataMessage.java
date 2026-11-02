@@ -2,21 +2,18 @@ package be.glever.ant.message.data;
 
 import be.glever.ant.AntException;
 import be.glever.ant.message.AbstractAntMessage;
+import be.glever.ant.util.ByteArrayBuilder;
 import be.glever.ant.util.ByteUtils;
 
 import java.util.Arrays;
 
-public class AchnowledgeDataMessage extends AbstractAntMessage {
+public class AcknowledgeDataMessage extends AbstractAntMessage {
 
     public static final int MSG_ID = 0x4f;
     private byte[] messageContentBytes;
 
-    public AchnowledgeDataMessage() {
-        super();
-    }
-
-    public AchnowledgeDataMessage(byte channelNumber, byte requestedDatapage) {
-
+    public AcknowledgeDataMessage(byte channelNumber, byte[] payload) {
+        setMessageBytes(new ByteArrayBuilder().write(channelNumber).write(payload).toByteArray());
     }
 
     @Override
