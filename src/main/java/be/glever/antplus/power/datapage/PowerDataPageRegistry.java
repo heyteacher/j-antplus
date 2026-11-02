@@ -13,5 +13,6 @@ public class PowerDataPageRegistry extends AbstractDataPageRegistry {
         add(PowerDataPage12CrankTorque.PAGE_NR, PowerDataPage12CrankTorque::new);
         add(PowerDataPage13TorqueEffectivenessPedalSmoothness.PAGE_NR, PowerDataPage13TorqueEffectivenessPedalSmoothness::new);
         add(PowerDataPage20CrankTorqueFrequency.PAGE_NR, PowerDataPage20CrankTorqueFrequency::new);
+        add(PowerDataPage02GetSetParameters.PAGE_NR, PowerDataPage02GetSetParameters::new);
     }
 }
