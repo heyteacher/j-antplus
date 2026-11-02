@@ -1,5 +1,7 @@
 package be.glever.antplus.common.datapage;
 
+import be.glever.antplus.common.datapage.constants.BatteryStatus;
+
 public class DataPage82BatteryStatus extends AbstractAntPlusDataPage {
     public static final byte PAGE_NR = 82;
 
@@ -12,22 +14,20 @@ public class DataPage82BatteryStatus extends AbstractAntPlusDataPage {
         return PAGE_NR;
     }
 
-
-    public byte getBatteryIdentifier() {
-        return getDataPageBytes()[2];
+    public int getBatteryIdentifier() {
+        return (getDataPageBytes()[2]>> 4) & 0b00000111;
     }
 
-    public byte[] getCumulativeOperatingTime() {
-        return super.dataPageSubArray(3, 6);
+    public int getNumberOfBatteries() {
+        return getDataPageBytes()[2] & 0b00000111;
     }
 
+    public BatteryStatus getBatteryStatus() {
+        int batteryStatusValue = (getDataPageBytes()[7] >> 4) & 0b00000111;
+        return BatteryStatus.fromValue(batteryStatusValue);
+    }
 
     public byte getFractionalBatteryVoltage() {
         return getDataPageBytes()[6];
-    }
-
-
-    public byte getDescriptiveBitField() {
-        return getDataPageBytes()[7];
     }
 }
