@@ -69,7 +69,7 @@ public abstract class AntChannel {
         this.network = network;
     }
 
-    protected byte getChannelNumber() {
+    public byte getChannelNumber() {
         return this.channelNumber;
     }
 
