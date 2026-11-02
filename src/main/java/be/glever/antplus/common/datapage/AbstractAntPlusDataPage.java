@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public abstract class AbstractAntPlusDataPage {
 
-    private byte[] dataPageBytes;
+    final private byte[] dataPageBytes;
 
     public AbstractAntPlusDataPage(byte[] dataPageBytes) {
         this.dataPageBytes = dataPageBytes;
