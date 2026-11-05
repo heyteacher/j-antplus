@@ -19,13 +19,12 @@ public class PowerDataSubPage01CrankParameters extends AbstractPowerDataSubPage 
      * @param crankLengthInMillimeters  the crank length in millimeters
      */
     public PowerDataSubPage01CrankParameters(double crankLengthInMillimeters) {
-        int crankLengthValue =  (int) ((crankLengthInMillimeters - 110) / 0.5d);
         super(new ByteArrayBuilder().
                                     // 0 Page Number (ignored)
                 write(SUB_PAGE_NR). // 1 Subpage number
                 write((byte) 0xFF). // 2 Reserved
                 write((byte) 0xFF). // 3 Reserved
-                write((byte) crankLengthValue). // 4 Crank Length Value
+                write((byte) (int) ((crankLengthInMillimeters - 110) / 0.5d)). // 4 Crank Length Value
                 write((byte) 0x00). // 5 From Display: Read only, set to 0x00
                 write((byte) 0x00). // 6 From Display: Read only, set to 0x00
                 write((byte) 0xFF). // 7 Reserved
@@ -45,7 +44,6 @@ public class PowerDataSubPage01CrankParameters extends AbstractPowerDataSubPage 
         return getDataSubPageBytes()[3] * 0.5 + 110d;
     }
 
-    @Override
     public String toString() {
         return format(
                 "SubPageNumber: 0x%02X Crank Length: %s mm",
