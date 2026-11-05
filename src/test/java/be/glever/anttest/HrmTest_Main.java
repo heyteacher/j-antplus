@@ -25,7 +25,7 @@ public class HrmTest_Main {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize();
+            device.initialize(null);
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             HRMChannel channel = new HRMChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();

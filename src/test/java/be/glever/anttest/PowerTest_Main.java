@@ -32,7 +32,7 @@ public class PowerTest_Main {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize();
+            device.initialize(null);
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             PowerChannel channel = new PowerChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();
@@ -70,7 +70,7 @@ public class PowerTest_Main {
         }
     }
 
-    static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         new PowerTest_Main();
     }
 
@@ -95,6 +95,34 @@ public class PowerTest_Main {
                 return;
             }
             switch (dataPage) {
+                case DataPage81ProductInformation commonPage -> {
+                    LOG.debug(() -> format(
+                            "PageNumber: 0x%02X Product Information, serial number: %d, name: %s",
+                            dataPage.getPageNumber(),
+                            commonPage.getSerialNumber(),
+                            commonPage.getName()
+                            )
+                    );
+                }
+                default -> {
+                    /*
+                    LOG.debug(() -> format(
+                            "PageNumber: 0x%02X Not Handled, payload: %s",
+                            dataPage.getPageNumber(),
+                            ByteUtils.hexString(msg.getMessageContent())));
+
+                     */
+                }
+                /*
+                case DataPage82BatteryStatus batteryStatusPage -> {
+                    double fractionalVoltage = ((int) (batteryStatusPage.getFractionalBatteryVoltage() / 2.56d)) / 100d;
+                    LOG.debug(() -> format(
+                            "PageNumber: 0x%02X Battery Status, Identifier: %s, Number of Batteries: %s, Status %s ",
+                            dataPage.getPageNumber(),
+                            batteryStatusPage.getBatteryIdentifier(),
+                            batteryStatusPage.getNumberOfBatteries(),
+                            batteryStatusPage.getBatteryStatus()));
+                }
                 case PowerDataPage10PowerOnly powerPage -> {
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Power Only, Instantaneous power: %s, "+
@@ -126,20 +154,6 @@ public class PowerTest_Main {
                             "PageNumber: 0x%02X Manufacturers Information",
                             dataPage.getPageNumber()));
                 }
-                case DataPage81ProductInformation commonPage -> {
-                    LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Product Information",
-                            dataPage.getPageNumber()));
-                }
-                case DataPage82BatteryStatus batteryStatusPage -> {
-                    double fractionalVoltage = ((int) (batteryStatusPage.getFractionalBatteryVoltage() / 2.56d)) / 100d;
-                    LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Battery Status, Identifier: %s, Number of Batteries: %s, Status %s ",
-                            dataPage.getPageNumber(),
-                            batteryStatusPage.getBatteryIdentifier(),
-                            batteryStatusPage.getNumberOfBatteries(),
-                            batteryStatusPage.getBatteryStatus()));
-                }
                 case PowerDataPage11WheelTorque powerPage -> {
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Wheel Torque",
@@ -155,12 +169,7 @@ public class PowerTest_Main {
                             "PageNumber: 0x%02X Crank Torque Frequency",
                             dataPage.getPageNumber()));
                 }
-                default -> {
-                    LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Not Handled, payload: %s",
-                            dataPage.getPageNumber(),
-                            ByteUtils.hexString(msg.getMessageContent())));
-                }
+                 */
             }
         } else if (antMessage instanceof AcknowledgeDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();

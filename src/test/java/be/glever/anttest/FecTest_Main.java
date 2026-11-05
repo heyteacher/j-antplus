@@ -30,7 +30,7 @@ public class FecTest_Main {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize();
+            device.initialize(null);
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             FecChannel channel = new FecChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();

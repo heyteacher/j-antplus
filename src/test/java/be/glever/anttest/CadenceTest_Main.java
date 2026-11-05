@@ -30,7 +30,7 @@ public class CadenceTest_Main {
         List<AntUsbDevice> foo = AntUsbDeviceFactory.getAvailableAntDevices();
         try (AntUsbDevice device = foo.stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize();
+            device.initialize(null);
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             CadenceChannel channel = new CadenceChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();

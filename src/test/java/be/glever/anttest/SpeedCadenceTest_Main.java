@@ -29,7 +29,7 @@ public class SpeedCadenceTest_Main {
     private SpeedCadenceTest_Main() throws IOException {
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize();
+            device.initialize(null);
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
 
             SpeedChannel speedChannel = new SpeedChannel(device);
@@ -38,7 +38,7 @@ public class SpeedCadenceTest_Main {
             CadenceChannel cadenceChannel = new CadenceChannel(device);
             cadenceChannel.getEvents().doOnNext(this::handle).subscribe();
 
-            System.in.read();
+            int ignored = System.in.read();
         }
     }
 
