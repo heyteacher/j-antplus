@@ -3,8 +3,10 @@ package be.glever.ant;
 import be.glever.ant.message.AntMessage;
 
 import java.io.IOException;
+import java.io.Serial;
 
 public class AntException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
     private AntMessage antMessage;
 
@@ -25,6 +27,7 @@ public class AntException extends RuntimeException {
         this.antMessage = antMessage;
     }
 
+    @SuppressWarnings("unused")
     public AntMessage getAntMessage() {
         return antMessage;
     }
