@@ -14,6 +14,8 @@ import static java.lang.String.format;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 
+import java.util.Arrays;
+
 /**
  * Reads an {@link UsbDeviceConnection} and parses the byte stream to {@link AntMessage}s
  * which can then be retrieved through {@link #antMessages()}().
@@ -76,7 +78,7 @@ public class AntUsbReader implements Runnable {
                         }
                     } else {
                         if (buffer[0] == SYNC) {
-                            LOG.debug(() -> format("Read %s bytes", ByteUtils.hexString(buffer)));
+                            LOG.debug(() -> format("Read %s bytes", ByteUtils.hexString(Arrays.copyOfRange(buffer, 0, 15))));
                             usbMessageSink.next(AntMessageRegistry.from(buffer));
                         } else {
                             // if this happens too much, treat buffer as 'sliding window' instead of
