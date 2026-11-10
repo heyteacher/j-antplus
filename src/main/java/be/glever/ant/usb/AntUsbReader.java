@@ -57,7 +57,7 @@ public class AntUsbReader implements Runnable {
                             boolean ignored = Thread.interrupted();
                         }
                     } else {
-                        LOG.debug(() -> format("Read %s bytes", ByteUtils.hexString(buffer)));
+                        LOG.debug(() -> format("Read %s bytes", ByteUtils.hexString(Arrays.copyOfRange(buffer, 0, 15))));
                         if (buffer[0] == SYNC) {
                             usbMessageSink.next(AntMessageRegistry.from(buffer));
                         } else {
