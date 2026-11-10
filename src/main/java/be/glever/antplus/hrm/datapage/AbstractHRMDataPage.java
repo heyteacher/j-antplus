@@ -19,7 +19,7 @@ public abstract class AbstractHRMDataPage extends AbstractAntPlusDataPage {
     }
 
     /**
-     * Time of last valid heartbeat event in milliseconds sinds "epoch".
+     * Time of last valid heartbeat event in milliseconds since "epoch".
      * Note that the ANT+ field size for this is 16 bit and resolution is 1/1024 seconds,
      * so the  value rolls over at 63.999 seconds ( ((1/1024)*(2^17)) - (1/1024)) ).
      */
@@ -27,8 +27,8 @@ public abstract class AbstractHRMDataPage extends AbstractAntPlusDataPage {
         return calculateHeartBeatEventTime(getDataPageBytes()[4], getDataPageBytes()[5]);
     }
 
-    protected long calculateHeartBeatEventTime(byte bite1, byte bite2) {
-        double timeAnt = ByteUtils.fromUShort(bite1, bite2);
+    protected long calculateHeartBeatEventTime(byte byte1, byte byte2) {
+        double timeAnt = ByteUtils.fromUShort(byte1, byte2);
         return (long) ((timeAnt / 1024) * 1000);
     }
 
@@ -50,10 +50,8 @@ public abstract class AbstractHRMDataPage extends AbstractAntPlusDataPage {
     }
 
     protected String getToString() {
-        return "heartBeatEventTime=" + getHeartBeatEventTime()
-                + ",heartBeatCount=" + getHeartBeatCount()
-                + ",computedHeartRateInBpm=" + getComputedHeartRateInBpm();
+        return "heartBeatEventTime " + getHeartBeatEventTime()
+                + ", heartBeatCount " + getHeartBeatCount()
+                + ", computedHeartRateInBpm " + getComputedHeartRateInBpm();
     }
-
-
 }
