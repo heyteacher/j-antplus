@@ -15,5 +15,10 @@ public class SpeedAndCadenceDataPageRegistry extends AbstractDataPageRegistry {
         super(new CommonDataPageRegistry());
 
         add(SpeedAndCadenceDataPage0Default.PAGE_NR, SpeedAndCadenceDataPage0Default::new);
+        add(SpeedCadenceDataPage1CumulativeOperatingTime.PAGE_NR, SpeedCadenceDataPage1CumulativeOperatingTime::new);
+        add(SpeedCadenceDataPage2ManufacturerInformation.PAGE_NR, SpeedCadenceDataPage2ManufacturerInformation::new);
+        add(SpeedCadenceDataPage3ProductInformation.PAGE_NR, SpeedCadenceDataPage3ProductInformation::new);
+        add(SpeedCadenceDataPage4BatteryStatus.PAGE_NR, SpeedCadenceDataPage4BatteryStatus::new);
+        add(SpeedCadenceDataPage5Motion.PAGE_NR, SpeedCadenceDataPage5Motion::new);
     }
 }
