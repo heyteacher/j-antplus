@@ -1,5 +1,7 @@
 package be.glever.anttest;
 
+import static java.lang.String.format;
+
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
 import be.glever.ant.usb.AntUsbDevice;
@@ -7,6 +9,7 @@ import be.glever.ant.usb.AntUsbDeviceFactory;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.antplus.hrm.HRMChannel;
 import be.glever.antplus.hrm.datapage.HrmDataPageRegistry;
+import be.glever.antplus.hrm.datapage.background.HrmDataPage2ManufacturerInformation;
 import be.glever.antplus.hrm.datapage.main.HrmDataPage0Default;
 import be.glever.antplus.hrm.datapage.main.HrmDataPage4PreviousHeartBeatEvent;
 import be.glever.anttest.stats.StatCalculator;
@@ -33,7 +36,7 @@ public class HrmTest_Main {
         }
     }
 
-    static void main(String[] ignoredArgs) throws Exception {
+    public static void main(String[] ignoredArgs) throws Exception {
         new HrmTest_Main();
     }
 
@@ -43,14 +46,23 @@ public class HrmTest_Main {
             removeToggleBit(payLoad);
             AbstractAntPlusDataPage dataPage = registry.constructDataPage(payLoad);
 
-            if (dataPage instanceof HrmDataPage4PreviousHeartBeatEvent) {
-                calcStats((HrmDataPage4PreviousHeartBeatEvent) dataPage);
-            }
-            else if (dataPage instanceof HrmDataPage0Default defaultDataPage) {
-                LOG.debug(() -> "PageNumber " + dataPage.getPageNumber() + " ComputedHeartRateInBpm " + defaultDataPage.getComputedHeartRateInBpm());
-            }
-            else {
-                LOG.debug(() -> "Received datapage " + dataPage.getPageNumber());
+            switch (dataPage) {
+                case HrmDataPage0Default defaultDataPage ->
+                        LOG.debug(() -> format("PageNumber 0x%02X ComputedHeartRateInBpm %s ",
+                                dataPage.getPageNumber(),
+                                defaultDataPage.getComputedHeartRateInBpm()));
+                case HrmDataPage2ManufacturerInformation hrmDataPage2ManufacturerInformation -> LOG.debug(() -> format(
+                                "PageNumber: 0x%02X Manufacturer Information, DeviceNumber: %s, " +
+                                        "DeviceNumberAsString: %s, ManufacturerId: %s, " +
+                                        "ComputedHeartRateInBpm %s",
+                                hrmDataPage2ManufacturerInformation.getPageNumber(),
+                                hrmDataPage2ManufacturerInformation.getDeviceNumber(),
+                                hrmDataPage2ManufacturerInformation.getDeviceNumberAsString(),
+                                hrmDataPage2ManufacturerInformation.getManufacturerId(),
+                                hrmDataPage2ManufacturerInformation.getComputedHeartRateInBpm()));
+                case HrmDataPage4PreviousHeartBeatEvent hrmDataPage4PreviousHeartBeatEvent ->
+                        calcStats(hrmDataPage4PreviousHeartBeatEvent);
+                default -> LOG.debug(() -> format("PageNumber 0x%02X", dataPage.getPageNumber()));
             }
         }
     }

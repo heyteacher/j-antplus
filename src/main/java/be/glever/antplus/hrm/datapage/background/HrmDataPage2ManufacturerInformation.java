@@ -11,22 +11,43 @@ public class HrmDataPage2ManufacturerInformation extends AbstractHRMDataPage {
         super(dataPageBytes);
     }
 
-    public int getManufacturerId() {
-        return super.getPageSpecificBytes()[0];
-    }
-
-    public int getSerialNumber() {
-        return ByteUtils.toInt(getPageSpecificBytes()[1], getPageSpecificBytes()[2]);
-    }
-
     @Override
     public byte getPageNumber() {
         return PAGE_NR;
     }
 
+    /**
+     * Gets the device number, the upper 16 bits of the 4-byte serial number
+     * @return the device number
+     */
+    public long getDeviceNumber() {
+        return ByteUtils.fromUShort(getDataPageBytes()[2], getDataPageBytes()[3]);
+    }
+
+    /**
+     * Gets the device number hexadecimal string representation
+     * @return the device number hexadecimal string representation
+     */
+    public String getDeviceNumberAsString() {
+        return ByteUtils.hexString(super.dataPageSubArray(2, 4)).replace("-","");
+    }
+
+    /**
+     * Gets the manufacturer id
+     * @return the manufacturer id
+     */
+    public int getManufacturerId() {
+        return getDataPageBytes()[1];
+    }
 
     @Override
     public String toString() {
-        return String.format("%s, {%s, ManufacturerId=%s, SerialNumber=%s}", getClass().getSimpleName(), super.getToString(), getManufacturerId(), getSerialNumber());
+        return String.format(
+                "%s, %s, DeviceNumber %s, ManufacturerId, %s",
+                getClass().getSimpleName(),
+                super.getToString(),
+                getDeviceNumber(),
+                getManufacturerId()
+                );
     }
 }

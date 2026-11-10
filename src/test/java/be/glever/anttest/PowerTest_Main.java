@@ -27,8 +27,7 @@ import be.glever.util.logging.Log;
 public class PowerTest_Main {
     private static final Log LOG = Log.getLogger(HrmTest_Main.class);
     final private PowerDataPageRegistry registry = new PowerDataPageRegistry();
-    private int heartbeatCount;
-    private PowerTest_Main() throws IOException, InterruptedException {
+    private PowerTest_Main() throws IOException {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
@@ -74,10 +73,7 @@ public class PowerTest_Main {
         new PowerTest_Main();
     }
 
-    private static String getHexSubPageNumber(PowerDataPage02GetSetParameters powerPage) {
-        return String.format("0x%02X", powerPage.getSubPageNumber());
-    }
-
+    @SuppressWarnings("unused")
     private static void sendMessage(AntUsbDevice device, byte channelNumber, AbstractAntPlusDataPage dataPage) {
         LOG.debug(() -> format("Send page %s", dataPage));
         device.send(new AcknowledgeDataMessage(channelNumber, dataPage.getDataPageBytes()));
@@ -95,44 +91,34 @@ public class PowerTest_Main {
                 return;
             }
             switch (dataPage) {
-                case DataPage81ProductInformation commonPage -> {
+                case DataPage81ProductInformation productInformationPage ->
                     LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Product Information, serial number: %d, name: %s",
+                            "PageNumber: 0x%02X Product Information, DeviceNumber: %d, " +
+                                    "DeviceNumberAsString: %s, MainSwRevision: %s, " +
+                                    "SupplementalSwRevision: %s",
                             dataPage.getPageNumber(),
-                            commonPage.getSerialNumber(),
-                            commonPage.getName()
+                            productInformationPage.getDeviceNumber(),
+                            productInformationPage.getDeviceNumberAsString(),
+                            productInformationPage.getMainSwRevision(),
+                            productInformationPage.getSupplementalSwRevision()
                             )
                     );
-                }
-                default -> {
-                    /*
-                    LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Not Handled, payload: %s",
-                            dataPage.getPageNumber(),
-                            ByteUtils.hexString(msg.getMessageContent())));
-
-                     */
-                }
-                /*
-                case DataPage82BatteryStatus batteryStatusPage -> {
-                    double fractionalVoltage = ((int) (batteryStatusPage.getFractionalBatteryVoltage() / 2.56d)) / 100d;
+                case DataPage82BatteryStatus batteryStatusPage ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Battery Status, Identifier: %s, Number of Batteries: %s, Status %s ",
                             dataPage.getPageNumber(),
                             batteryStatusPage.getBatteryIdentifier(),
                             batteryStatusPage.getNumberOfBatteries(),
                             batteryStatusPage.getBatteryStatus()));
-                }
-                case PowerDataPage10PowerOnly powerPage -> {
+                case PowerDataPage10PowerOnly powerPage ->
                     LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Power Only, Instantaneous power: %s, "+
-                                    "Instantaneous cadence: %s, Power Distribution Percentage: %s",
+                            "PageNumber: 0x%02X Power Only, InstantaneousPower: %s, "+
+                                    "InstantaneousCadence: %s, PowerDistributionPercentage: %s ",
                             powerPage.getPageNumber(),
                             powerPage.getInstantaneousPower(),
                             powerPage.getInstantaneousCadence(),
                             powerPage.getPedalPowerDistribution().getPercentage()));
-                }
-                case PowerDataPage13TorqueEffectivenessPedalSmoothness powerPage -> {
+                case PowerDataPage13TorqueEffectivenessPedalSmoothness powerPage ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X TE PS, LeftTorqueEffectiveness %s, RightTorqueEffectiveness %s, " +
                                     "LeftTorqueEffectiveness %s, LeftPedalSmoothness %s",
@@ -141,44 +127,39 @@ public class PowerTest_Main {
                             powerPage.getRightTorqueEffectiveness(),
                             powerPage.getLeftTorqueEffectiveness(),
                             powerPage.getLeftPedalSmoothness()));
-                }
-                case PowerDataPage02GetSetParameters getSetParametersPage -> {
+                case PowerDataPage02GetSetParameters getSetParametersPage ->
                     LOG.debug(() -> format(
-                            "PageNumber: 0x%02X Get/Set Parameters, %s, Payload %s",
+                            "PageNumber: 0x%02X GetSetParameters, %s, Payload %s",
                             getSetParametersPage.getPageNumber(),
                             getSetParametersPage.getSubPage(),
                             ByteUtils.hexString(payLoad)));
-                }
-                case DataPage80ManufacturersInformation commonPage -> {
+                case DataPage80ManufacturersInformation _ ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Manufacturers Information",
                             dataPage.getPageNumber()));
-                }
-                case PowerDataPage11WheelTorque powerPage -> {
+                case PowerDataPage11WheelTorque _ ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Wheel Torque",
                             dataPage.getPageNumber()));
-                }
-                case PowerDataPage12CrankTorque powerPage -> {
+                case PowerDataPage12CrankTorque _ ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Crank Torque",
                             dataPage.getPageNumber()));
-                }
-                case PowerDataPage20CrankTorqueFrequency powerPage -> {
+                case PowerDataPage20CrankTorqueFrequency _ ->
                     LOG.debug(() -> format(
                             "PageNumber: 0x%02X Crank Torque Frequency",
                             dataPage.getPageNumber()));
-                }
-                 */
+                default ->
+                    LOG.debug(() -> format(
+                            "PageNumber: 0x%02X Not Handled, payload: %s",
+                            dataPage.getPageNumber(),
+                            ByteUtils.hexString(msg.getMessageContent())));
             }
         } else if (antMessage instanceof AcknowledgeDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();
             removeToggleBit(payLoad);
             AbstractAntPlusDataPage dataPage = registry.constructDataPage(payLoad);
             LOG.debug(() -> format("Page Number: 0x%02X ACK", dataPage.getPageNumber()));
-        } else {
-            byte[] payLoad = antMessage.toByteArray();
-            //LOG.debug(() -> format("Unknow message %s", ByteUtils.hexString(payLoad)));
         }
     }
 
