@@ -87,7 +87,7 @@ public class AntUsbDevice implements Closeable {
     }
 
     private static Publisher<AntMessage> mapToErrorIfRequired(AntMessage antMessage) {
-        LOG.debug(() -> format("in flux, received message %s", antMessage));
+        LOG.debug(() -> format("(mapToErrorIfRequired) in flux, received message %s", antMessage));
         if (antMessage instanceof ChannelEventOrResponseMessage channelEventOrResponseMessage) {
             if (channelEventOrResponseMessage.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
                 return Flux.error(new AntException(antMessage));
@@ -107,6 +107,7 @@ public class AntUsbDevice implements Closeable {
      * @throws AntException if an error occurs.
      */
     public void initialize(android.content.Context androidContext) throws AntException {
+        LOG.info(() -> "(initialize):");
         if (isInitialized)
             return;
 
@@ -119,6 +120,7 @@ public class AntUsbDevice implements Closeable {
             initAntDevice();
             isInitialized = true;
         } catch (Exception e) {
+            LOG.error(() -> "(initialize): release usb interface and close connectin failed", e);
             throw new AntException(e);
         }
     }
@@ -129,13 +131,13 @@ public class AntUsbDevice implements Closeable {
      */
     @Override
     public void close() throws IOException {
+        LOG.debug(() -> "<close>");
         try {
             resetUsbDevice();
             isInitialized = false;
         } catch (Exception e) {
-            LOG.error(() -> "Reset ant stick failed. Continuing with shutdown of usb interface.", e);
+            LOG.error(() -> "(close): Reset ant stick failed. Continuing with shutdown of usb interface.", e);
         }
-
         try {
             this.antUsbReader.stop();
             if (this.device != null ) {
@@ -151,6 +153,7 @@ public class AntUsbDevice implements Closeable {
             }
             isInitialized = false;
         } catch (Exception e) {
+            LOG.error(() -> "(close): release usb interface and close connectin failed", e);
             throw new IOException(e.getMessage(), e);
         }
     }
@@ -159,14 +162,14 @@ public class AntUsbDevice implements Closeable {
      * Closes any channel still open between the stick and ant devices.
      */
     public void closeAllChannels() throws AntException {
+        LOG.debug(() -> "<closeAllChannels>");
         short maxChannels = capabilities.getMaxChannels();
         for (int i = 0; i < maxChannels; i++) {
             RequestMessage requestMessage = new RequestMessage((byte) i, ChannelStatusMessage.MSG_ID);
             ChannelStatusMessage responseMessage = (ChannelStatusMessage) sendBlocking(requestMessage);
             byte channelNumber = responseMessage.getChannelNumber();
             ChannelStatusMessage.CHANNEL_STATUS channelStatus = responseMessage.getChannelStatus();
-            LOG.debug(() -> format("Channel %s is in state %s.", channelNumber, channelStatus));
-
+            LOG.debug(() -> format("(closeAllChannels) %s is in state %s.", channelNumber, channelStatus));
             switch (channelStatus) {
                 case UnAssigned:
                     break;
@@ -180,7 +183,7 @@ public class AntUsbDevice implements Closeable {
     }
 
     /**
-     * Returns the capabilities of the stick.
+     * Gets the capabilities of the stick.
      * @return the capabilities of the stick.
      */
     public AntUsbDeviceCapabilities getCapabilities() {
@@ -193,8 +196,9 @@ public class AntUsbDevice implements Closeable {
      * @return a Mono that completes when the channel is opened.
      */
     public Mono<Void> openChannel(AntChannel channel) {
-
+        LOG.info(() -> "<openChannel>");
         byte channelNumber = getAvailableChannelNumber();
+        LOG.info(() -> format("(openChannel): try to open channel an assign channel number %s ", channelNumber));
 
         BiFunction<AntMessage, AntMessage, Boolean> responseMatcher = RequestMatcher::isMatchingResponse;
         return send(new NetworkKeyMessage(channelNumber, channel.getNetwork().getNetworkKey()), responseMatcher)
@@ -207,6 +211,7 @@ public class AntUsbDevice implements Closeable {
                     this.antChannels[channelNumber] = channel;
                     channel.setChannelNumber(channelNumber);
                     channel.subscribeTo(this.antMessageProcessor);
+                    LOG.info(() -> format("(openChannel): channel successfully opened and assigned to channel number %s ", channelNumber));
                 }))
                 .then();
     }
@@ -216,31 +221,39 @@ public class AntUsbDevice implements Closeable {
      * @param channelNumber The number of channel to close.
      */
     public void closeChannel(byte channelNumber)  {
-        ChannelEventOrResponseMessage closeResp = (ChannelEventOrResponseMessage)
-                sendBlocking(new CloseChannelMessage(channelNumber));
-        if (closeResp.getResponseCode() == ChannelEventResponseCode.EVENT_CHANNEL_CLOSED) {
-            LOG.warn(() -> format("(closeChannel): channel %s already closed.", channelNumber));
-        }
-        else if (closeResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
-            LOG.error(() -> format("(closeChannel): Error on close channel %s, response code %s", channelNumber, closeResp.getResponseCode()));
-            throw new AntException(format("Error on close channel %s, response code %s", channelNumber, closeResp.getResponseCode()));
-        }
-        else {
-            LOG.info(() -> format("(closeChannel): successfully close channel %s payload %s.", channelNumber, ByteUtils.hexString(closeResp.toByteArray())));
-            // wait 1 second before send unassign message
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        LOG.info(() -> format("<closeChannel> channel number %s", channelNumber));
+        try {
+            ChannelEventOrResponseMessage closeResp = (ChannelEventOrResponseMessage)
+                    sendBlocking(new CloseChannelMessage(channelNumber));
+            if (closeResp.getResponseCode() == ChannelEventResponseCode.EVENT_CHANNEL_CLOSED) {
+                LOG.warn(() -> format("(closeChannel): channel %s already closed.", channelNumber));
             }
+            else if (closeResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
+                throw new AntException(format("response code %s", closeResp.getResponseCode()));
+            }
+            LOG.info(() -> format("(closeChannel): successfully close channel %s.", channelNumber));
+        } catch (AntException e) {
+            LOG.error(() -> format("(closeChannel): Error on close channel %s, message '%s'", channelNumber, e.getMessage()));
         }
-        ChannelEventOrResponseMessage unassignResp = (ChannelEventOrResponseMessage) sendBlocking(new UnassignChannelMessage(channelNumber));
-        if (unassignResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
-            LOG.error(() -> format("(closeChannel): Error on unassign channel %s, response code %s", channelNumber, unassignResp.getResponseCode()));
-            throw new AntException(format("Error on unassign channel %s, response code %s", channelNumber, unassignResp.getResponseCode()));
+        // wait 1 second before send unassign message
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        else {
-            LOG.info(() -> format("(closeChannel): successfully unassign channel %s.", channelNumber));
+        try {
+            ChannelEventOrResponseMessage unassignResp = (ChannelEventOrResponseMessage) sendBlocking(new UnassignChannelMessage(channelNumber));
+            if (unassignResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
+                throw new AntException(format("response code %s", unassignResp.getResponseCode()));
+            }
+            else {
+                LOG.info(() -> format("(closeChannel): successfully unassign channel %s.", channelNumber));
+            }
+        } catch (AntException e) {
+            LOG.error(() -> format("(closeChannel): Error on unassign channel %s, error %s'", channelNumber, e));
+        }
+        finally {
+            LOG.info(() -> format("(closeChannel): unset channel number %s from ant channels.", channelNumber));
             antChannels[channelNumber] = null;
         }
     }
@@ -291,14 +304,15 @@ public class AntUsbDevice implements Closeable {
      * @return the first available channel number.
      */
     private byte getAvailableChannelNumber() {
-        LOG.debug(() -> "<getAvailableChannelNumber>");
+        LOG.info(() -> "<getAvailableChannelNumber>");
         for (int i = 0; i < antChannels.length; i++) {
             if (antChannels[i] == null) {
                 int channelNumber = i;
-                LOG.debug(() -> format("(getAvailableChannelNumber): channel %s available.", channelNumber));
+                LOG.info(() -> format("(getAvailableChannelNumber): channel %s available.", channelNumber));
                 return (byte) i;
             }
         }
+        LOG.error(() -> "(getAvailableChannelNumber): no available channels found.");
         throw new IllegalStateException("No available channels found");
     }
 
@@ -334,6 +348,7 @@ public class AntUsbDevice implements Closeable {
     }
 
     private void initUsbInterface() throws AntException, javax.usb.UsbException {
+        LOG.debug(() -> "<initUsbInterface>");
         javax.usb.UsbInterface usbInterface = getActiveUsbInterface();
         if (usbInterface == null) {
             throw new AntException("active Usb interface not found");
