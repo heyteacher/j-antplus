@@ -1,5 +1,7 @@
 package be.glever.antplus.common.datapage.registry;
 
+import static java.lang.String.format;
+
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.util.logging.Log;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 public abstract class AbstractDataPageRegistry {
 
-    private Map<Byte, DataPageBuilder> registry = new HashMap<>();
+    private final Map<Byte, DataPageBuilder> registry = new HashMap<>();
 
     private static final Log LOG = Log.getLogger(AbstractDataPageRegistry.class);
 
@@ -35,11 +37,12 @@ public abstract class AbstractDataPageRegistry {
     public AbstractAntPlusDataPage constructDataPage(byte[] payLoadBytes) {
         DataPageBuilder dpBuilder = registry.get(payLoadBytes[0]);
         if (dpBuilder == null) {
-            LOG.info(() -> "Data page " + payLoadBytes[0] + " not yet supported");
+            LOG.info(() -> format("Data page number  0x%02X not yet supported",payLoadBytes[0]));
             return null;
         }
-
-        return dpBuilder.construct(payLoadBytes);
+        AbstractAntPlusDataPage dataPage = dpBuilder.construct(payLoadBytes);
+        LOG.debug(() -> format("Data page %s number 0x%02X ",dataPage.getClass().getSimpleName(),dataPage.getPageNumber()));
+        return dataPage;
     }
 
     protected void add(byte pageNumber, DataPageBuilder builder) {
