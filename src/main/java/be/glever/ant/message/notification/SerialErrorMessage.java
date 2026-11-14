@@ -28,14 +28,18 @@ public class SerialErrorMessage extends AbstractAntMessage {
         this.bytes = messageContentBytes;
     }
 
+    @SuppressWarnings("unused")
+
     public boolean isFirstByteNotSync() {
         return ByteUtils.hasMask(bytes[0], 0);
     }
 
+    @SuppressWarnings("unused")
     public boolean isCheckSumIncorrect() {
         return ByteUtils.hasMask(bytes[0], 2);
     }
 
+    @SuppressWarnings("unused")
     public boolean isAntMessageTooLarge() {
         return ByteUtils.hasMask(bytes[0], 3);
     }

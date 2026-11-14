@@ -1,7 +1,6 @@
 package be.glever.antplus.power.datapage.main;
 
 import be.glever.ant.util.ByteUtils;
-import be.glever.antplus.power.PedalPower;
 import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 
 /**

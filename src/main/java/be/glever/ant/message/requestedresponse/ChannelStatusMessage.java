@@ -9,6 +9,7 @@ public class ChannelStatusMessage extends AbstractAntMessage {
 
     private byte[] bytes;
 
+    @SuppressWarnings("unused")
     public ChannelStatusMessage() {
     }
     public ChannelStatusMessage(byte[] bytes) {
@@ -42,18 +43,13 @@ public class ChannelStatusMessage extends AbstractAntMessage {
         UnAssigned, Assigned, Searching, Tracking;
 
         public static CHANNEL_STATUS fromValue(byte value) {
-            switch (value & 0b11) {
-                case 0:
-                    return UnAssigned;
-                case 1:
-                    return Assigned;
-                case 2:
-                    return Searching;
-                case 3:
-                    return Tracking;
-                default:
-                    throw new IllegalArgumentException("Bad value passed");
-            }
+            return switch (value & 0b11) {
+                case 0 -> UnAssigned;
+                case 1 -> Assigned;
+                case 2 -> Searching;
+                case 3 -> Tracking;
+                default -> throw new IllegalArgumentException("Bad value passed");
+            };
         }
     }
 

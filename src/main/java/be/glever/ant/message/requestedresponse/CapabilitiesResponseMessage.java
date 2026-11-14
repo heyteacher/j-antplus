@@ -66,7 +66,7 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
         return !hasBitSet(getStandardOptionsByte(), 3);
     }
 
-    public boolean getAckdMessages() {
+    public boolean getAckMessages() {
         return !hasBitSet(getStandardOptionsByte(), 4);
     }
 
@@ -134,7 +134,7 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
         return hasBitSet(getAdvancedOptions2Byte(), 7);
     }
 
-    public short getMaxSensRcoreChannels() {
+    public short getMaxSensCoreChannels() {
         return messageBytes[5];
     }
 
@@ -146,7 +146,7 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
         return hasBitSet(getAdvancedOptions3Byte(), 0);
     }
 
-    public boolean getEventBuffereingEnabled() {
+    public boolean getEventBufferingEnabled() {
         return hasBitSet(getAdvancedOptions3Byte(), 1);
     }
 
@@ -184,7 +184,7 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
                 + Arrays.toString(getMessageContent()) + ", getMaxChannels()=" + getMaxChannels()
                 + ", getMaxNetworks()=" + getMaxNetworks() + ", getReceiveChannels()=" + getReceiveChannels()
                 + ", getTransmitChannels()=" + getTransmitChannels() + ", getReceiveMessages()=" + getReceiveMessages()
-                + ", getTransmitMessages()=" + getTransmitMessages() + ", getAckdMessages()=" + getAckdMessages()
+                + ", getTransmitMessages()=" + getTransmitMessages() + ", getAckdMessages()=" + getAckMessages()
                 + ", getBurstMessages()=" + getBurstMessages() + ", getNetworkEnabled()=" + getNetworkEnabled()
                 + ", getSerialNumberEnabled()=" + getSerialNumberEnabled() + ", getPerChannelTxPowerEnabled()="
                 + getPerChannelTxPowerEnabled() + ", getLowPrioritySearchEnabled()=" + getLowPrioritySearchEnabled()
@@ -193,8 +193,8 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
                 + ", getScanModeEnabled()=" + getScanModeEnabled() + ", getProxSearchEnabled()="
                 + getProxSearchEnabled() + ", getExtAssignEnabled()=" + getExtAssignEnabled() + ", getFsAntFsEnabled()="
                 + getFsAntFsEnabled() + ", getFit1Enabled()=" + getFit1Enabled() + ", getMaxSensRcoreChannels()="
-                + getMaxSensRcoreChannels() + ", getAdvancedBurstEnabled()=" + getAdvancedBurstEnabled()
-                + ", getEventBuffereingEnabled()=" + getEventBuffereingEnabled() + ", getEventFilteringEnabled()="
+                + getMaxSensCoreChannels() + ", getAdvancedBurstEnabled()=" + getAdvancedBurstEnabled()
+                + ", getEventBuffereingEnabled()=" + getEventBufferingEnabled() + ", getEventFilteringEnabled()="
                 + getEventFilteringEnabled() + ", getHighDutySearchEnabled()=" + getHighDutySearchEnabled()
                 + ", getSearchSharingEnabled()=" + getSearchSharingEnabled() + ", getSelectiveDataUpdatesEnabled()="
                 + getSelectiveDataUpdatesEnabled() + ", getEncryptedChannelEnabled()=" + getEncryptedChannelEnabled()

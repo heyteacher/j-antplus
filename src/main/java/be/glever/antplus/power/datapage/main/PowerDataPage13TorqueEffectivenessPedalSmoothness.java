@@ -1,6 +1,5 @@
 package be.glever.antplus.power.datapage.main;
 
-import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 
 /**
@@ -23,7 +22,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
 
     /**
      * Left crank torque effectiveness
-     *
+     * <p>
      * Unit: 0.5%
      * Range: 0-100%
      */
@@ -33,7 +32,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
 
     /**
      * Right crank torque effectiveness
-     *
+     * <p>
      * Unit: 0.5%
      * Range: 0-100%
      */
@@ -43,7 +42,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
 
     /**
      * Torque smoothness of the left crank, invalid if 0xFF
-     *
+     * <p>
      * Unit: 0.5%
      * Range: 0-100%
      */
@@ -56,7 +55,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
 
     /**
      * Torque smoothness of the right crank, invalid if 0xFF
-     *
+     * <p>
      * Unit: 0.5%
      * Range: 0-100%
      */
@@ -66,7 +65,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
 
     /**
      * Combined torque smoothness of the left and right crank, invalid if 0xFF
-     *
+     * <p>
      * Unit: 0.5%
      * Range: 0-100%
      */

@@ -1,8 +1,6 @@
 package be.glever.antplus.speedcadence.datapage.background;
 
 import be.glever.ant.util.ByteUtils;
-import be.glever.antplus.hrm.datapage.AbstractHRMDataPage;
-import be.glever.antplus.hrm.datapage.background.HrmDataPage1CumulativeOperatingTime;
 import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 import be.glever.util.logging.Log;
 
@@ -19,7 +17,7 @@ public class SpeedCadenceDataPage1CumulativeOperatingTime extends AbstractSpeedC
 
     /**
      * How long the device has been operating for, since the last battery replacement
-     *
+     * <p>
      * Unit: seconds
      * Rollover: 3355443s seconds
      * TODO: It's from byte 1 to 3, is the implementation correct?

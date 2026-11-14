@@ -16,7 +16,7 @@ public enum HeartRateDataSource {
     // Hand contact sensor on the FE-C equipment
     HAND_CONTACTS((byte) 3);
 
-    private byte value;
+    private final byte value;
 
     HeartRateDataSource(byte value) {
         this.value = value;

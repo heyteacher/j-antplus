@@ -2,12 +2,7 @@ package be.glever.antplus.common.datapage.registry;
 
 import be.glever.antplus.common.datapage.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CommonDataPageRegistry extends AbstractDataPageRegistry {
-
-    private Map<Byte, Class<? extends AbstractAntPlusDataPage>> registry = new HashMap<>();
 
     public CommonDataPageRegistry() {
         add(DataPage67AntFsClientBeacon.PAGE_NR, DataPage67AntFsClientBeacon::new);

@@ -12,10 +12,12 @@ public class DataPage78MultiComponentSystemManufacturersInformation extends Abst
         return PAGE_NR;
     }
 
+    @SuppressWarnings("unused")
     public byte getComponentIdentifier() {
         return getDataPageBytes()[2];
     }
 
+    @SuppressWarnings("unused")
     public byte getHwRevision() {
         return getDataPageBytes()[3];
     }

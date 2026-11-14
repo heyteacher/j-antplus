@@ -8,7 +8,7 @@ public enum AntPlusDeviceType {
     Cadence((byte) 0x7A),
     Speed((byte) 0x7B);
 
-    private byte value;
+    private final byte value;
 
     AntPlusDeviceType(byte i) {
         value = i;

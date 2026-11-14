@@ -14,7 +14,6 @@ import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
 
 import be.glever.ant.AntException;
-import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 
 public class AntUsbDeviceFactory {
@@ -34,6 +33,7 @@ public class AntUsbDeviceFactory {
      * @return a list of {@link AntUsbDevice}s.
      * @throws AntException if an error occurs while accessing the usb device.
      */
+    @SuppressWarnings("unused")
     public static List<AntUsbDevice> getAvailableAntDevices(Context context) throws AntException {
         try {
             List<AntUsbDevice> usbDevices = new ArrayList<>();

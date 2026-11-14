@@ -1,7 +1,6 @@
 package be.glever.antplus.speedcadence.datapage.background;
 
 import be.glever.ant.util.ByteUtils;
-import be.glever.antplus.hrm.datapage.AbstractHRMDataPage;
 import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 
 public class SpeedCadenceDataPage2ManufacturerInformation extends AbstractSpeedCadenceDataPage {

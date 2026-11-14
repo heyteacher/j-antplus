@@ -9,7 +9,7 @@ public enum FecState {
     IN_USE((byte) 3),
     FINISHED_PAUSED((byte) 4);
 
-    private byte value;
+    private final byte value;
 
     FecState(byte i) {
         value = i;
@@ -28,18 +28,12 @@ public enum FecState {
 
     @Override
     public String toString() {
-        switch (this) {
-            case ASLEEP_OFF:
-                return "Asleep or Off";
-            case READY:
-                return "Ready";
-            case IN_USE:
-                return "In use";
-            case FINISHED_PAUSED:
-                return "Finished or Paused";
-            default:
-                throw new IllegalArgumentException();
-        }
+        return switch (this) {
+            case ASLEEP_OFF -> "Asleep or Off";
+            case READY -> "Ready";
+            case IN_USE -> "In use";
+            case FINISHED_PAUSED -> "Finished or Paused";
+            };
     }
 }
 

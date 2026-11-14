@@ -8,9 +8,6 @@ public class SerialNumberMessage extends AbstractAntMessage {
     public static final byte MSG_ID = 0x61;
     private byte[] bytes;
 
-    public SerialNumberMessage() {
-    }
-
     @Override
     public byte getMessageId() {
         return MSG_ID;

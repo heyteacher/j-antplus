@@ -26,22 +26,11 @@ public class DataPage76ModeSettingsCommand extends AbstractAntPlusDataPage {
         bytes[4] = (byte) 0xFF;
         bytes[5] = (byte) 0xFF;
         bytes[6] = (byte) 0xFF;
-
-        byte byte8 = 0;
-        switch (mode) {
-            case CYCLING:
-                byte8 = 0x01;
-                break;
-            case RUNNING:
-                byte8 = 0x02;
-                break;
-            case SWIMMING:
-                byte8 = 0x05;
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported sport mode given: " + mode);
-        }
-        bytes[7] = byte8;
+        bytes[7] = switch (mode) {
+            case CYCLING -> 0x01;
+            case RUNNING -> 0x02;
+            case SWIMMING -> 0x05;
+        };
 
         return bytes;
     }

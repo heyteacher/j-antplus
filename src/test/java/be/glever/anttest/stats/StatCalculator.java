@@ -15,7 +15,7 @@ public class StatCalculator {
     public static final long HEARTBEAT_ROLLOVER = 64000;
     public static final long HEARTBEAT_ROLLOVER_IN_MILLIS = 62500; //1000 * (HEARTBEAT_UNITS_SEC * HEARTBEAT_ROLLOVER);
     private static final Log LOG = Log.getLogger(StatCalculator.class);
-    private List<HrmDataPage4PreviousHeartBeatEvent> heartBeats = new ArrayList<>();
+    private final List<HrmDataPage4PreviousHeartBeatEvent> heartBeats = new ArrayList<>();
 
     private static boolean isNewHeartBeatEventTime(HrmDataPage4PreviousHeartBeatEvent page) {
         return page.getPreviousHeartBeatEventTime() < page.getHeartBeatEventTime();
@@ -30,7 +30,7 @@ public class StatCalculator {
 
     private StatSummary createStatSummary() {
         StatSummary statSummary = new StatSummary();
-        statSummary.setLastHeartBeat(heartBeats.get(heartBeats.size() - 1));
+        statSummary.setLastHeartBeat(heartBeats.getLast());
 
         final int listSize = 500;
         List<HrmDataPage4PreviousHeartBeatEvent> periodHeartBeats = getLast(heartBeats, listSize);

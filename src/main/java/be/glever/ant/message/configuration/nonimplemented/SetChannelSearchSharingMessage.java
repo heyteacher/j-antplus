@@ -3,6 +3,8 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+@SuppressWarnings("unused")
+
 public class SetChannelSearchSharingMessage implements AntBlockingMessage {
     @Override
     public byte getMessageId() {

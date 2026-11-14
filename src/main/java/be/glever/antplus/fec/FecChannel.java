@@ -23,7 +23,6 @@ public class FecChannel extends AntChannel {
 	public static final byte[] DEVICE_NUMBER_WILDCARD = {0x00, 0x00};
 	public static final byte DEFAULT_PUBLIC_NETWORK = 0x00;
 	private static final Log LOG = Log.getLogger(FecChannel.class);
-	private final AntUsbDevice device;
 
 	/**
 	 * Foo
@@ -38,7 +37,7 @@ public class FecChannel extends AntChannel {
 	/**
 	 * Pair with any (the first found) Fec.
 	 *
-	 * @param device
+	 * @param device the device to pair with
 	 */
 	public FecChannel(AntUsbDevice device) {
 		this(device, DEVICE_NUMBER_WILDCARD);
@@ -51,18 +50,17 @@ public class FecChannel extends AntChannel {
 	 * to use the lowest two bytes of the serial number of the device for the device number of the ANT channel parameter; ensure
 	 * that the device has a set serial number.
 	 *
-	 * @param device
-	 * @param deviceNumber
+	 * @param device     the device to pair with
+	 * @param deviceNumber the device number
 	 */
 	public FecChannel(AntUsbDevice device, byte[] deviceNumber) {
-		this.device = device;
 		setChannelType(AntChannelType.BIDIRECTIONAL_SLAVE);
 		setNetwork(new AntChannelNetwork(DEFAULT_PUBLIC_NETWORK, AntNetworkKeys.ANT_PLUS_NETWORK_KEY));
 		setRfFrequency(CHANNEL_FREQUENCY);
 		setChannelId(new AntChannelId(AntChannelTransmissionType.PAIRING_TRANSMISSION_TYPE, AntPlusDeviceType.Fec, deviceNumber));
 		setChannelPeriod(CHANNEL_PERIOD);
 
-		this.device.openChannel(this).block(Duration.ofSeconds(10));
+		device.openChannel(this).block(Duration.ofSeconds(10));
 	}
 
 	@Override

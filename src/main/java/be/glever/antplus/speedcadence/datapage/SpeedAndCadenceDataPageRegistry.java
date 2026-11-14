@@ -7,7 +7,6 @@ import be.glever.antplus.speedcadence.datapage.background.SpeedCadenceDataPage2M
 import be.glever.antplus.speedcadence.datapage.background.SpeedCadenceDataPage3ProductInformation;
 import be.glever.antplus.speedcadence.datapage.background.SpeedCadenceDataPage4BatteryStatus;
 import be.glever.antplus.speedcadence.datapage.main.SpeedAndCadenceDataPage0Default;
-import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage0Default;
 import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage5Motion;
 
 public class SpeedAndCadenceDataPageRegistry extends AbstractDataPageRegistry {

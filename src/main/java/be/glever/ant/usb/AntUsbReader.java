@@ -41,6 +41,7 @@ public class AntUsbReader implements Runnable {
         this.inPipe = inPipe;
     }
 
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         byte[] buffer = new byte[128];

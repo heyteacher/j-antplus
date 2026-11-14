@@ -8,20 +8,17 @@ import be.glever.ant.message.channel.ChannelEventResponseCode;
 import be.glever.ant.message.configuration.*;
 import be.glever.ant.message.control.OpenChannelMessage;
 import be.glever.ant.usb.AntUsbDevice;
-import be.glever.ant.util.ByteUtils;
-
-import java.util.concurrent.ExecutionException;
 
 public class SpeedSlave {
 
     private static final byte ANTPLUS_SPEED_CADENCE_FREQUENCY = (byte) 57; // 2457Mhz
-    private AntUsbDevice antUsbDevice;
+    private final AntUsbDevice antUsbDevice;
 
     public SpeedSlave(AntUsbDevice antUsbDevice) {
         this.antUsbDevice = antUsbDevice;
     }
 
-    public AntChannel[] listDevices() throws AntException, ExecutionException, InterruptedException {
+    public AntChannel[] listDevices() throws AntException {
         SpeedChannel channel = new SpeedChannel(antUsbDevice);
 
         byte channelNumber = 0x00;

@@ -27,6 +27,7 @@ public class PowerDataPage02GetSetParameters extends AbstractAntPlusDataPage {
      *
      * @param subPage  the subpage to set
      */
+    @SuppressWarnings("true")
     public PowerDataPage02GetSetParameters(AbstractPowerDataSubPage subPage) {
         super(new ByteArrayBuilder().write(PAGE_NR).write(subPage.getDataSubPageBytes()).toByteArray());
     }
@@ -59,9 +60,9 @@ public class PowerDataPage02GetSetParameters extends AbstractAntPlusDataPage {
             case PowerDataSubPage254AdvancedCapabilities2.SUB_PAGE_NR -> {
                 return new PowerDataSubPage254AdvancedCapabilities2(subPagePayload);
             }
-            default -> {
+            default ->
                 throw new IllegalStateException("Unknown subpage number: " + getSubPageNumber());
-            }
+
         }
     }
 

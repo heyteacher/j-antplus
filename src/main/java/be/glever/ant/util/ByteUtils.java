@@ -7,6 +7,7 @@ import static java.lang.String.format;
 public class ByteUtils {
     private static final Log LOG = Log.getLogger(ByteUtils.class);
 
+    @SuppressWarnings("unused")
     public static String binaryString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(8 * bytes.length);
         for (byte bite : bytes) {
@@ -58,7 +59,7 @@ public class ByteUtils {
     /**
      * returns 2 byte array representing the unsigned value
      *
-     * @param val
+     * @param val the value to convert
      */
     public static byte[] toUShort(int val) {
         byte[] ret = new byte[2];

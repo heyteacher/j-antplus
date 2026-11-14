@@ -2,7 +2,7 @@ package be.glever.antplus.power;
 
 public class PedalPower {
     private int percentage;
-    private boolean zeroIsLeft;
+    private final boolean zeroIsLeft;
 
     public PedalPower(boolean zeroIsLeft, int percentage) {
         this.zeroIsLeft = zeroIsLeft;

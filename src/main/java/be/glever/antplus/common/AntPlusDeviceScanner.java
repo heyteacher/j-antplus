@@ -15,7 +15,6 @@ import be.glever.util.logging.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 
@@ -23,7 +22,7 @@ import static java.lang.String.format;
 public class AntPlusDeviceScanner {
     private static final Log LOG = Log.getLogger(AntPlusDeviceScanner.class);
 
-    private AntUsbDevice antUsbDevice;
+    private final AntUsbDevice antUsbDevice;
 
     public AntPlusDeviceScanner(AntUsbDevice antUsbDevice) {
         this.antUsbDevice = antUsbDevice;
@@ -36,11 +35,9 @@ public class AntPlusDeviceScanner {
      * Downside is that all RF bandwith is spent scanning and no channels can be formed so you are limited to receiving only..
      *
      * @return List of assigned {@link AntChannel}s. Client should open the channel if he wishes to receive all messages, or unassign if he is not interested.
-     * @throws AntException
-     * @throws ExecutionException
-     * @throws InterruptedException
+     * @throws AntException if an error occurs.
      */
-    public List<AntChannel> scanAvailableDevices() throws AntException, ExecutionException, InterruptedException {
+    public List<AntChannel> scanAvailableDevices() throws AntException {
         AntUsbDeviceCapabilities capabilities = this.antUsbDevice.getCapabilities();
         short maxChannels = capabilities.getMaxChannels();
         for (int i = 0; i < maxChannels; i++) {
@@ -48,7 +45,7 @@ public class AntPlusDeviceScanner {
             ChannelStatusMessage responseMessage = (ChannelStatusMessage) antUsbDevice.sendBlocking(requestMessage);
 
             if (responseMessage.getChannelStatus() == ChannelStatusMessage.CHANNEL_STATUS.UnAssigned) {
-                // scan channel for ant device
+                LOG.debug(() -> format("Channel %s is in status Unassigned. scanning.", responseMessage.getChannelStatus()));
             } else {
                 LOG.debug(() -> format("Channel %s is in status %s. Not scanning.", responseMessage.getChannelNumber(), responseMessage.getChannelStatus()));
             }
@@ -57,7 +54,7 @@ public class AntPlusDeviceScanner {
         return new ArrayList<>();
     }
 
-    public void openRxScanMode() throws AntException, ExecutionException, InterruptedException {
+    public void openRxScanMode() throws AntException {
         HRMChannel channel = new HRMChannel(antUsbDevice);
         AssignChannelMessage assignChannelMessage = new AssignChannelMessage((byte) 0x00, channel.getChannelType().getValue(), channel.getNetwork().getNetworkNumber());
         if (((ChannelEventOrResponseMessage) antUsbDevice.sendBlocking(assignChannelMessage)).getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {

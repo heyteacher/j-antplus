@@ -30,7 +30,7 @@ public class FecDataPage16GeneralFeData extends AbstractPowerDataPage {
 
     /**
      * Accumulated time since the start of the workout
-     *
+     * <p>
      * Unit: Seconds
      * Resolution: 1/4s
      * Rollover: 64s
@@ -41,9 +41,9 @@ public class FecDataPage16GeneralFeData extends AbstractPowerDataPage {
 
     /**
      * Accumulated time since the start of the workout
-     *
+     * <p>
      * Available for at least rowers, cycle trainers, treadmills and nordic skiers
-     *
+     * <p>
      * Resolution: 1m
      * Unit: Meters
      * Rollover: 256m
@@ -64,7 +64,7 @@ public class FecDataPage16GeneralFeData extends AbstractPowerDataPage {
 
     /**
      * Heart rate from HRM or hand contact sensor
-     *
+     * <p>
      * Unit: bpm
      * Resolution 1bpm
      * Range: 0-254 bpm

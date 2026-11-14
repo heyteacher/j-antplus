@@ -1,12 +1,7 @@
 package be.glever.antplus.fec.datapage.main;
 
 import be.glever.ant.util.ByteUtils;
-import be.glever.antplus.fec.EquipmentType;
-import be.glever.antplus.fec.FecState;
-import be.glever.antplus.fec.HeartRateDataSource;
 import be.glever.antplus.power.datapage.AbstractPowerDataPage;
-
-import java.util.Optional;
 
 /**
  * Default or unknown data page.

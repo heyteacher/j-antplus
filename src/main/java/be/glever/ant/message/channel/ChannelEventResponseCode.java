@@ -33,11 +33,11 @@ public enum ChannelEventResponseCode {
     NVM_FULL_ERROR((byte) 0x40),
     NVM_WRITE_ERROR((byte) 0x41),
     USB_STRING_WRITE_FAIL((byte) 0x70),
-    MESG_SERIAL_ERROR_ID((byte) 0xAE),
+    MSG_SERIAL_ERROR_ID((byte) 0xAE),
     UNDOCUMENTED_ANT_ERROR_CODE((byte) 0xFF); // bug here when ant decides to use 0xFF
 
 
-    private byte code;
+    private final byte code;
 
     ChannelEventResponseCode(byte value) {
         this.code = value;

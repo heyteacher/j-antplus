@@ -25,9 +25,9 @@ public class PowerDataSubPage254AdvancedCapabilities2 extends AbstractPowerDataS
                 write(SUB_PAGE_NR). // 1 Subpage number
                 write((byte) 0xFF). // 2 Reserved
                 write((byte) 0xFF). // 3 Reserved
-                write((byte) interoperableCapabilitiesMask). // 4 Crank Length Value
+                write(interoperableCapabilitiesMask). // 4 Crank Length Value
                 write((byte) 0x00). // 5 From Display: Read only, set to 0x00
-                write((byte) interoperableCapabilitiesValue). // 6 From Display: Read only, set to 0x00
+                write(interoperableCapabilitiesValue). // 6 From Display: Read only, set to 0x00
                 write((byte) 0xFF). // 7 Reserved
                 toByteArray());
     }

@@ -15,6 +15,7 @@ public class AntChannelNetwork {
         return networkNumber;
     }
 
+    @SuppressWarnings("unused")
     public void setNetworkNumber(byte networkNumber) {
         this.networkNumber = networkNumber;
     }
@@ -23,6 +24,7 @@ public class AntChannelNetwork {
         return networkKey;
     }
 
+    @SuppressWarnings("unused")
     public void setNetworkKey(byte[] networkKey) {
         this.networkKey = networkKey;
     }

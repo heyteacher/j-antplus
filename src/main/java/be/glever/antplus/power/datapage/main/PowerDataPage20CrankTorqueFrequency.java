@@ -1,7 +1,6 @@
 package be.glever.antplus.power.datapage.main;
 
 import be.glever.ant.util.ByteUtils;
-import be.glever.antplus.power.PedalPower;
 import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 
 /**
@@ -24,7 +23,7 @@ public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
 
     /**
      * Slope/variation of the output frequency
-     *
+     * <p>
      * Unit: 1/10 Nm/Hz
      * Range: 100-256
      */
@@ -34,7 +33,7 @@ public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
 
     /**
      * Time of the latest torque rotation event
-     *
+     * <p>
      * Unit: 1/2000s
      * Rollover: 32.7
      */

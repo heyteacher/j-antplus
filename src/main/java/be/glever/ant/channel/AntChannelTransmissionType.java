@@ -1,17 +1,12 @@
 package be.glever.ant.channel;
 
 public class AntChannelTransmissionType {
-    private byte value;
+    private final byte value;
 
     /**
      * Use this one for searching devices. It is the Master device that decides the TransmissionType, which slaves must use when opening a channel.
      */
     public static final AntChannelTransmissionType PAIRING_TRANSMISSION_TYPE = new AntChannelTransmissionType((byte) 0, (byte) 0, (byte) 0);
-
-    public AntChannelTransmissionType(byte value) {
-        this.value = value;
-    }
-
 
     public AntChannelTransmissionType(byte sharedAddressIndicator, byte globalDataPagesUsage, byte deviceNumberExtension) {
         sharedAddressIndicator = (byte) (0b11 & sharedAddressIndicator);
@@ -22,17 +17,22 @@ public class AntChannelTransmissionType {
         this.value = (byte) (sharedAddressIndicator | globalDataPagesUsage | deviceNumberExtension);
     }
 
+    @SuppressWarnings("unused")
     public byte getSharedAddressIndicator() {
         return (byte) (value & 0b11);
     }
 
+    @SuppressWarnings("unused")
     public byte getGlobalDataPagesUsage() {
         return (byte) ((value & 0b100) >> 2);
     }
 
+    @SuppressWarnings("unused")
     public byte getOptionalDeviceNumberExtension() {
         return (byte) (value >> 4);
     }
+
+    @SuppressWarnings("unused")
 
     public interface SharedAddressIndicator {
         byte RESERVED = 0;
@@ -41,6 +41,7 @@ public class AntChannelTransmissionType {
         byte SHARED_WITH_2_BYTE_ADDRESS = 0b11;
     }
 
+    @SuppressWarnings("unused")
     public interface GlobalDataPagesUsage {
         byte NOT_USED = 0;
         byte USED = 1;

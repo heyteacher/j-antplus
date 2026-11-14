@@ -3,17 +3,18 @@ package be.glever.ant.constants;
 public enum AntChannelType {
     BIDIRECTIONAL_SLAVE(0x00),
     BIDIRECTIONAL_MASTER(0x10),
-    SHARED_BIDRECTIONAL_SLAVE(0x20),
+    SHARED_BIDIRECTIONAL_SLAVE(0x20),
     SHARED_BIDIRECTIONAL_MASTER(0x30),
     SLAVE_RECEIVE_ONLY(0x40),
     MASTER_TRANSMIT_ONLY(0x50);
 
-    private byte value;
+    private final byte value;
 
     AntChannelType(int value) {
         this.value = (byte) value;
     }
 
+    @SuppressWarnings("unused")
     public AntChannelType fromValue(byte value) {
         for (AntChannelType ct : AntChannelType.values()) {
             if (ct.value == value) {

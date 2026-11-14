@@ -28,26 +28,32 @@ public class StartupNotificationMessage extends AbstractAntMessage {
         this.bytes = messageContentBytes;
     }
 
+    @SuppressWarnings("unused")
     public boolean isPowerOnReset() {
         return ByteUtils.hasMask(bytes[0], 0);
     }
 
+    @SuppressWarnings("unused")
     public boolean isHardwareResetLine() {
         return ByteUtils.hasBitSet(bytes[0], 0);
     }
 
+    @SuppressWarnings("unused")
     public boolean isWatchDogReset() {
         return ByteUtils.hasBitSet(bytes[0], 1);
     }
 
+    @SuppressWarnings("unused")
     public boolean isCommandReset() {
         return ByteUtils.hasBitSet(bytes[0], 5);
     }
 
+    @SuppressWarnings("unused")
     public boolean iSynchronousReset() {
         return ByteUtils.hasBitSet(bytes[0], 6);
     }
 
+    @SuppressWarnings("unused")
     public boolean iSuspendReset() {
         return ByteUtils.hasBitSet(bytes[0], 7);
     }

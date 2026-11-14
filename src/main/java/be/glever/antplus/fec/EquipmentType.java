@@ -11,7 +11,7 @@ public enum EquipmentType {
     NordicSkier((byte) 24),
     StationaryBike((byte) 25);
 
-    private byte value;
+    private final byte value;
 
     EquipmentType(byte i) {
         value = i;

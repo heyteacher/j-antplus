@@ -8,9 +8,6 @@ public class AntVersionMessage extends AbstractAntMessage {
     public static final byte MSG_ID = 0x3e;
     private byte[] bytes;
 
-    public AntVersionMessage() {
-    }
-
     @Override
     public byte getMessageId() {
         return MSG_ID;

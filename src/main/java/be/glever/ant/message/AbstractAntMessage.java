@@ -52,7 +52,7 @@ public abstract class AbstractAntMessage implements AntMessage {
 
         byte checkSum = bytes[bytes.length - 1];
         if (calculatedChecksum != checkSum) {
-            throw new AntException("Checksum doesnt match. Given: [" + checkSum + "]. Calculated: ["
+            throw new AntException("Checksum doesn't match. Given: [" + checkSum + "]. Calculated: ["
                     + calculatedChecksum + "]. Message: " + ByteUtils.hexString(bytes));
         }
     }
