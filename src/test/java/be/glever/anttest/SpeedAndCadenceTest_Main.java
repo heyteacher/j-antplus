@@ -11,14 +11,13 @@ import be.glever.antplus.speedcadence.datapage.main.SpeedAndCadenceDataPage0Defa
 import be.glever.util.logging.Log;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Combined speed and cadence sensor. UNTESTED!
  */
 public class SpeedAndCadenceTest_Main {
     private static final Log LOG = Log.getLogger(SpeedAndCadenceTest_Main.class);
-    private SpeedAndCadenceDataPageRegistry registry = new SpeedAndCadenceDataPageRegistry();
+    private final SpeedAndCadenceDataPageRegistry registry = new SpeedAndCadenceDataPageRegistry();
 
     private int prevSpeedRevCount = 0;
     private int firstSpeedRevCount = 0;
@@ -31,7 +30,7 @@ public class SpeedAndCadenceTest_Main {
     private SpeedAndCadenceTest_Main() throws IOException {
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize(null);
+            device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             SpeedChannel channel = new SpeedChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();
@@ -44,23 +43,24 @@ public class SpeedAndCadenceTest_Main {
     }
 
     private void handle(AntMessage antMessage) {
-        if (antMessage instanceof BroadcastDataMessage) {
-            BroadcastDataMessage msg = (BroadcastDataMessage) antMessage;
+        if (antMessage instanceof BroadcastDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();
             removeToggleBit(payLoad);
             AbstractAntPlusDataPage dataPage = registry.constructDataPage(payLoad);
 
-            LOG.debug(() -> "Received datapage " + dataPage.toString());
+            LOG.debug(() -> "Received data page " + dataPage.toString());
             if (dataPage instanceof SpeedAndCadenceDataPage0Default) {
-                calcSpeedDistance((SpeedAndCadenceDataPage0Default) dataPage, 69);
+                calcSpeedDistance((SpeedAndCadenceDataPage0Default) dataPage);
                 calcCadence((SpeedAndCadenceDataPage0Default) dataPage);
             }
-        } else {
-            //LOG.warn(()->format("Ignoring message  %s", antMessage));
         }
+        //else {
+            //LOG.warn(()->format("Ignoring message  %s", antMessage));
+        //}
     }
 
-    private void calcSpeedDistance(SpeedAndCadenceDataPage0Default dataPage, double diameter) {
+
+    private void calcSpeedDistance(SpeedAndCadenceDataPage0Default dataPage) {
         int curSpeedRevCount = dataPage.getCumulativeSpeedRevolutions();
 
         if (firstSpeedRevCount == 0)
@@ -70,7 +70,7 @@ public class SpeedAndCadenceTest_Main {
         if (prevSpeedRevCount == curSpeedRevCount)
             return;
 
-        double circumference = Math.PI * diameter;
+        double circumference = Math.PI * (double) 69;
         long speedEventTime = dataPage.getSpeedEventTime();
 
         // Can only calculate speed, if we've actually moved yet
@@ -109,11 +109,11 @@ public class SpeedAndCadenceTest_Main {
      * Calculate the speed in m/s from a current and a previous measurement
      *
      * @param circumference of the wheel
-     * @param prevRevCount
-     * @param curRevCount
-     * @param prevTime
-     * @param curTime
-     * @return
+     * @param prevRevCount the previous revolution count
+     * @param curRevCount the current revolution count
+     * @param prevTime the previous time
+     * @param curTime the current time
+     * @return the speed in m/s
      */
     private double calculateSpeed(double circumference, int prevRevCount, int curRevCount, long prevTime, long curTime) {
         double timeDiff = curTime - prevTime;
@@ -135,7 +135,7 @@ public class SpeedAndCadenceTest_Main {
      * For the moment not taking the legacy hrm devices into account.
      * Non-legacy devices swap the first bit of the pageNumber every 4 messages.
      *
-     * @param payLoad
+     * @param payLoad the payload
      */
     private void removeToggleBit(byte[] payLoad) {
         payLoad[0] = (byte) (0b01111111 & payLoad[0]);

@@ -9,7 +9,6 @@ import be.glever.antplus.fec.EquipmentType;
 import be.glever.antplus.fec.FecChannel;
 import be.glever.antplus.fec.FecState;
 import be.glever.antplus.fec.HeartRateDataSource;
-import be.glever.antplus.fec.datapage.AbstractFecDataPage;
 import be.glever.antplus.fec.datapage.FecDataPageRegistry;
 import be.glever.antplus.fec.datapage.main.FecDataPage16GeneralFeData;
 import be.glever.antplus.fec.datapage.main.FecDataPage25Bike;
@@ -22,20 +21,18 @@ import static java.lang.String.format;
 
 public class FecTest_Main {
     private static final Log LOG = Log.getLogger(HrmTest_Main.class);
-    private FecDataPageRegistry registry = new FecDataPageRegistry();
+    private final FecDataPageRegistry registry = new FecDataPageRegistry();
 
-    private boolean capsReported = false;
-
-    private FecTest_Main() throws IOException, InterruptedException {
+    private FecTest_Main() throws IOException {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize(null);
+            device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             FecChannel channel = new FecChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();
 
-            System.in.read();
+            int ignoredResult = System.in.read();
         }
     }
 
@@ -44,8 +41,7 @@ public class FecTest_Main {
     }
 
     private void handle(AntMessage antMessage) {
-        if (antMessage instanceof BroadcastDataMessage) {
-            BroadcastDataMessage msg = (BroadcastDataMessage) antMessage;
+        if (antMessage instanceof BroadcastDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();
             removeToggleBit(payLoad);
 
@@ -53,13 +49,9 @@ public class FecTest_Main {
             if (dataPage == null)
                 return;
 
-            LOG.debug(() -> "Received datapage " + dataPage.toString());
-            if (dataPage instanceof AbstractFecDataPage) {
-                AbstractFecDataPage fecDataPage = ((AbstractFecDataPage) dataPage);
-            }
+            LOG.debug(() -> "Received data page " + dataPage);
 
-            if (dataPage instanceof FecDataPage25Bike) {
-                FecDataPage25Bike fecDataPage = ((FecDataPage25Bike) dataPage);
+            if (dataPage instanceof FecDataPage25Bike fecDataPage) {
                 int instantaneousPower = fecDataPage.getInstantaneousPower();
                 int accumulatedPower = fecDataPage.getAccumulatedPower();
                 int instantaneousCadence = fecDataPage.getInstantaneousCadence();
@@ -69,8 +61,7 @@ public class FecTest_Main {
                 System.out.println("Instant cadence: " + instantaneousCadence);
                 System.out.println();
             }
-            if (dataPage instanceof FecDataPage16GeneralFeData) {
-                FecDataPage16GeneralFeData fecDataPage = ((FecDataPage16GeneralFeData) dataPage);
+            if (dataPage instanceof FecDataPage16GeneralFeData fecDataPage) {
                 boolean distanceTraveledEnabled = fecDataPage.isDistanceTraveledEnabled();
                 boolean isVirtualSpeed = fecDataPage.isVirtualSpeed();
                 Optional<HeartRateDataSource> heartRateSource = fecDataPage.getHeartRateSource();

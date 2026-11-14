@@ -4,23 +4,22 @@ import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
 import be.glever.ant.usb.AntUsbDevice;
 import be.glever.ant.usb.AntUsbDeviceFactory;
+import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.antplus.common.datapage.DataPage78MultiComponentSystemManufacturersInformation;
 import be.glever.antplus.speedcadence.CadenceChannel;
-import be.glever.antplus.speedcadence.SpeedChannel;
 import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 import be.glever.antplus.speedcadence.datapage.SpeedCadenceDataPageRegistry;
-import be.glever.antplus.speedcadence.datapage.main.SpeedAndCadenceDataPage0Default;
 import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage5Motion;
 import be.glever.util.logging.Log;
 
 import java.io.IOException;
-import java.nio.channels.Channel;
 import java.util.List;
+
 
 public class CadenceTest_Main {
     private static final Log LOG = Log.getLogger(CadenceTest_Main.class);
-    private SpeedCadenceDataPageRegistry registry = new SpeedCadenceDataPageRegistry();
+    final private SpeedCadenceDataPageRegistry registry = new SpeedCadenceDataPageRegistry();
 
     private int prevCadenceRevCount = 0;
     private int firstCadenceRevCount = 0;
@@ -30,11 +29,11 @@ public class CadenceTest_Main {
         List<AntUsbDevice> foo = AntUsbDeviceFactory.getAvailableAntDevices();
         try (AntUsbDevice device = foo.stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize(null);
+            device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             CadenceChannel channel = new CadenceChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();
-            System.in.read();
+            int ignoredResult = System.in.read();
         }
     }
 
@@ -43,18 +42,17 @@ public class CadenceTest_Main {
     }
 
     private void handle(AntMessage antMessage) {
-        if (antMessage instanceof BroadcastDataMessage) {
-            BroadcastDataMessage msg = (BroadcastDataMessage) antMessage;
-            //System.out.println(msg.getMessageId());
+        if (antMessage instanceof BroadcastDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();
             removeToggleBit(payLoad);
             AbstractAntPlusDataPage dataPage = registry.constructDataPage(payLoad);
 
             //LOG.debug(() -> "Received datapage " + dataPage.toString());
-            if (dataPage instanceof DataPage78MultiComponentSystemManufacturersInformation) {
-                DataPage78MultiComponentSystemManufacturersInformation infoPage = (DataPage78MultiComponentSystemManufacturersInformation) dataPage;
-                System.out.println("Manufacturer ID: " + infoPage.getManufacturerId());
-                System.out.println("Model Number: " + infoPage.getModelNumber());
+            if (dataPage instanceof DataPage78MultiComponentSystemManufacturersInformation infoPage) {
+                LOG.info (() -> String.format(
+                        "Manufacturer id %s Model Number %s",
+                        ByteUtils.hexString(infoPage.getManufacturerId()),
+                        ByteUtils.hexString(infoPage.getModelNumber())));
             }
             if (dataPage instanceof AbstractSpeedCadenceDataPage) {
                 calcCadence((AbstractSpeedCadenceDataPage) dataPage);
@@ -63,9 +61,10 @@ public class CadenceTest_Main {
             if (dataPage instanceof SpeedCadenceDataPage5Motion) {
                 System.out.println("The crank is moving? " + ((SpeedCadenceDataPage5Motion) dataPage).isMoving());
             }
-        } else {
-            //LOG.warn(()->format("Ignoring message  %s", antMessage));
         }
+        //else {
+            //LOG.warn(()->format("Ignoring message  %s", antMessage));
+        //}
     }
 
     private void calcCadence(AbstractSpeedCadenceDataPage dataPage) {
@@ -99,7 +98,7 @@ public class CadenceTest_Main {
      * For the moment not taking the legacy hrm devices into account.
      * Non-legacy devices swap the first bit of the pageNumber every 4 messages.
      *
-     * @param payLoad
+     * @param payLoad the payload
      */
     private void removeToggleBit(byte[] payLoad) {
         payLoad[0] = (byte) (0b01111111 & payLoad[0]);

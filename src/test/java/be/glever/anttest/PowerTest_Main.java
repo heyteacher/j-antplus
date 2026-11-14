@@ -31,7 +31,7 @@ public class PowerTest_Main {
 
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize(null);
+            device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             PowerChannel channel = new PowerChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();

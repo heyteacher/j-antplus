@@ -11,13 +11,10 @@ import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage5Motion;
 import be.glever.util.logging.Log;
 
 import java.io.IOException;
-import java.util.List;
-
-import static java.lang.String.format;
 
 public class SpeedTest_Main {
     private static final Log LOG = Log.getLogger(SpeedTest_Main.class);
-    private SpeedCadenceDataPageRegistry registry = new SpeedCadenceDataPageRegistry();
+    private final SpeedCadenceDataPageRegistry registry = new SpeedCadenceDataPageRegistry();
 
     private int prevSpeedRevCount = 0;
     private int firstSpeedRevCount = 0;
@@ -26,7 +23,7 @@ public class SpeedTest_Main {
     private SpeedTest_Main() throws IOException {
         try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
-            device.initialize(null);
+            device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
             SpeedChannel channel = new SpeedChannel(device);
             channel.getEvents().doOnNext(this::handle).subscribe();
@@ -39,22 +36,22 @@ public class SpeedTest_Main {
     }
 
     private void handle(AntMessage antMessage) {
-        if (antMessage instanceof BroadcastDataMessage) {
-            BroadcastDataMessage msg = (BroadcastDataMessage) antMessage;
+        if (antMessage instanceof BroadcastDataMessage msg) {
             byte[] payLoad = msg.getPayLoad();
             removeToggleBit(payLoad);
             AbstractAntPlusDataPage dataPage = registry.constructDataPage(payLoad);
 
-            LOG.debug(() -> "Received datapage " + dataPage.toString());
+            LOG.debug(() -> "Received data page " + dataPage.toString());
             if (dataPage instanceof SpeedCadenceDataPage5Motion) {
-                calcSpeedDistance((SpeedCadenceDataPage5Motion) dataPage, 69);
+                calcSpeedDistance((SpeedCadenceDataPage5Motion) dataPage);
             }
-        } else {
-            //LOG.warn(()->format("Ignoring message  %s", antMessage));
         }
+        //else {
+            //LOG.warn(()->format("Ignoring message  %s", antMessage));
+        //}
     }
 
-    private void calcSpeedDistance(SpeedCadenceDataPage5Motion dataPage, double diameter) {
+    private void calcSpeedDistance(SpeedCadenceDataPage5Motion dataPage) {
         int curRevCount = dataPage.getCumulativeRevolutions();
 
         if (firstSpeedRevCount == 0)
@@ -64,7 +61,7 @@ public class SpeedTest_Main {
         if (firstSpeedRevCount == curRevCount)
             return;
 
-        double circumference = Math.PI * diameter;
+        double circumference = Math.PI * (double) 69;
         long speedEventTime = dataPage.getEventTime();
         boolean isMoving = dataPage.isMoving();
 
@@ -73,7 +70,11 @@ public class SpeedTest_Main {
         double kmhSpeed = speed * 3.6;
         double travelledDistance = calculateDistance(circumference, curRevCount, firstSpeedRevCount);
 
-        System.out.println("The bike is currently" + (isMoving ? "" : " not") + " moving at " + kmhSpeed + " km/h and has travelled " + travelledDistance + " m.");
+        LOG.info(() -> (String.format(
+                "The bike is currently moving %s, speed %s km/h and travelled %s m.  ",
+                isMoving ,
+                kmhSpeed,
+                travelledDistance )));
 
         prevSpeedRevCount = curRevCount;
         prevSpeedEventTime = speedEventTime;
@@ -83,11 +84,11 @@ public class SpeedTest_Main {
      * Calculate the speed in m/s from a current and a previous measurement
      *
      * @param circumference of the wheel
-     * @param prevRevCount
-     * @param curRevCount
-     * @param prevTime
-     * @param curTime
-     * @return
+     * @param  prevRevCount the previous revolution count
+     * @param curRevCount the current revolution count
+     * @param prevTime the previous time
+     * @param curTime  the current time
+     * @return the speed in m/s
      */
     private double calculateSpeed(double circumference, int prevRevCount, int curRevCount, long prevTime, long curTime) {
         double timeDiff = curTime - prevTime;
@@ -103,7 +104,7 @@ public class SpeedTest_Main {
      * For the moment not taking the legacy hrm devices into account.
      * Non-legacy devices swap the first bit of the pageNumber every 4 messages.
      *
-     * @param payLoad
+     * @param payLoad the payload
      */
     private void removeToggleBit(byte[] payLoad) {
         payLoad[0] = (byte) (0b01111111 & payLoad[0]);

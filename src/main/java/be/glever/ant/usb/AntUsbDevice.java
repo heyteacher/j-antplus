@@ -18,6 +18,8 @@ import be.glever.ant.message.requestedresponse.SerialNumberMessage;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+
 import reactor.core.publisher.*;
 import reactor.core.scheduler.Schedulers;
 
@@ -101,16 +103,20 @@ public class AntUsbDevice implements Closeable {
     }
 
 
-    /**
-     * Initializes the usb device in Android platform.
-     * @param androidContext the android application context.
-     * @throws AntException if an error occurs.
-     */
-    public void initialize(android.content.Context androidContext) throws AntException {
-        LOG.info(() -> "(initialize):");
+    public void initialize() throws AntException {
+        initialize(null, null);
+    }
+        /**
+       * Initializes the usb device in Android platform.
+       * @param androidContext the android application context.
+       * @param androidLogger the android logger.
+       * @throws AntException if an error occurs.
+       */
+    public void initialize(android.content.Context androidContext, Logger androidLogger) throws AntException {
         if (isInitialized)
             return;
-
+        Log.setAndroidLogger(androidLogger);
+        LOG.info(() -> "<initialize>:");
         try {
             if (androidContext == null) {
                 initUsbInterface();
@@ -322,7 +328,7 @@ public class AntUsbDevice implements Closeable {
                 androidContext.getSystemService(android.content.Context.USB_SERVICE);
         androidConnection = usbManager.openDevice(androidDevice);
         android.hardware.usb.UsbInterface usbInterface = getActiveAndroidUsbInterface();
-        if (usbInterface != null && androidConnection.claimInterface(usbInterface, true)) {
+        if (usbInterface != null && androidConnection != null && androidConnection.claimInterface(usbInterface, true)) {
             LOG.debug(() -> "(initAndroidUsbInterface): interface claimed, collect endpoints");
             List<android.hardware.usb.UsbEndpoint> usbEndpoints = new ArrayList<>();
             for (int i = 0; i < usbInterface.getEndpointCount(); i++) {
@@ -384,7 +390,7 @@ public class AntUsbDevice implements Closeable {
     private void subscribeTo(AntUsbReader antUsbMessageReader) {
         antUsbMessageReader
                 .antMessages()
-                .publishOn(Schedulers.elastic())
+                .publishOn(Schedulers.boundedElastic())
                 .doOnNext(this.antMessageSink::next)
                 .doOnError(this.errorSink::next)
                 .subscribe();
