@@ -7,9 +7,12 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 
 public class OpenRxScanModeMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x5b;
+
     private byte[] bytes;
 
-    public OpenRxScanModeMessage() {
+    public OpenRxScanModeMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     public OpenRxScanModeMessage(boolean synchronousPacketsOnly) {
@@ -18,7 +21,7 @@ public class OpenRxScanModeMessage extends AbstractAntMessage implements AntBloc
 
     @Override
     public byte getMessageId() {
-        return 0x5b;
+        return MSG_ID;
     }
 
     @Override

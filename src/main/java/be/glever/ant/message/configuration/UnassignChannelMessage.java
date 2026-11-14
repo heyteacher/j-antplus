@@ -7,18 +7,21 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 
 public class UnassignChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x41;
+
     private byte channelNumber;
 
     public UnassignChannelMessage(byte channelNumber) {
         this.channelNumber = channelNumber;
     }
 
-    public UnassignChannelMessage() {
+    public UnassignChannelMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override
     public byte getMessageId() {
-        return 0x41;
+        return MSG_ID;
     }
 
     @Override

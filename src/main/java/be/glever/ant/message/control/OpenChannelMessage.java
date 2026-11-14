@@ -7,9 +7,11 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 
 public class OpenChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x4b;
     private byte[] bytes;
 
-    public OpenChannelMessage() {
+    public OpenChannelMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     public OpenChannelMessage(byte channelNr) {
@@ -18,7 +20,7 @@ public class OpenChannelMessage extends AbstractAntMessage implements AntBlockin
 
     @Override
     public byte getMessageId() {
-        return 0x4b;
+        return MSG_ID;
     }
 
     @Override
@@ -31,6 +33,7 @@ public class OpenChannelMessage extends AbstractAntMessage implements AntBlockin
         this.bytes = messageContentBytes;
     }
 
+    @SuppressWarnings("unused")
     public byte getChannelNr() {
         return bytes[0];
     }

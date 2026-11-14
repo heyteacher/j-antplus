@@ -15,6 +15,10 @@ public class CapabilitiesResponseMessage extends AbstractAntMessage {
     public CapabilitiesResponseMessage() {
     }
 
+    public CapabilitiesResponseMessage(byte[] bytes) {
+        parse(bytes);
+    }
+
     @Override
     public byte getMessageId() {
         return MSG_ID;

@@ -9,7 +9,8 @@ public class StartupNotificationMessage extends AbstractAntMessage {
     public static final byte MSG_ID = 0x6f;
     private byte[] bytes;
 
-    public StartupNotificationMessage() {
+    public StartupNotificationMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override

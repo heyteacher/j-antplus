@@ -8,20 +8,24 @@ import be.glever.ant.util.ByteArrayBuilder;
 
 public class SearchTimeoutMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x44;
+
     private byte channelNumber;
     private byte searchTimeout;
 
+    @SuppressWarnings("unused")
     public SearchTimeoutMessage(byte channelNumber, byte searchTimeout) {
         this.channelNumber = channelNumber;
         this.searchTimeout = searchTimeout;
     }
 
-    public SearchTimeoutMessage() {
+    public SearchTimeoutMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override
     public byte getMessageId() {
-        return 0x44;
+        return MSG_ID;
     }
 
     @Override

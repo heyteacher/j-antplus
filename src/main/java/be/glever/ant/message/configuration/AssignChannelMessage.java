@@ -7,12 +7,16 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.util.ByteArrayBuilder;
 
 public class AssignChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
-    public static final int MSG_ID = 0x42;
+    public static final byte MSG_ID = 0x42;
     private byte channelNumber;
 
     private byte channelType;
     private byte networkNumber;
     private Byte extendedAssignment; // optional
+
+    public AssignChannelMessage(byte[] bytes) {
+        parse(bytes);
+    }
 
     public AssignChannelMessage(byte channelNumber, byte channelType, byte networkNumber, Byte extendedAssignment) {
         this.channelNumber = channelNumber;
@@ -23,9 +27,6 @@ public class AssignChannelMessage extends AbstractAntMessage implements AntBlock
 
     public AssignChannelMessage(byte channelNumber, byte channelType, byte networkNumber) {
         this(channelNumber, channelType, networkNumber, null);
-    }
-
-    public AssignChannelMessage() {
     }
 
     @Override

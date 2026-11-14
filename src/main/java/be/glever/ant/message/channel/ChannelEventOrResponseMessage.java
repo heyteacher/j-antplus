@@ -9,8 +9,12 @@ import static be.glever.ant.util.ByteUtils.hexString;
  * todo Having 2 types of messages (Channel Event / Channel Response) bound to the same message id (0x40) may impact message generation logic as currently this is done directly through constructor (change to factory?)
  */
 public class ChannelEventOrResponseMessage extends AbstractAntMessage {
-    public static final int MSG_ID = 0x40;
+    public static final byte MSG_ID = 0x40;
     private byte[] messageContentBytes;
+
+    public ChannelEventOrResponseMessage(byte[] bytes) {
+        parse(bytes);
+    }
 
     @Override
     public byte[] getMessageContent() {

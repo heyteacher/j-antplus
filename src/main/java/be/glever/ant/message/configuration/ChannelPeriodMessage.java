@@ -8,20 +8,22 @@ import be.glever.ant.util.ByteArrayBuilder;
 
 public class ChannelPeriodMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x43;
     private byte channelNumber;
     private byte[] period;
 
-    public ChannelPeriodMessage(byte channelNumber, byte period[]) {
+    public ChannelPeriodMessage(byte channelNumber, byte[] period) {
         this.channelNumber = channelNumber;
         this.period = period;
     }
 
-    public ChannelPeriodMessage() {
+    public ChannelPeriodMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override
     public byte getMessageId() {
-        return 0x43;
+        return MSG_ID;
     }
 
     @Override

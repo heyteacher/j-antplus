@@ -11,7 +11,8 @@ public class RequestMessage extends AbstractAntMessage implements AntBlockingMes
 
     private byte[] bytes;
 
-    public RequestMessage() {
+    public RequestMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     public RequestMessage(byte channelNumberOrSubMessageId, byte msgIdRequested) {
@@ -19,13 +20,13 @@ public class RequestMessage extends AbstractAntMessage implements AntBlockingMes
     }
 
     /**
-     * @param channelNumberOrSubMessageId
-     * @param msgIdRequested
-     * @param addr                        only used when reading NVM message
-     * @param size                        only used when reading NVM message
+     * @param channelNumberOrSubMessageId the channel number or sub message id
+     * @param msgIdRequested the message id requested
+     * @param address the address (only used when reading NVM message)
+     * @param size the size (only used when reading NVM message)
      */
-    public RequestMessage(byte channelNumberOrSubMessageId, byte msgIdRequested, Byte addr, Byte size) {
-        this.bytes = new ByteArrayBuilder().write(channelNumberOrSubMessageId, msgIdRequested).writeIfNotNull(addr)
+    public RequestMessage(byte channelNumberOrSubMessageId, byte msgIdRequested, Byte address, Byte size) {
+        this.bytes = new ByteArrayBuilder().write(channelNumberOrSubMessageId, msgIdRequested).writeIfNotNull(address)
                 .writeIfNotNull(size).toByteArray();
     }
 

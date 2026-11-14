@@ -7,9 +7,11 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 
 public class CloseChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x4c;
     private byte[] bytes;
 
-    public CloseChannelMessage() {
+    public CloseChannelMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     public CloseChannelMessage(byte channelNr) {
@@ -31,6 +33,7 @@ public class CloseChannelMessage extends AbstractAntMessage implements AntBlocki
         this.bytes = messageContentBytes;
     }
 
+    @SuppressWarnings("unused")
     public byte getChannelNr() {
         return bytes[0];
     }

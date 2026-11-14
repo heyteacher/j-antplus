@@ -8,7 +8,9 @@ public class SerialErrorMessage extends AbstractAntMessage {
     public static final byte MSG_ID = (byte) 0xae;
     private byte[] bytes;
 
-    public SerialErrorMessage() {
+
+    public SerialErrorMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override

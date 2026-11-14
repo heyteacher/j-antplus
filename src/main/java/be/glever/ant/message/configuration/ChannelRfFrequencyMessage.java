@@ -8,6 +8,7 @@ import be.glever.ant.util.ByteArrayBuilder;
 
 public class ChannelRfFrequencyMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    public static final byte MSG_ID = 0x45;
     private byte channelNumber;
     private byte channelRfFrequency;
 
@@ -16,12 +17,13 @@ public class ChannelRfFrequencyMessage extends AbstractAntMessage implements Ant
         this.channelRfFrequency = channelRfFrequency;
     }
 
-    public ChannelRfFrequencyMessage() {
+    public ChannelRfFrequencyMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override
     public byte getMessageId() {
-        return 0x45;
+        return MSG_ID;
     }
 
     @Override

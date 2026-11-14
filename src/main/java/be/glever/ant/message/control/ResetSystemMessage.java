@@ -5,12 +5,17 @@ import be.glever.ant.message.AbstractAntMessage;
 
 public class ResetSystemMessage extends AbstractAntMessage {
 
+    public static final byte MSG_ID = 0x4a;
+
     public ResetSystemMessage() {
+    }
+    public ResetSystemMessage(byte[] bytes) {
+        parse(bytes);
     }
 
     @Override
     public byte getMessageId() {
-        return 0x4a;
+        return MSG_ID;
     }
 
     @Override
