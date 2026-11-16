@@ -10,7 +10,7 @@ import be.glever.ant.constants.AntPlusDeviceType;
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
-import be.glever.ant.usb.AntUsbDevice;
+import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 import reactor.core.publisher.Flux;
@@ -40,7 +40,7 @@ public class PowerChannel extends AntChannel {
 	 *
 	 * @param device the device to pair with
 	 */
-	public PowerChannel(AntUsbDevice device) {
+	public PowerChannel(AbstractAntUsbDevice device) {
 		this(device, DEVICE_NUMBER_WILDCARD);
 	}
 
@@ -54,7 +54,7 @@ public class PowerChannel extends AntChannel {
 	 * @param device     the device to pair with
 	 * @param deviceNumber the device number
 	 */
-	public PowerChannel(AntUsbDevice device, byte[] deviceNumber) {
+	public PowerChannel(AbstractAntUsbDevice device, byte[] deviceNumber) {
 		setChannelType(AntChannelType.BIDIRECTIONAL_SLAVE);
 		setNetwork(new AntChannelNetwork(DEFAULT_PUBLIC_NETWORK, AntNetworkKeys.ANT_PLUS_NETWORK_KEY));
 		setRfFrequency(CHANNEL_FREQUENCY);

@@ -18,7 +18,6 @@ import be.glever.ant.message.requestedresponse.SerialNumberMessage;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 import org.reactivestreams.Publisher;
-import org.slf4j.Logger;
 
 import reactor.core.publisher.*;
 import reactor.core.scheduler.Schedulers;
@@ -26,8 +25,6 @@ import reactor.core.scheduler.Schedulers;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 
@@ -37,55 +34,26 @@ import static java.lang.String.format;
  * Provides abstraction of and interaction with an ANT USB dongle.
  * Clients can
  */
-public class AntUsbDevice implements Closeable {
+abstract public class AbstractAntUsbDevice implements Closeable {
     private static final int SLEEP_AFTER_RESET = 500;
-    private static final Log LOG = Log.getLogger(AntUsbDevice.class);
+    private static final Log LOG = Log.getLogger(AbstractAntUsbDevice.class);
     private final FluxProcessor<AntMessage, AntMessage> antMessageProcessor = DirectProcessor.<AntMessage>create().serialize();
     private final FluxSink<AntMessage> antMessageSink = antMessageProcessor.sink();
     private final FluxProcessor<Throwable, Throwable> errorProcessor = DirectProcessor.<Throwable>create().serialize();
     private final FluxSink<Throwable> errorSink = errorProcessor.sink();
-    private javax.usb.UsbDevice device = null;
-    private android.hardware.usb.UsbDevice androidDevice = null;
-    private android.hardware.usb.UsbDeviceConnection androidConnection;
     private byte[] antVersion;
     private AntUsbDeviceCapabilities capabilities;
     private byte[] serialNumber;
-    private AntUsbReader antUsbReader;
-    private AntUsbWriter antUsbWriter;
+    protected AbstractAntUsbReader antUsbReader;
+    protected AbstractAntUsbWriter antUsbWriter;
     private AntChannel[] antChannels;
 
     private boolean isInitialized = false;
 
     /**
-     * Creates an AntUsbDevice from an android usb device.
-     * @param androidDevice the android usb device.
-     */
-    public AntUsbDevice(android.hardware.usb.UsbDevice androidDevice) {
-        this.androidDevice = androidDevice;
-    }
-
-    /**
      * Creates an AntUsbDevice from an usb device.
-     * @param device the usb device.
      */
-    public AntUsbDevice(javax.usb.UsbDevice device) {
-        this.device = device;
-    }
-
-    /**
-     * Returns the usb device.
-     * @return the usb device.
-     */
-    public javax.usb.UsbDevice getUsbDevice() {
-        return device;
-    }
-
-    /**
-     * Returns the usb device in Android platform.
-     * @return the usb device in Android platform.
-     */
-    public android.hardware.usb.UsbDevice getAndroidDevice() {
-        return androidDevice;
+    public AbstractAntUsbDevice() {
     }
 
     private static Publisher<AntMessage> mapToErrorIfRequired(AntMessage antMessage) {
@@ -98,31 +66,13 @@ public class AntUsbDevice implements Closeable {
         return Flux.just(antMessage);
     }
 
-    private static boolean forceClaim(javax.usb.UsbInterface usbInterface) {
-        return true;
-    }
-
 
     public void initialize() throws AntException {
-        initialize(null, null);
-    }
-        /**
-       * Initializes the usb device in Android platform.
-       * @param androidContext the android application context.
-       * @param androidLogger the android logger.
-       * @throws AntException if an error occurs.
-       */
-    public void initialize(android.content.Context androidContext, Logger androidLogger) throws AntException {
         if (isInitialized)
             return;
-        Log.setAndroidLogger(androidLogger);
         LOG.info(() -> "<initialize>:");
         try {
-            if (androidContext == null) {
-                initUsbInterface();
-            } else {
-                initAndroidUsbInterface(androidContext);
-            }
+            initUsbInterface();
             initAntDevice();
             isInitialized = true;
         } catch (Exception e) {
@@ -146,23 +96,15 @@ public class AntUsbDevice implements Closeable {
         }
         try {
             this.antUsbReader.stop();
-            if (this.device != null ) {
-                javax.usb.UsbInterface activeUsbInterface = getActiveUsbInterface();
-                if (activeUsbInterface != null && activeUsbInterface.isClaimed()) {
-                    activeUsbInterface.release();
-                }
-            }
-            android.hardware.usb.UsbInterface androidUsbInterface = getActiveAndroidUsbInterface();
-            if (androidConnection != null && androidUsbInterface != null) {
-                    androidConnection.releaseInterface(getActiveAndroidUsbInterface());
-                    androidConnection.close();
-            }
+            closeInterface();
             isInitialized = false;
         } catch (Exception e) {
             LOG.error(() -> "(close): release usb interface and close connectin failed", e);
             throw new IOException(e.getMessage(), e);
         }
     }
+
+    protected abstract void closeInterface();
 
     /**
      * Closes any channel still open between the stick and ant devices.
@@ -281,7 +223,7 @@ public class AntUsbDevice implements Closeable {
     public Mono<AntMessage> send(AntMessage requestMessage, BiFunction<AntMessage, AntMessage, Boolean> responseFilter) {
         Flux<AntMessage> response = this.antMessageProcessor
                 .filter(responseMessage -> responseFilter.apply(requestMessage, responseMessage))
-                .concatMap(AntUsbDevice::mapToErrorIfRequired);
+                .concatMap(AbstractAntUsbDevice::mapToErrorIfRequired);
 
         Mono<Void> messageSender = Mono.fromRunnable(() -> this.antUsbWriter.write(requestMessage));
         return Flux.merge(response, messageSender).map(antMessage -> (AntMessage) antMessage).next();
@@ -298,7 +240,7 @@ public class AntUsbDevice implements Closeable {
     public AntMessage sendBlocking(AntBlockingMessage requestMessage) {
         Flux<AntMessage> response = this.antMessageProcessor
                 .filter(responseMessage -> RequestMatcher.isMatchingResponse(requestMessage, responseMessage))
-                .concatMap(AntUsbDevice::mapToErrorIfRequired)
+                .concatMap(AbstractAntUsbDevice::mapToErrorIfRequired)
                 .take(1);
 
         Mono<Void> messageSender = Mono.fromRunnable(() -> this.antUsbWriter.write(requestMessage));
@@ -322,72 +264,9 @@ public class AntUsbDevice implements Closeable {
         throw new IllegalStateException("No available channels found");
     }
 
-    private void initAndroidUsbInterface(android.content.Context androidContext) throws AntException {
-        LOG.debug(() -> "<initAndroidUsbInterface>");
-        android.hardware.usb.UsbManager usbManager = (android.hardware.usb.UsbManager)
-                androidContext.getSystemService(android.content.Context.USB_SERVICE);
-        androidConnection = usbManager.openDevice(androidDevice);
-        android.hardware.usb.UsbInterface usbInterface = getActiveAndroidUsbInterface();
-        if (usbInterface != null && androidConnection != null && androidConnection.claimInterface(usbInterface, true)) {
-            LOG.debug(() -> "(initAndroidUsbInterface): interface claimed, collect endpoints");
-            List<android.hardware.usb.UsbEndpoint> usbEndpoints = new ArrayList<>();
-            for (int i = 0; i < usbInterface.getEndpointCount(); i++) {
-                usbEndpoints.add(usbInterface.getEndpoint(i));
-            }
-            LOG.debug(() -> "(initAndroidUsbInterface): initialize and start reader with in endpoint");
-            android.hardware.usb.UsbEndpoint inEndpoint = usbEndpoints.stream()
-                    .filter(endpoint -> endpoint.getDirection() == android.hardware.usb.UsbConstants.USB_DIR_IN)
-                    .findAny()
-                    .orElseThrow(() -> new IllegalStateException("Could not obtain usb input pipe."));
-            antUsbReader = new AntUsbReader(androidConnection, inEndpoint);
-            new Thread(antUsbReader, "ant-usb-reader").start();
-            subscribeTo(antUsbReader);
-            LOG.debug(() -> "(initAndroidUsbInterface): initialize writer with out endpoint");
-            android.hardware.usb.UsbEndpoint outEndpoint = usbEndpoints.stream()
-                    .filter(endpoint -> endpoint.getDirection() == android.hardware.usb.UsbConstants.USB_DIR_OUT)
-                    .findAny()
-                    .orElseThrow(() -> new IllegalStateException("Could not obtain usb output pipe."));
-            antUsbWriter = new AntUsbWriter(androidConnection, outEndpoint);
-        } else {
-            throw new AntException("Could not claim usb interface");
-        }
-    }
+    abstract protected void initUsbInterface() throws AntException;
 
-    private void initUsbInterface() throws AntException, javax.usb.UsbException {
-        LOG.debug(() -> "<initUsbInterface>");
-        javax.usb.UsbInterface usbInterface = getActiveUsbInterface();
-        if (usbInterface == null) {
-            throw new AntException("active Usb interface not found");
-        }
-        if (usbInterface.isClaimed()) {
-            throw new AntException("Usb device already claimed");
-        }
-        usbInterface.claim(AntUsbDevice::forceClaim);
-
-        @SuppressWarnings("unchecked")
-        List<javax.usb.UsbEndpoint> usbEndpoints = usbInterface.getUsbEndpoints();
-        javax.usb.UsbEndpoint inEndpoint = usbEndpoints.stream()
-                .filter(endpoint -> endpoint.getDirection() == javax.usb.UsbConst.ENDPOINT_DIRECTION_IN)
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("Could not obtain usb input pipe."));
-        javax.usb.UsbEndpoint outEndpoint = usbEndpoints.stream()
-                .filter(endpoint -> endpoint.getDirection() == javax.usb.UsbConst.ENDPOINT_DIRECTION_OUT)
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("Could not obtain usb output pipe."));
-
-        javax.usb.UsbPipe usbOutPipe = outEndpoint.getUsbPipe();
-        usbOutPipe.open();
-
-        javax.usb.UsbPipe inPipe = inEndpoint.getUsbPipe();
-        inPipe.open();
-
-        antUsbReader = new AntUsbReader(inPipe);
-        new Thread(antUsbReader, "ant-usb-reader").start();
-        antUsbWriter = new AntUsbWriter(usbOutPipe);
-        subscribeTo(antUsbReader);
-    }
-
-    private void subscribeTo(AntUsbReader antUsbMessageReader) {
+    protected void subscribeTo(AbstractAntUsbReader antUsbMessageReader) {
         antUsbMessageReader
                 .antMessages()
                 .publishOn(Schedulers.boundedElastic())
@@ -422,19 +301,5 @@ public class AntUsbDevice implements Closeable {
         Thread.sleep(SLEEP_AFTER_RESET);
         antUsbWriter.write(new ResetSystemMessage());
         Thread.sleep(SLEEP_AFTER_RESET);
-    }
-
-    private javax.usb.UsbInterface getActiveUsbInterface() {
-        if (this.device != null) {
-            return (javax.usb.UsbInterface) this.device.getActiveUsbConfiguration().getUsbInterfaces().getFirst();
-        }
-        return null;
-    }
-
-    private android.hardware.usb.UsbInterface getActiveAndroidUsbInterface() {
-        if (this.androidDevice != null) {
-            return this.androidDevice.getInterface(0);
-        }
-        return null;
     }
 }

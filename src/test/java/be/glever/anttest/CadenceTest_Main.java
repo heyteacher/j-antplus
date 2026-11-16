@@ -2,8 +2,8 @@ package be.glever.anttest;
 
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
-import be.glever.ant.usb.AntUsbDevice;
 import be.glever.ant.usb.AntUsbDeviceFactory;
+import be.glever.ant.usb.impl.AntUsbDevice;
 import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.antplus.common.datapage.DataPage78MultiComponentSystemManufacturersInformation;

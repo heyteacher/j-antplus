@@ -2,7 +2,7 @@ package be.glever.anttest;
 
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
-import be.glever.ant.usb.AntUsbDevice;
+import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.ant.usb.AntUsbDeviceFactory;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.antplus.speedcadence.CadenceChannel;
@@ -26,7 +26,7 @@ public class SpeedCadenceTest_Main {
     private long prevCadenceEventTime = 0;
 
     private SpeedCadenceTest_Main() throws IOException {
-        try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
+        try (AbstractAntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
             device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.

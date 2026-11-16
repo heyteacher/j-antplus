@@ -7,7 +7,7 @@ import java.io.IOException;
 import be.glever.ant.message.AntMessage;
 import be.glever.ant.message.data.AcknowledgeDataMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
-import be.glever.ant.usb.AntUsbDevice;
+import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.ant.usb.AntUsbDeviceFactory;
 import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
@@ -29,7 +29,7 @@ public class PowerTest_Main {
     final private PowerDataPageRegistry registry = new PowerDataPageRegistry();
     private PowerTest_Main() throws IOException {
 
-        try (AntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
+        try (AbstractAntUsbDevice device = AntUsbDeviceFactory.getAvailableAntDevices().stream().findFirst()
                 .orElseThrow(() -> new IllegalStateException("No devices found"))) {
             device.initialize();
             device.closeAllChannels(); // channels stay open on usb dongle even if program shuts down.
@@ -74,7 +74,7 @@ public class PowerTest_Main {
     }
 
     @SuppressWarnings("unused")
-    private static void sendMessage(AntUsbDevice device, byte channelNumber, AbstractAntPlusDataPage dataPage) {
+    private static void sendMessage(AbstractAntUsbDevice device, byte channelNumber, AbstractAntPlusDataPage dataPage) {
         LOG.debug(() -> format("Send page %s", dataPage));
         device.send(new AcknowledgeDataMessage(channelNumber, dataPage.getDataPageBytes()));
     }
