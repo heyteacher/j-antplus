@@ -1,6 +1,8 @@
 # j-antplus
 Java Library for speaking with ANT / ANT+ devices through a USB dongle.
 
+This fork support **Android Platform** and is used by [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus)
+
 I set up this project trying to talk to my personal ANT+ devices.
 Goal is to implement needed ant messages and ANT+ datapages in order to talk to following set of devices:
 
@@ -30,9 +32,10 @@ Goal is to implement needed ant messages and ANT+ datapages in order to talk to 
 Codebase still unstable but foundation is shaping up. Expect a few heavy refactors until things stabilize.
 Check out the Hrm/SpeedTest/Cadence/Fec examples to get started. Many thanks to https://github.com/JohnAZoidberg for help with implementing most of the devices.
 
-Then you can add a maven dependency to `be.glever:j-antplus:0.0.1-SNAPSHOT` in order to use it.
+Then you can add a maven dependency to `io.github.heyteacher:j-antplus:0.0.1` in order to use it.
 
 # Compatibility notes
+
 ## Windows
 This project uses usb4java-javax, which underneath uses libusb.
 There seems to be a mismatch between the default windows10 WHQL driver (libusb 1.2.40.201, provided by dynastream) and libusb.
@@ -53,3 +56,64 @@ echo 'ATTRS{idVendor}=="fcf", ATTRS{idProduct}=="1009", MODE="0666"' > /etc/udev
 udevadm control --reload-rules
 ```
 After this, unplug and re-plug the dongle.
+
+## Android
+
+It uses built-in `android.hardware.usb` instead of `usb4java-javax`
+
+See [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus) example for configure android application 
+
+# For Developers
+
+- [Set up the Android 14 SDK](https://developer.android.com/about/versions/14/setup-sdk) and 
+  set the environment variable `ANDROID_HOME`
+
+## Publish on maven central
+
+- [Register to Publish Via the Central Portal](https://central.sonatype.org/register/central-portal/)
+
+  Logging with the `GitHub` account automatically is created a namespace `io.github.<user>`
+
+- Setup `pom.xml` with your information (`groupId`, `url`, `developer`, `scm` )
+
+- [configure GPG](#configure-GPG)
+
+- [Generating a Portal Token for Publishing](https://central.sonatype.org/publish/generate-portal-token/)
+
+  and set up your `~/.m2/settings.xml`  
+
+- [Connect your GitHub account via SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+
+- run 
+  ```ssh
+  maven release:prepare release:perform
+  ```
+
+- go [Publishing Settings](https://central.sonatype.com/publishing) and click `Publish`
+
+  After 10 minutes, the package is published
+
+### Configure GPG
+
+You need to configure Gpg used by maven to publish on maven central.
+
+- generate a new key pair without password and set as email address
+  the same of `Maven Central` account (i.e heyteacher70@gmail.com)
+  
+  ```bash
+  gpg --gen-key
+  ```
+- show the keys and check latest created
+
+  ```bash
+  gpg --list-keys
+  ```
+
+- upload the key to `keys.openpgp.org`
+
+```bash
+gpg --keyserver  keys.openpgp.org --send-keys <UID>
+```
+
+- click the confirmation link you'll receive via email and follow the instruction for link your 
+  email to gpg public key uploaded
