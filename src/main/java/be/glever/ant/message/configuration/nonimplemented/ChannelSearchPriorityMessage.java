@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Channel Search Priority.
+ */
 @SuppressWarnings("unused")
 public class ChannelSearchPriorityMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ChannelSearchPriorityMessage}.
+     */
+    public ChannelSearchPriorityMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

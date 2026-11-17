@@ -5,15 +5,31 @@ import be.glever.ant.message.AbstractAntMessage;
 import be.glever.ant.message.AntBlockingMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 
+/**
+ * ANT message: Close Channel.
+ */
 public class CloseChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x4c;
     private byte[] bytes;
 
+    /**
+     * Constructs a new {@link CloseChannelMessage}.
+     *
+     * @param bytes the bytes
+     */
     public CloseChannelMessage(byte[] bytes) {
         parse(bytes);
     }
 
+    /**
+     * Constructs a new {@link CloseChannelMessage}.
+     *
+     * @param channelNr the channel nr
+     */
     public CloseChannelMessage(byte channelNr) {
         this.bytes = new byte[]{channelNr};
     }
@@ -33,6 +49,11 @@ public class CloseChannelMessage extends AbstractAntMessage implements AntBlocki
         this.bytes = messageContentBytes;
     }
 
+    /**
+     * Returns the channel nr.
+     *
+     * @return the channel nr.
+     */
     @SuppressWarnings("unused")
     public byte getChannelNr() {
         return bytes[0];

@@ -11,12 +11,25 @@ import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
 
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x20;
 
+    /**
+     * Constructs a new {@link PowerDataPage20CrankTorqueFrequency}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public PowerDataPage20CrankTorqueFrequency(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
+    /**
+     * Returns the update event count.
+     *
+     * @return the update event count.
+     */
     public int getUpdateEventCount() {
         return getPageSpecificBytes()[0];
     }
@@ -26,6 +39,7 @@ public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
      * <p>
      * Unit: 1/10 Nm/Hz
      * Range: 100-256
+     * @return the slope.
      */
     public int getSlope() {
         return ByteUtils.fromUShort(getPageSpecificBytes()[2], getPageSpecificBytes()[1]);
@@ -36,6 +50,7 @@ public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
      * <p>
      * Unit: 1/2000s
      * Rollover: 32.7
+     * @return the time stamp.
      */
     public double getTimeStamp() {
         // TODO: Convert to double
@@ -44,6 +59,7 @@ public class PowerDataPage20CrankTorqueFrequency extends AbstractPowerDataPage {
 
     /**
      * 65536 ticks
+     * @return the torque ticks stamp.
      */
     public double torqueTicksStamp() {
         return ByteUtils.fromUShort(getPageSpecificBytes()[6], getPageSpecificBytes()[5]);

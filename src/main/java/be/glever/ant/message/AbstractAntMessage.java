@@ -6,10 +6,28 @@ import be.glever.ant.util.ByteUtils;
 
 import java.util.Arrays;
 
+/**
+ * Base class for ANT+ messages.
+ */
 public abstract class AbstractAntMessage implements AntMessage {
 
+    /**
+     * Constructs a new {@link AbstractAntMessage}.
+     */
+    protected AbstractAntMessage() {
+    }
+
+    /**
+     * the message content
+     * @return byte array of the message content
+     */
     public abstract byte[] getMessageContent();
 
+    /**
+     * set the message content
+     * @param messageContentBytes the message content
+     * @throws AntException if en error occurs
+     */
     public abstract void setMessageBytes(byte[] messageContentBytes) throws AntException;
 
     @Override

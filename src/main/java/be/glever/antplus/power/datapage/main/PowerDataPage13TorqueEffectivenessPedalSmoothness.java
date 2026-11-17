@@ -10,12 +10,25 @@ import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractPowerDataPage {
 
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x13;
 
+    /**
+     * Constructs a new {@link PowerDataPage13TorqueEffectivenessPedalSmoothness}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public PowerDataPage13TorqueEffectivenessPedalSmoothness(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
+    /**
+     * Returns the update event count.
+     *
+     * @return the update event count.
+     */
     public int getUpdateEventCount() {
         return getPageSpecificBytes()[0];
     }
@@ -25,6 +38,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
      * <p>
      * Unit: 0.5%
      * Range: 0-100%
+     * @return the left torque effectiveness.
      */
     public int getLeftTorqueEffectiveness() {
         return getPageSpecificBytes()[1];
@@ -35,6 +49,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
      * <p>
      * Unit: 0.5%
      * Range: 0-100%
+     * @return the right torque effectiveness.
      */
     public int getRightTorqueEffectiveness() {
         return getPageSpecificBytes()[2];
@@ -45,6 +60,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
      * <p>
      * Unit: 0.5%
      * Range: 0-100%
+     * @return the left pedal smoothness.
      */
     public int getLeftPedalSmoothness() {
         if (getRightPedalSmoothness() == 0xFF)
@@ -58,6 +74,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
      * <p>
      * Unit: 0.5%
      * Range: 0-100%
+     * @return the right pedal smoothness.
      */
     public int getRightPedalSmoothness() {
         return getPageSpecificBytes()[4];
@@ -68,6 +85,7 @@ public class PowerDataPage13TorqueEffectivenessPedalSmoothness extends AbstractP
      * <p>
      * Unit: 0.5%
      * Range: 0-100%
+     * @return the combined pedal smoothness.
      */
     public int getCombinedPedalSmoothness() {
         if (getRightPedalSmoothness() != 0xFF)

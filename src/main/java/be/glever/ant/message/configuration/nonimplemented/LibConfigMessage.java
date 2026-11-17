@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Lib Config.
+ */
 @SuppressWarnings("unused")
 public class LibConfigMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link LibConfigMessage}.
+     */
+    public LibConfigMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

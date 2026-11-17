@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Crystal Enable.
+ */
 @SuppressWarnings("unused")
 public class CrystalEnableMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link CrystalEnableMessage}.
+     */
+    public CrystalEnableMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

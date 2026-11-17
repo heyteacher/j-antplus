@@ -4,15 +4,28 @@ import be.glever.antplus.hrm.datapage.AbstractHRMDataPage;
 
 import static be.glever.ant.util.ByteUtils.toInt;
 
+/**
+ * ANT+ HRM Data Page 5: Swim Interval Summary.
+ */
 public class HrmDataPage5SwimIntervalSummary extends AbstractHRMDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 5;
 
+    /**
+     * Constructs a new {@link HrmDataPage5SwimIntervalSummary}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public HrmDataPage5SwimIntervalSummary(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
     /**
+     * Returns the interval average heart rate.
+     *
      * @return Interval average heart rate in BPM of the interval.
      */
     public int getIntervalAverageHeartRate() {
@@ -20,6 +33,8 @@ public class HrmDataPage5SwimIntervalSummary extends AbstractHRMDataPage {
     }
 
     /**
+     * Returns the interval maximum heart rate.
+     *
      * @return Interval max heart rate in BPM of the interval.
      */
     public int getIntervalMaximumHeartRate() {
@@ -27,6 +42,8 @@ public class HrmDataPage5SwimIntervalSummary extends AbstractHRMDataPage {
     }
 
     /**
+     * Returns the session average heart rate.
+     *
      * @return Session average heart rate in BPM of the interval.
      */
     public int getSessionAverageHeartRate() {

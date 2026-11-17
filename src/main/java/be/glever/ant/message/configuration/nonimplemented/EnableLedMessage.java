@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Enable Led.
+ */
 @SuppressWarnings("unused")
 public class EnableLedMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link EnableLedMessage}.
+     */
+    public EnableLedMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

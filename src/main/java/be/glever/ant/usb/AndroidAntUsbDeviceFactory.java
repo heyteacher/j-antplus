@@ -15,11 +15,26 @@ import be.glever.ant.AntException;
 import be.glever.ant.usb.impl.AndroidAntUsbDevice;
 import be.glever.util.logging.Log;
 
+/**
+ * Android Ant Usb Device Factory.
+ */
 @SuppressWarnings("unused")
 public class AndroidAntUsbDeviceFactory {
+
+    private AndroidAntUsbDeviceFactory() {
+    }
     private static final Log LOG = Log.getLogger(AndroidAntUsbDeviceFactory.class);
+    /**
+     * Product ID for DYNASTREAM M USB.
+     */
     public static final int PRODUCT_DYNASTREAM_M_USB = 0x1009;
+    /**
+     * Product ID for DYNASTREAM USB2.
+     */
     public static final int PRODUCT_DYNASTREAM_USB2 = 0x1008;
+    /**
+     * Vendor ID for DYNASTREAM.
+     */
     public static final int VENDOR_DYNASTREAM = 0x0fcf;
 
     /**
@@ -31,6 +46,7 @@ public class AndroidAntUsbDeviceFactory {
     /**
      * Returns a list of <b>uninitialized</b> {@link AbstractAntUsbDevice}s that are found on the system.
      * @param context the application context.
+     * @param androidLogger the android logger.
      * @return a list of {@link AbstractAntUsbDevice}s.
      * @throws AntException if an error occurs while accessing the usb device.
      */

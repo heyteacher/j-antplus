@@ -11,8 +11,16 @@ import be.glever.antplus.hrm.datapage.main.HrmDataPage5SwimIntervalSummary;
  */
 public class HrmDataPage6Capabilities extends AbstractHRMDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 6;
 
+    /**
+     * Constructs a new {@link HrmDataPage6Capabilities}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public HrmDataPage6Capabilities(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
@@ -22,27 +30,57 @@ public class HrmDataPage6Capabilities extends AbstractHRMDataPage {
         return PAGE_NR;
     }
 
+    /**
+     * Checks if extended running feature supported.
+     *
+     * @return {@code true} if extended running feature supported, {@code false} otherwise.
+     */
     public boolean isExtendedRunningFeatureSupported() {
         return isBitSet(0b1, getSupportedFeaturesByte());
     }
 
+    /**
+     * Checks if extended cycling features supported.
+     *
+     * @return {@code true} if extended cycling features supported, {@code false} otherwise.
+     */
     public boolean isExtendedCyclingFeaturesSupported() {
         return isBitSet(0b01, getSupportedFeaturesByte());
     }
 
+    /**
+     * Checks if extended swimming features supported.
+     *
+     * @return {@code true} if extended swimming features supported, {@code false} otherwise.
+     */
     public boolean isExtendedSwimmingFeaturesSupported() {
         return isBitSet(0b001, getSupportedFeaturesByte());
     }
 
 
+    /**
+     * Checks if extended running features enabled.
+     *
+     * @return {@code true} if extended running features enabled, {@code false} otherwise.
+     */
     public boolean isExtendedRunningFeaturesEnabled() {
         return isBitSet(0b1, getEnabledFeaturesByte());
     }
 
+    /**
+     * Checks if extended cycling features enabled.
+     *
+     * @return {@code true} if extended cycling features enabled, {@code false} otherwise.
+     */
     public boolean isExtendedCyclingFeaturesEnabled() {
         return isBitSet(0b01, getEnabledFeaturesByte());
     }
 
+    /**
+     * Checks if extended swimming features enabled.
+     *
+     * @return {@code true} if extended swimming features enabled, {@code false} otherwise.
+     */
     public boolean isExtendedSwimmingFeaturesEnabled() {
         return isBitSet(0b001, getEnabledFeaturesByte());
     }

@@ -6,7 +6,13 @@ import be.glever.antplus.speedcadence.datapage.background.*;
 import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage0Default;
 import be.glever.antplus.speedcadence.datapage.main.SpeedCadenceDataPage5Motion;
 
+/**
+ * Registry for Speed Cadence Data Page.
+ */
 public class SpeedCadenceDataPageRegistry extends AbstractDataPageRegistry {
+    /**
+     * Constructs a new {@link SpeedCadenceDataPageRegistry}.
+     */
     public SpeedCadenceDataPageRegistry() {
         super(new CommonDataPageRegistry());
 

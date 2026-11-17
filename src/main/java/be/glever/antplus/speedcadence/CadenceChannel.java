@@ -18,9 +18,21 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.Arrays;
 
+/**
+ * ANT channel for Cadence.
+ */
 public class CadenceChannel extends AntChannel {
+	/**
+	 * Channel frequency.
+	 */
 	public static final byte CHANNEL_FREQUENCY = 0x39;  // RF Channel 57 (2457MHz)
+	/**
+	 * Wildcard device number.
+	 */
 	public static final byte[] DEVICE_NUMBER_WILDCARD = {0x00, 0x00};
+	/**
+	 * Default public network.
+	 */
 	public static final byte DEFAULT_PUBLIC_NETWORK = 0x00;
 	@SuppressWarnings("unused")
 	private static final Log LOG = Log.getLogger(CadenceChannel.class);

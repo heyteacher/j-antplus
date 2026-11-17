@@ -13,12 +13,20 @@ import be.glever.ant.AntException;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.util.logging.Log;
 
+/**
+ * Ant Usb Device.
+ */
 public class AntUsbDevice extends AbstractAntUsbDevice {
 
     private static final Log LOG = Log.getLogger(AntUsbDevice.class);
 
     private final UsbDevice device;
 
+    /**
+     * Constructs a new {@link AntUsbDevice}.
+     *
+     * @param device the device
+     */
     public AntUsbDevice(UsbDevice device) {
         this.device = device;
     }

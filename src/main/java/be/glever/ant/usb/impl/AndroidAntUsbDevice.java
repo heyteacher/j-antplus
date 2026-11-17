@@ -17,6 +17,9 @@ import be.glever.ant.AntException;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.util.logging.Log;
 
+/**
+ * Android Ant Usb Device.
+ */
 public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
 
     private static final Log LOG = Log.getLogger(AndroidAntUsbDevice.class);
@@ -26,6 +29,13 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
     final private UsbDevice androidDevice;
     private UsbDeviceConnection androidConnection;
 
+    /**
+     * Constructs a new {@link AndroidAntUsbDevice}.
+     *
+     * @param context the context
+     * @param androidDevice the android device
+     * @param androidLogger the android logger
+     */
     public AndroidAntUsbDevice(Context context, UsbDevice androidDevice, Logger androidLogger) {
         this.androidDevice = androidDevice;
         this.context = context;
@@ -81,6 +91,11 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
         }
     }
 
+    /**
+     * Returns the active android usb interface.
+     *
+     * @return the active android usb interface.
+     */
     protected UsbInterface getActiveAndroidUsbInterface() {
         if (this.androidDevice != null) {
             return this.androidDevice.getInterface(0);

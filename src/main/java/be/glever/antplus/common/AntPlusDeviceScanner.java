@@ -19,11 +19,19 @@ import java.util.List;
 import static java.lang.String.format;
 
 
+/**
+ * Ant Plus Device Scanner.
+ */
 public class AntPlusDeviceScanner {
     private static final Log LOG = Log.getLogger(AntPlusDeviceScanner.class);
 
     private final AbstractAntUsbDevice abstractAntUsbDevice;
 
+    /**
+     * Constructs a new {@link AntPlusDeviceScanner}.
+     *
+     * @param abstractAntUsbDevice the abstract ant usb device
+     */
     public AntPlusDeviceScanner(AbstractAntUsbDevice abstractAntUsbDevice) {
         this.abstractAntUsbDevice = abstractAntUsbDevice;
     }
@@ -54,6 +62,11 @@ public class AntPlusDeviceScanner {
         return new ArrayList<>();
     }
 
+    /**
+     * Open rx scan mode.
+     *
+     * @throws AntException if an error occurs
+     */
     public void openRxScanMode() throws AntException {
         HRMChannel channel = new HRMChannel(abstractAntUsbDevice);
         AssignChannelMessage assignChannelMessage = new AssignChannelMessage((byte) 0x00, channel.getChannelType().getValue(), channel.getNetwork().getNetworkNumber());

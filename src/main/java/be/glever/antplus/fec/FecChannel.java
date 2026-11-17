@@ -18,9 +18,21 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.Arrays;
 
+/**
+ * ANT channel for Fec.
+ */
 public class FecChannel extends AntChannel {
+	/**
+	 * Channel frequency.
+	 */
 	public static final byte CHANNEL_FREQUENCY = 0x39;  // RF Channel 57 (2457MHz)
+	/**
+	 * Wildcard device number.
+	 */
 	public static final byte[] DEVICE_NUMBER_WILDCARD = {0x00, 0x00};
+	/**
+	 * Default public network.
+	 */
 	public static final byte DEFAULT_PUBLIC_NETWORK = 0x00;
 	private static final Log LOG = Log.getLogger(FecChannel.class);
 

@@ -7,7 +7,13 @@ import be.glever.antplus.hrm.datapage.main.HrmDataPage0Default;
 import be.glever.antplus.hrm.datapage.main.HrmDataPage4PreviousHeartBeatEvent;
 import be.glever.antplus.hrm.datapage.main.HrmDataPage5SwimIntervalSummary;
 
+/**
+ * Registry for Hrm Data Page.
+ */
 public class HrmDataPageRegistry extends AbstractDataPageRegistry {
+    /**
+     * Constructs a new {@link HrmDataPageRegistry}.
+     */
     public HrmDataPageRegistry() {
         super(new CommonDataPageRegistry());
 

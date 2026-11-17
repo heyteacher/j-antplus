@@ -5,10 +5,21 @@ import static java.lang.String.format;
 import be.glever.ant.util.ByteArrayBuilder;
 import be.glever.antplus.power.datapage.AbstractPowerDataSubPage;
 
+/**
+ * ANT+ Power Data Sub-Page 01: Crank Parameters.
+ */
 public class PowerDataSubPage01CrankParameters extends AbstractPowerDataSubPage {
 
+    /**
+     * Sub-page number.
+     */
     public static final byte SUB_PAGE_NR = 1;
 
+    /**
+     * Constructs a new {@link PowerDataSubPage01CrankParameters}.
+     *
+     * @param dataSubPageBytes the data sub page bytes
+     */
     public PowerDataSubPage01CrankParameters(byte[] dataSubPageBytes) {
         super(dataSubPageBytes);
     }

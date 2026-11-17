@@ -12,14 +12,27 @@ import be.glever.util.logging.Log;
  */
 public class PowerDataPage10PowerOnly extends AbstractPowerDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x10;
 
     private static final Log LOG = Log.getLogger(PowerDataPage10PowerOnly.class);
 
+    /**
+     * Constructs a new {@link PowerDataPage10PowerOnly}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public PowerDataPage10PowerOnly(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
+    /**
+     * Returns the update event count.
+     *
+     * @return the update event count.
+     */
     public int getUpdateEventCount() {
         return getPageSpecificBytes()[0];
     }
@@ -28,6 +41,7 @@ public class PowerDataPage10PowerOnly extends AbstractPowerDataPage {
      * How the power is distributed between left and right pedal
      *
      *
+     * @return the pedal power distribution.
      */
     public PedalPower getPedalPowerDistribution() {
         int pedalPower = getPageSpecificBytes()[1];
@@ -44,6 +58,7 @@ public class PowerDataPage10PowerOnly extends AbstractPowerDataPage {
      * Crank cadence. 255 if unavailable
      * Unit: RPM
      * Range: 0 - 254 RPM
+     * @return the instantaneous cadence.
      */
     public int getInstantaneousCadence() {
         return getPageSpecificBytes()[2];
@@ -52,6 +67,7 @@ public class PowerDataPage10PowerOnly extends AbstractPowerDataPage {
     /**
      * Rollower: 65.536 kW
      * Unit: Watt
+     * @return the accumulated power.
      */
     public double getAccumulatedPower() {
         byte[] pageBytes = getPageSpecificBytes();
@@ -61,6 +77,7 @@ public class PowerDataPage10PowerOnly extends AbstractPowerDataPage {
     /**
      * Range: 0 - 65.535 kW
      * Unit: Watt
+     * @return the instantaneous power.
      */
     public double getInstantaneousPower() {
         byte[] pageBytes = getPageSpecificBytes();

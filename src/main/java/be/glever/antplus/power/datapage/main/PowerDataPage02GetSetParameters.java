@@ -8,8 +8,14 @@ import be.glever.ant.util.ByteArrayBuilder;
 import be.glever.antplus.common.datapage.AbstractAntPlusDataPage;
 import be.glever.antplus.power.datapage.AbstractPowerDataSubPage;
 
+/**
+ * ANT+ Power Data Page 02: Get Set Parameters.
+ */
 public class PowerDataPage02GetSetParameters extends AbstractAntPlusDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 2;
 
     /**

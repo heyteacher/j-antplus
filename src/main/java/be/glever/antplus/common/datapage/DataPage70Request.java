@@ -2,10 +2,21 @@ package be.glever.antplus.common.datapage;
 
 import static java.lang.String.format;
 
+/**
+ * ANT+ Data Page 70: Request.
+ */
 public class DataPage70Request extends AbstractAntPlusDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 70;
 
+    /**
+     * Constructs a new {@link DataPage70Request}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public DataPage70Request(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

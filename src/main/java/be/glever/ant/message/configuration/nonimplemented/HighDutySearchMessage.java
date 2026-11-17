@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: High Duty Search.
+ */
 @SuppressWarnings("unused")
 public class HighDutySearchMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link HighDutySearchMessage}.
+     */
+    public HighDutySearchMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

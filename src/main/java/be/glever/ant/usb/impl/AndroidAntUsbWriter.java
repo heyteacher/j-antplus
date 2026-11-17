@@ -11,11 +11,20 @@ import be.glever.ant.usb.AbstractAntUsbWriter;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 
+/**
+ * Android Ant Usb Writer.
+ */
 public class AndroidAntUsbWriter extends AbstractAntUsbWriter {
 
     private static final Log LOG = Log.getLogger(AbstractAntUsbWriter.class);
     private final UsbDeviceConnection connection;
     private final UsbEndpoint outEndpoint;
+    /**
+     * Constructs a new {@link AndroidAntUsbWriter}.
+     *
+     * @param connection the connection
+     * @param outEndpoint the out endpoint
+     */
     public AndroidAntUsbWriter(UsbDeviceConnection connection, UsbEndpoint outEndpoint) {
         this.connection = connection;
         this.outEndpoint = outEndpoint;

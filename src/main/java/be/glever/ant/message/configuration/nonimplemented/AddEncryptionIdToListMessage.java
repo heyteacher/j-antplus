@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Add Encryption Id To List.
+ */
 @SuppressWarnings("unused")
 public class AddEncryptionIdToListMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link AddEncryptionIdToListMessage}.
+     */
+    public AddEncryptionIdToListMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

@@ -11,9 +11,17 @@ import java.util.Arrays;
  * TODO when needed, extend this class further to account for extended data behavior as defined in 7.1.1
  */
 public class BroadcastDataMessage extends AbstractAntMessage {
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x4e;
     private byte[] messageContentBytes;
 
+    /**
+     * Constructs a new {@link BroadcastDataMessage}.
+     *
+     * @param bytes the bytes
+     */
     public BroadcastDataMessage(byte[] bytes) {
         parse(bytes);
     }
@@ -33,10 +41,20 @@ public class BroadcastDataMessage extends AbstractAntMessage {
         return MSG_ID;
     }
 
+    /**
+     * Returns the channel number.
+     *
+     * @return the channel number.
+     */
     public byte getChannelNumber() {
         return getMessageContent()[0];
     }
 
+    /**
+     * Returns the pay load.
+     *
+     * @return the pay load.
+     */
     public byte[] getPayLoad() {
         return Arrays.copyOfRange(messageContentBytes, 1, messageContentBytes.length);
     }

@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Configure Event Buffer.
+ */
 @SuppressWarnings("unused")
 public class ConfigureEventBufferMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ConfigureEventBufferMessage}.
+     */
+    public ConfigureEventBufferMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

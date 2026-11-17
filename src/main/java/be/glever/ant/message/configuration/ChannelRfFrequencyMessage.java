@@ -6,17 +6,34 @@ import be.glever.ant.message.AntBlockingMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.util.ByteArrayBuilder;
 
+/**
+ * ANT message: Channel Rf Frequency.
+ */
 public class ChannelRfFrequencyMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x45;
     private byte channelNumber;
     private byte channelRfFrequency;
 
+    /**
+     * Constructs a new {@link ChannelRfFrequencyMessage}.
+     *
+     * @param channelNumber the channel number
+     * @param channelRfFrequency the channel rf frequency
+     */
     public ChannelRfFrequencyMessage(byte channelNumber, byte channelRfFrequency) {
         this.channelNumber = channelNumber;
         this.channelRfFrequency = channelRfFrequency;
     }
 
+    /**
+     * Constructs a new {@link ChannelRfFrequencyMessage}.
+     *
+     * @param bytes the bytes
+     */
     public ChannelRfFrequencyMessage(byte[] bytes) {
         parse(bytes);
     }

@@ -9,15 +9,29 @@ import be.glever.ant.message.configuration.*;
 import be.glever.ant.message.control.OpenChannelMessage;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 
+/**
+ * ANT+ slave device handler for Fec.
+ */
 public class FecSlave {
 
     private static final byte ANTPLUS_FEC_FREQUENCY = (byte) 57; // 2457Mhz
     private final AbstractAntUsbDevice abstractAntUsbDevice;
 
+    /**
+     * Constructs a new {@link FecSlave}.
+     *
+     * @param abstractAntUsbDevice the abstract ant usb device
+     */
     public FecSlave(AbstractAntUsbDevice abstractAntUsbDevice) {
         this.abstractAntUsbDevice = abstractAntUsbDevice;
     }
 
+    /**
+     * List devices.
+     *
+     * @return the list devices.
+     * @throws AntException if an error occurs
+     */
     public AntChannel[] listDevices() throws AntException {
         FecChannel channel = new FecChannel(abstractAntUsbDevice);
 

@@ -3,10 +3,21 @@ package be.glever.antplus.speedcadence.datapage.main;
 import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 
+/**
+ * Speed Cadence Data Page5 Motion.
+ */
 public class SpeedCadenceDataPage5Motion extends AbstractSpeedCadenceDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 5;
 
+    /**
+     * Constructs a new {@link SpeedCadenceDataPage5Motion}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public SpeedCadenceDataPage5Motion(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

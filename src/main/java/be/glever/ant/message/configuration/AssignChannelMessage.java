@@ -6,7 +6,13 @@ import be.glever.ant.message.AntBlockingMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.util.ByteArrayBuilder;
 
+/**
+ * ANT message: Assign Channel.
+ */
 public class AssignChannelMessage extends AbstractAntMessage implements AntBlockingMessage {
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x42;
     private byte channelNumber;
 
@@ -14,10 +20,23 @@ public class AssignChannelMessage extends AbstractAntMessage implements AntBlock
     private byte networkNumber;
     private Byte extendedAssignment; // optional
 
+    /**
+     * Constructs a new {@link AssignChannelMessage}.
+     *
+     * @param bytes the bytes
+     */
     public AssignChannelMessage(byte[] bytes) {
         parse(bytes);
     }
 
+    /**
+     * Constructs a new {@link AssignChannelMessage}.
+     *
+     * @param channelNumber the channel number
+     * @param channelType the channel type
+     * @param networkNumber the network number
+     * @param extendedAssignment the extended assignment
+     */
     public AssignChannelMessage(byte channelNumber, byte channelType, byte networkNumber, Byte extendedAssignment) {
         this.channelNumber = channelNumber;
         this.channelType = channelType;
@@ -25,6 +44,13 @@ public class AssignChannelMessage extends AbstractAntMessage implements AntBlock
         this.extendedAssignment = extendedAssignment;
     }
 
+    /**
+     * Constructs a new {@link AssignChannelMessage}.
+     *
+     * @param channelNumber the channel number
+     * @param channelType the channel type
+     * @param networkNumber the network number
+     */
     public AssignChannelMessage(byte channelNumber, byte channelType, byte networkNumber) {
         this(channelNumber, channelType, networkNumber, null);
     }

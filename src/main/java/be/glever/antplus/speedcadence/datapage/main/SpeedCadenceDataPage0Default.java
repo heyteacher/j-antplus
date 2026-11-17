@@ -9,8 +9,16 @@ import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
  */
 public class SpeedCadenceDataPage0Default extends AbstractSpeedCadenceDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0;
 
+    /**
+     * Constructs a new {@link SpeedCadenceDataPage0Default}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public SpeedCadenceDataPage0Default(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

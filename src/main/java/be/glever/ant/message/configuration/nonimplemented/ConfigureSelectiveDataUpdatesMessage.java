@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Configure Selective Data Updates.
+ */
 @SuppressWarnings("unused")
 public class ConfigureSelectiveDataUpdatesMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ConfigureSelectiveDataUpdatesMessage}.
+     */
+    public ConfigureSelectiveDataUpdatesMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

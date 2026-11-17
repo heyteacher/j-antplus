@@ -6,11 +6,22 @@ import be.glever.util.logging.Log;
 
 import java.time.Duration;
 
+/**
+ * Speed Cadence Data Page1 Cumulative Operating Time.
+ */
 public class SpeedCadenceDataPage1CumulativeOperatingTime extends AbstractSpeedCadenceDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x1;
     private static final Log LOG = Log.getLogger(SpeedCadenceDataPage1CumulativeOperatingTime.class);
 
+    /**
+     * Constructs a new {@link SpeedCadenceDataPage1CumulativeOperatingTime}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public SpeedCadenceDataPage1CumulativeOperatingTime(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

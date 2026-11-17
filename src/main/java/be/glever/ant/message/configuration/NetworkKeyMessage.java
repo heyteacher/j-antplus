@@ -6,14 +6,31 @@ import be.glever.ant.message.AntBlockingMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.util.ByteArrayBuilder;
 
+/**
+ * ANT message: Network Key.
+ */
 public class NetworkKeyMessage extends AbstractAntMessage implements AntBlockingMessage {
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x46;
     private byte[] messageBytes;
 
+    /**
+     * Constructs a new {@link NetworkKeyMessage}.
+     *
+     * @param bytes the bytes
+     */
     public NetworkKeyMessage(byte[] bytes) {
         parse(bytes);
     }
 
+    /**
+     * Constructs a new {@link NetworkKeyMessage}.
+     *
+     * @param channelNumber the channel number
+     * @param networkKey the network key
+     */
     public NetworkKeyMessage(byte channelNumber, byte[] networkKey) {
         this.messageBytes = new ByteArrayBuilder().write(channelNumber).write(networkKey).toByteArray();
     }

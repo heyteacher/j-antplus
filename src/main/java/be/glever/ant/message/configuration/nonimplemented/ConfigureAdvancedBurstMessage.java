@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Configure Advanced Burst.
+ */
 @SuppressWarnings("unused")
 public class ConfigureAdvancedBurstMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ConfigureAdvancedBurstMessage}.
+     */
+    public ConfigureAdvancedBurstMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

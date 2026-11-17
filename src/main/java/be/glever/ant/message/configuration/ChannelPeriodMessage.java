@@ -6,17 +6,34 @@ import be.glever.ant.message.AntBlockingMessage;
 import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.util.ByteArrayBuilder;
 
+/**
+ * ANT message: Channel Period.
+ */
 public class ChannelPeriodMessage extends AbstractAntMessage implements AntBlockingMessage {
 
+    /**
+     * Message ID.
+     */
     public static final byte MSG_ID = 0x43;
     private byte channelNumber;
     private byte[] period;
 
+    /**
+     * Constructs a new {@link ChannelPeriodMessage}.
+     *
+     * @param channelNumber the channel number
+     * @param period the period
+     */
     public ChannelPeriodMessage(byte channelNumber, byte[] period) {
         this.channelNumber = channelNumber;
         this.period = period;
     }
 
+    /**
+     * Constructs a new {@link ChannelPeriodMessage}.
+     *
+     * @param bytes the bytes
+     */
     public ChannelPeriodMessage(byte[] bytes) {
         parse(bytes);
     }

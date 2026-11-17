@@ -44,7 +44,13 @@ abstract public class AbstractAntUsbDevice implements Closeable {
     private byte[] antVersion;
     private AntUsbDeviceCapabilities capabilities;
     private byte[] serialNumber;
+    /**
+     * ANT USB reader.
+     */
     protected AbstractAntUsbReader antUsbReader;
+    /**
+     * ANT USB writer.
+     */
     protected AbstractAntUsbWriter antUsbWriter;
     private AntChannel[] antChannels;
 
@@ -67,6 +73,11 @@ abstract public class AbstractAntUsbDevice implements Closeable {
     }
 
 
+    /**
+     * Initialize.
+     *
+     * @throws AntException if an error occurs
+     */
     public void initialize() throws AntException {
         if (isInitialized)
             return;
@@ -104,6 +115,9 @@ abstract public class AbstractAntUsbDevice implements Closeable {
         }
     }
 
+    /**
+     * Close interface.
+     */
     protected abstract void closeInterface();
 
     /**
@@ -219,6 +233,8 @@ abstract public class AbstractAntUsbDevice implements Closeable {
      * Returns a Mono containing the response for a given request. Note that the request is not sent unless subscribed to the Publisher.
      *
      * @param requestMessage The message to send.
+     * @param responseFilter the response filter.
+     * @return the send.
      */
     public Mono<AntMessage> send(AntMessage requestMessage, BiFunction<AntMessage, AntMessage, Boolean> responseFilter) {
         Flux<AntMessage> response = this.antMessageProcessor
@@ -264,8 +280,18 @@ abstract public class AbstractAntUsbDevice implements Closeable {
         throw new IllegalStateException("No available channels found");
     }
 
+    /**
+     * Init usb interface.
+     *
+     * @throws AntException if an error occurs
+     */
     abstract protected void initUsbInterface() throws AntException;
 
+    /**
+     * Subscribe to.
+     *
+     * @param antUsbMessageReader the ant usb message reader
+     */
     protected void subscribeTo(AbstractAntUsbReader antUsbMessageReader) {
         antUsbMessageReader
                 .antMessages()

@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Frequency Agility.
+ */
 @SuppressWarnings("unused")
 public class FrequencyAgilityMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link FrequencyAgilityMessage}.
+     */
+    public FrequencyAgilityMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

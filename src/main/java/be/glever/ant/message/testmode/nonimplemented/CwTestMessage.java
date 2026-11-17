@@ -3,7 +3,16 @@ package be.glever.ant.message.testmode.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Cw Test.
+ */
 public class CwTestMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link CwTestMessage}.
+     */
+    public CwTestMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

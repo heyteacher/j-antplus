@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Transmit Power.
+ */
 @SuppressWarnings("unused")
 public class TransmitPowerMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link TransmitPowerMessage}.
+     */
+    public TransmitPowerMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

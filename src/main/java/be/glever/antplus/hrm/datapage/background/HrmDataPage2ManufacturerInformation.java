@@ -3,10 +3,21 @@ package be.glever.antplus.hrm.datapage.background;
 import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.hrm.datapage.AbstractHRMDataPage;
 
+/**
+ * ANT+ HRM Data Page 2: Manufacturer Information.
+ */
 public class HrmDataPage2ManufacturerInformation extends AbstractHRMDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x2;
 
+    /**
+     * Constructs a new {@link HrmDataPage2ManufacturerInformation}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public HrmDataPage2ManufacturerInformation(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

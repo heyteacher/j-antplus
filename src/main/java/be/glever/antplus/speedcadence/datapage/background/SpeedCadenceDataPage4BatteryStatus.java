@@ -5,9 +5,20 @@ import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 
 import static be.glever.ant.util.ByteUtils.toInt;
 
+/**
+ * Speed Cadence Data Page4 Battery Status.
+ */
 public class SpeedCadenceDataPage4BatteryStatus extends AbstractSpeedCadenceDataPage {
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 4;
 
+    /**
+     * Constructs a new {@link SpeedCadenceDataPage4BatteryStatus}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public SpeedCadenceDataPage4BatteryStatus(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
@@ -29,6 +40,11 @@ public class SpeedCadenceDataPage4BatteryStatus extends AbstractSpeedCadenceData
         return batteryLevelByte == (byte) 0xFF ? -1 : toInt(batteryLevelByte);
     }
 
+    /**
+     * Returns the battery voltage description.
+     *
+     * @return the battery voltage description.
+     */
     public BatteryStatus getBatteryVoltageDescription() {
         return switch (toInt(getPageSpecificBytes()[2])) {
             case 1 -> BatteryStatus.NEW;

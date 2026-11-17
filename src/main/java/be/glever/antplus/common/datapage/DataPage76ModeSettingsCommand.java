@@ -1,17 +1,47 @@
 package be.glever.antplus.common.datapage;
 
+/**
+ * ANT+ Data Page 76: Mode Settings Command.
+ */
 public class DataPage76ModeSettingsCommand extends AbstractAntPlusDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 76;
 
+    /**
+     * Enumeration representing SPORT MODE.
+     */
     public enum SPORT_MODE {
-        RUNNING, CYCLING, SWIMMING
+        /**
+         * Constant representing {@code RUNNING}.
+         */
+        RUNNING,
+        /**
+         * Constant representing {@code CYCLING}.
+         */
+        CYCLING,
+        /**
+         * Constant representing {@code SWIMMING}.
+         */
+        SWIMMING
     }
 
+    /**
+     * Constructs a new {@link DataPage76ModeSettingsCommand}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public DataPage76ModeSettingsCommand(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
+    /**
+     * Constructs a new {@link DataPage76ModeSettingsCommand}.
+     *
+     * @param mode the mode
+     */
     public DataPage76ModeSettingsCommand(SPORT_MODE mode) {
         super(createDataPageBytes(mode));
     }

@@ -5,10 +5,21 @@ import static java.lang.String.format;
 import be.glever.ant.util.ByteArrayBuilder;
 import be.glever.antplus.power.datapage.AbstractPowerDataSubPage;
 
+/**
+ * ANT+ Power Data Sub-Page 254: Advanced Capabilities2.
+ */
 public class PowerDataSubPage254AdvancedCapabilities2 extends AbstractPowerDataSubPage {
 
+    /**
+     * Sub-page number.
+     */
     public static final byte SUB_PAGE_NR = (byte) 0xFE;
 
+    /**
+     * Constructs a new {@link PowerDataSubPage254AdvancedCapabilities2}.
+     *
+     * @param dataSubPageBytes the data sub page bytes
+     */
     public PowerDataSubPage254AdvancedCapabilities2(byte[] dataSubPageBytes) {
         super(dataSubPageBytes);
     }
@@ -91,43 +102,103 @@ public class PowerDataSubPage254AdvancedCapabilities2 extends AbstractPowerDataS
         return getDataSubPageBytes()[5];
     }
 
+    /**
+     * Is4 hertz supported.
+     *
+     * @return the is4 hertz supported.
+     */
     public boolean is4HertzSupported() {
         return ((getInteroperableCapabilitiesMask()) & 1) == 0;
     }
+    /**
+     * Is4 hertz enabled.
+     *
+     * @return the is4 hertz enabled.
+     */
     public boolean is4HertzEnabled() {
         return (getInteroperableCapabilitiesValue() & 1) == 0;
     }
+    /**
+     * Is8 hertz supported.
+     *
+     * @return the is8 hertz supported.
+     */
     public boolean is8HertzSupported() {
         return ((getInteroperableCapabilitiesMask() >> 1) & 1) == 0;
     }
+    /**
+     * Is8 hertz enabled.
+     *
+     * @return the is8 hertz enabled.
+     */
     public boolean is8HertzEnabled() {
         return ((getInteroperableCapabilitiesValue() >> 1) & 1) == 0;
     }
 
+    /**
+     * Checks if power phase supported.
+     *
+     * @return {@code true} if power phase supported, {@code false} otherwise.
+     */
     public boolean isPowerPhaseSupported() {
         return ((getInteroperableCapabilitiesMask() >> 3) & 1) == 0;
     }
+    /**
+     * Checks if power phase enabled.
+     *
+     * @return {@code true} if power phase enabled, {@code false} otherwise.
+     */
     public boolean isPowerPhaseEnabled() {
         return ((getInteroperableCapabilitiesValue() >> 3) & 1) == 0;
     }
 
+    /**
+     * Checks if pco supported.
+     *
+     * @return {@code true} if pco supported, {@code false} otherwise.
+     */
     public boolean isPCOSupported() {
         return ((getInteroperableCapabilitiesMask() >> 4) & 1) == 0;
     }
+    /**
+     * Checks if pco enabled.
+     *
+     * @return {@code true} if pco enabled, {@code false} otherwise.
+     */
     public boolean isPCOEnabled() {
         return ((getInteroperableCapabilitiesValue() >> 4) & 1) == 0;
     }
 
+    /**
+     * Checks if rider position supported.
+     *
+     * @return {@code true} if rider position supported, {@code false} otherwise.
+     */
     public boolean isRiderPositionSupported() {
         return ((getInteroperableCapabilitiesMask() >> 5) & 1) == 0;
     }
+    /**
+     * Checks if rider position enabled.
+     *
+     * @return {@code true} if rider position enabled, {@code false} otherwise.
+     */
     public boolean isRiderPositionEnabled() {
         return ((getInteroperableCapabilitiesValue() >> 5) & 1) == 0;
     }
 
+    /**
+     * Checks if torque barycenter supported.
+     *
+     * @return {@code true} if torque barycenter supported, {@code false} otherwise.
+     */
     public boolean isTorqueBarycenterSupported() {
         return ((getInteroperableCapabilitiesMask() >> 6) & 1) == 0;
     }
+    /**
+     * Checks if torque barycenter enabled.
+     *
+     * @return {@code true} if torque barycenter enabled, {@code false} otherwise.
+     */
     public boolean isTorqueBarycenterEnabled() {
         return ((getInteroperableCapabilitiesValue() >> 6) & 1) == 0;
     }

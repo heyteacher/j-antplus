@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Serial Number Set Channel Id.
+ */
 @SuppressWarnings("unused")
 public class SerialNumberSetChannelIdMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link SerialNumberSetChannelIdMessage}.
+     */
+    public SerialNumberSetChannelIdMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

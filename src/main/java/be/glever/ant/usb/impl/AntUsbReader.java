@@ -9,12 +9,20 @@ import be.glever.ant.usb.AbstractAntUsbReader;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 
+/**
+ * Ant Usb Reader.
+ */
 public class AntUsbReader extends AbstractAntUsbReader {
 
     private static final Log LOG = Log.getLogger(AntUsbReader.class);
 
     private final javax.usb.UsbPipe inPipe;
 
+    /**
+     * Constructs a new {@link AntUsbReader}.
+     *
+     * @param inPipe the in pipe
+     */
     public AntUsbReader(javax.usb.UsbPipe inPipe) {
         this.inPipe = inPipe;
     }

@@ -4,7 +4,13 @@ import be.glever.antplus.common.datapage.registry.AbstractDataPageRegistry;
 import be.glever.antplus.common.datapage.registry.CommonDataPageRegistry;
 import be.glever.antplus.power.datapage.main.*;
 
+/**
+ * Registry for Power Data Page.
+ */
 public class PowerDataPageRegistry extends AbstractDataPageRegistry {
+    /**
+     * Constructs a new {@link PowerDataPageRegistry}.
+     */
     public PowerDataPageRegistry() {
         super(new CommonDataPageRegistry());
 

@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Channel Id.
+ */
 @SuppressWarnings("unused")
 public class ChannelIdMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ChannelIdMessage}.
+     */
+    public ChannelIdMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

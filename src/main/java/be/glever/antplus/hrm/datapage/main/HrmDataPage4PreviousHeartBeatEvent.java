@@ -8,14 +8,23 @@ import be.glever.antplus.hrm.datapage.AbstractHRMDataPage;
  */
 public class HrmDataPage4PreviousHeartBeatEvent extends AbstractHRMDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 4;
 
+    /**
+     * Constructs a new {@link HrmDataPage4PreviousHeartBeatEvent}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public HrmDataPage4PreviousHeartBeatEvent(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
     /**
      * Similar to {@link AbstractHRMDataPage#getHeartBeatEventTime()}, but for previous heart beat. Provides level of redundancy.
+     * @return the previous heart beat event time.
      */
     public double getPreviousHeartBeatEventTime() {
         return calculateHeartBeatEventTime(getPageSpecificBytes()[1], getPageSpecificBytes()[2]);

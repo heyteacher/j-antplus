@@ -14,17 +14,40 @@ import android.hardware.usb.UsbDeviceConnection;
  * @author glen
  */
 abstract public class AbstractAntUsbReader implements Runnable {
+
+    /**
+     * Constructs a new {@link AbstractAntUsbReader}.
+     */
+    protected AbstractAntUsbReader() {
+    }
+    /**
+     * Sync byte.
+     */
     public static final byte SYNC = (byte) 0xa4;
     private final FluxProcessor<AntMessage, AntMessage> usbMessageProcessor = DirectProcessor.<AntMessage>create().serialize();
+    /**
+     * usb Message Sink.
+     */
     protected final FluxSink<AntMessage> usbMessageSink = usbMessageProcessor.sink();
+    /**
+     * Flag indicating whether reader is stopped.
+     */
     protected boolean stop = false;
 
 
+    /**
+     * Stops the reader.
+     */
     public void stop() {
         this.stop = true;
         this.usbMessageSink.complete();
     }
 
+    /**
+     * Returns the flux of received ANT messages.
+     *
+     * @return the flux of received ANT messages.
+     */
     public Flux<AntMessage> antMessages() {
         return this.usbMessageProcessor;
     }

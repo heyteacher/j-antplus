@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Set Usb Descriptor String.
+ */
 @SuppressWarnings("unused")
 public class SetUsbDescriptorStringMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link SetUsbDescriptorStringMessage}.
+     */
+    public SetUsbDescriptorStringMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

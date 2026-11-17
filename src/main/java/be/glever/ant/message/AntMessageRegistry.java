@@ -24,6 +24,9 @@ import static java.lang.String.format;
  * Container and factory for all known ant messages.
  */
 public class AntMessageRegistry {
+
+    private AntMessageRegistry() {
+    }
     private static final Log LOG = Log.getLogger(AntMessageRegistry.class);
     private static final Map<Byte, Function<byte[], AbstractAntMessage>> registry = new HashMap<>();
 

@@ -10,12 +10,20 @@ import be.glever.ant.usb.AbstractAntUsbWriter;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 
+/**
+ * Ant Usb Writer.
+ */
 public class AntUsbWriter extends AbstractAntUsbWriter {
 
     private static final Log LOG = Log.getLogger(AbstractAntUsbWriter.class);
 
     private final UsbPipe usbOutPipe;
 
+    /**
+     * Constructs a new {@link AntUsbWriter}.
+     *
+     * @param usbOutPipe the usb out pipe
+     */
     public AntUsbWriter(UsbPipe usbOutPipe) {
         this.usbOutPipe = usbOutPipe;
     }

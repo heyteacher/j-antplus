@@ -5,6 +5,11 @@ package be.glever.antplus.common.datapage;
  * This instance must typically be converted to a more specific datapage when the type of the Ant+ Device is known.
  */
 public class RawAntPlusDataPage extends AbstractAntPlusDataPage {
+    /**
+     * Constructs a new {@link RawAntPlusDataPage}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public RawAntPlusDataPage(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

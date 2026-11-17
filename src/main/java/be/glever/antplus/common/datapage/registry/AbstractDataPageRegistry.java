@@ -19,9 +19,17 @@ public abstract class AbstractDataPageRegistry {
 
     private static final Log LOG = Log.getLogger(AbstractDataPageRegistry.class);
 
+    /**
+     * Constructs a new {@link AbstractDataPageRegistry}.
+     */
     public AbstractDataPageRegistry() {
     }
 
+    /**
+     * Constructs a new {@link AbstractDataPageRegistry}.
+     *
+     * @param sourceRegistries the source registries
+     */
     public AbstractDataPageRegistry(AbstractDataPageRegistry... sourceRegistries) {
         for (AbstractDataPageRegistry src : sourceRegistries) {
             addAllFromRegistry(src);
@@ -34,6 +42,12 @@ public abstract class AbstractDataPageRegistry {
         }
     }
 
+    /**
+     * Construct data page.
+     *
+     * @param payLoadBytes the pay load bytes
+     * @return the construct data page.
+     */
     public AbstractAntPlusDataPage constructDataPage(byte[] payLoadBytes) {
         DataPageBuilder dpBuilder = registry.get(payLoadBytes[0]);
         if (dpBuilder == null) {
@@ -45,6 +59,12 @@ public abstract class AbstractDataPageRegistry {
         return dataPage;
     }
 
+    /**
+     * Add.
+     *
+     * @param pageNumber the page number
+     * @param builder the builder
+     */
     protected void add(byte pageNumber, DataPageBuilder builder) {
         if (this.registry.containsKey(pageNumber)) {
             throw new IllegalStateException("Duplicate DataPage defined in registry: " + pageNumber);
@@ -52,7 +72,16 @@ public abstract class AbstractDataPageRegistry {
         this.registry.put(pageNumber, builder);
     }
 
+    /**
+     * Interface for Data Page Builder.
+     */
     public interface DataPageBuilder {
+        /**
+         * Construct.
+         *
+         * @param bytes the bytes
+         * @return the construct.
+         */
         AbstractAntPlusDataPage construct(byte[] bytes);
     }
 }

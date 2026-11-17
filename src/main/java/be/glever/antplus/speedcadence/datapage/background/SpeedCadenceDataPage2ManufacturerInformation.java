@@ -3,10 +3,21 @@ package be.glever.antplus.speedcadence.datapage.background;
 import be.glever.ant.util.ByteUtils;
 import be.glever.antplus.speedcadence.datapage.AbstractSpeedCadenceDataPage;
 
+/**
+ * Speed Cadence Data Page2 Manufacturer Information.
+ */
 public class SpeedCadenceDataPage2ManufacturerInformation extends AbstractSpeedCadenceDataPage {
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x2;
 
+    /**
+     * Constructs a new {@link SpeedCadenceDataPage2ManufacturerInformation}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public SpeedCadenceDataPage2ManufacturerInformation(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
@@ -17,6 +28,11 @@ public class SpeedCadenceDataPage2ManufacturerInformation extends AbstractSpeedC
     }
 
     // TODO: Is there a method to convert manufacturer ID to a string? We'd need a database of the official registry.
+    /**
+     * Returns the manufacturer id.
+     *
+     * @return the manufacturer id.
+     */
     public int getManufacturerId() {
         return super.getPageSpecificBytes()[0];
     }

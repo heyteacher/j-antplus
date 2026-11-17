@@ -11,18 +11,32 @@ import be.glever.antplus.power.datapage.AbstractPowerDataPage;
 public class PowerDataPage11WheelTorque extends AbstractPowerDataPage {
 
 
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 0x11;
 
+    /**
+     * Constructs a new {@link PowerDataPage11WheelTorque}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public PowerDataPage11WheelTorque(byte[] dataPageBytes) {
         super(dataPageBytes);
     }
 
+    /**
+     * Returns the update event count.
+     *
+     * @return the update event count.
+     */
     public int getUpdateEventCount() {
         return getPageSpecificBytes()[0];
     }
 
     /**
      * Rollover: 256
+     * @return the wheel revolutions.
      */
     public int getWheelRevolutions() {
         return getPageSpecificBytes()[1];
@@ -32,6 +46,7 @@ public class PowerDataPage11WheelTorque extends AbstractPowerDataPage {
      * Instantaneous wheel cadence. 255 if unavailable
      * Unit: RPM
      * Range: 0 - 254 RPM
+     * @return the instantaneous cadence.
      */
     public int getInstantaneousCadence() {
         return getPageSpecificBytes()[2];
@@ -40,6 +55,7 @@ public class PowerDataPage11WheelTorque extends AbstractPowerDataPage {
     /**
      * Rollower: 32s
      * Unit: 1/2048s
+     * @return the wheel period.
      */
     public double getWheelPeriod() {
         byte[] pageBytes = getPageSpecificBytes();
@@ -49,6 +65,7 @@ public class PowerDataPage11WheelTorque extends AbstractPowerDataPage {
     /**
      * Rollover: 2048Nm
      * Unit: 1/32Nm
+     * @return the accumulated torque.
      */
     public double getAccumulatedTorque() {
         byte[] pageBytes = getPageSpecificBytes();

@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Configure User Nvm.
+ */
 @SuppressWarnings("unused")
 public class ConfigureUserNvmMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link ConfigureUserNvmMessage}.
+     */
+    public ConfigureUserNvmMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

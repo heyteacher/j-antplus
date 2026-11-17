@@ -3,8 +3,17 @@ package be.glever.ant.message.configuration.nonimplemented;
 import be.glever.ant.AntException;
 import be.glever.ant.message.AntBlockingMessage;
 
+/**
+ * ANT message: Set Encryption Info.
+ */
 @SuppressWarnings("unused")
 public class SetEncryptionInfoMessage implements AntBlockingMessage {
+
+    /**
+     * Constructs a new {@link SetEncryptionInfoMessage}.
+     */
+    public SetEncryptionInfoMessage() {
+    }
     @Override
     public byte getMessageId() {
         return 0;

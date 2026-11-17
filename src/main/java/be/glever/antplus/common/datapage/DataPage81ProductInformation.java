@@ -2,9 +2,20 @@ package be.glever.antplus.common.datapage;
 
 import be.glever.ant.util.ByteUtils;
 
+/**
+ * ANT+ Data Page 81: Product Information.
+ */
 public class DataPage81ProductInformation extends AbstractAntPlusDataPage {
+    /**
+     * Data page number.
+     */
     public static final byte PAGE_NR = 81;
 
+    /**
+     * Constructs a new {@link DataPage81ProductInformation}.
+     *
+     * @param dataPageBytes the data page bytes
+     */
     public DataPage81ProductInformation(byte[] dataPageBytes) {
         super(dataPageBytes);
     }

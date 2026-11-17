@@ -12,9 +12,24 @@ import javax.usb.UsbHub;
 import be.glever.ant.AntException;
 import be.glever.ant.usb.impl.AntUsbDevice;
 
+/**
+ * Ant Usb Device Factory.
+ */
 public class AntUsbDeviceFactory {
+
+    private AntUsbDeviceFactory() {
+    }
+    /**
+     * Product ID for DYNASTREAM M USB.
+     */
     public static final int PRODUCT_DYNASTREAM_M_USB = 0x1009;
+    /**
+     * Product ID for DYNASTREAM USB2.
+     */
     public static final int PRODUCT_DYNASTREAM_USB2 = 0x1008;
+    /**
+     * Vendor ID for DYNASTREAM.
+     */
     public static final int VENDOR_DYNASTREAM = 0x0fcf;
 
     /**

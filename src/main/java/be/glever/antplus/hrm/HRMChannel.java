@@ -18,9 +18,21 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.Arrays;
 
+/**
+ * ANT channel for HRM.
+ */
 public class HRMChannel extends AntChannel {
+	/**
+	 * Channel frequency.
+	 */
 	public static final byte CHANNEL_FREQUENCY = 0x39;
+	/**
+	 * Wildcard device number.
+	 */
 	public static final byte[] DEVICE_NUMBER_WILDCARD = {0x00, 0x00};
+	/**
+	 * Default public network.
+	 */
 	public static final byte DEFAULT_PUBLIC_NETWORK = 0x00;
 
 	@SuppressWarnings("unused")

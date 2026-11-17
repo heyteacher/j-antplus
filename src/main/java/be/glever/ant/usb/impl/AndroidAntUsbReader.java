@@ -12,12 +12,21 @@ import be.glever.ant.usb.AbstractAntUsbReader;
 import be.glever.ant.util.ByteUtils;
 import be.glever.util.logging.Log;
 
+/**
+ * Android Ant Usb Reader.
+ */
 public class AndroidAntUsbReader extends AbstractAntUsbReader {
     private static final Log LOG = Log.getLogger(AndroidAntUsbReader.class);
 
     private final UsbDeviceConnection connection;
     private final UsbEndpoint inEndpoint;
 
+    /**
+     * Constructs a new {@link AndroidAntUsbReader}.
+     *
+     * @param connection the connection
+     * @param inEndpoint the in endpoint
+     */
     public AndroidAntUsbReader(UsbDeviceConnection connection, UsbEndpoint inEndpoint) {
         this.connection = connection;
         this.inEndpoint = inEndpoint;

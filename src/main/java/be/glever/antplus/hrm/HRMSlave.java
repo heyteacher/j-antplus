@@ -10,15 +10,29 @@ import be.glever.ant.message.control.OpenChannelMessage;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.ant.util.ByteUtils;
 
+/**
+ * ANT+ slave device handler for HRM.
+ */
 public class HRMSlave {
 
     private static final byte ANTPLUS_HRM_FREQUENCY = (byte) 57; // 2457Mhz
     private final AbstractAntUsbDevice abstractAntUsbDevice;
 
+    /**
+     * Constructs a new {@link HRMSlave}.
+     *
+     * @param abstractAntUsbDevice the abstract ant usb device
+     */
     public HRMSlave(AbstractAntUsbDevice abstractAntUsbDevice) {
         this.abstractAntUsbDevice = abstractAntUsbDevice;
     }
 
+    /**
+     * List devices.
+     *
+     * @return the list devices.
+     * @throws AntException if an error occurs
+     */
     public AntChannel[] listDevices() throws AntException {
         HRMChannel channel = new HRMChannel(abstractAntUsbDevice);
 

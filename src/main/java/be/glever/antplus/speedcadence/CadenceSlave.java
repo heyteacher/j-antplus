@@ -9,15 +9,29 @@ import be.glever.ant.message.configuration.*;
 import be.glever.ant.message.control.OpenChannelMessage;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 
+/**
+ * ANT+ slave device handler for Cadence.
+ */
 public class CadenceSlave {
 
     private static final byte ANTPLUS_SPEED_CADENCE_FREQUENCY = (byte) 57; // 2457Mhz
     final private AbstractAntUsbDevice abstractAntUsbDevice;
 
+    /**
+     * Constructs a new {@link CadenceSlave}.
+     *
+     * @param abstractAntUsbDevice the abstract ant usb device
+     */
     public CadenceSlave(AbstractAntUsbDevice abstractAntUsbDevice) {
         this.abstractAntUsbDevice = abstractAntUsbDevice;
     }
 
+    /**
+     * List devices.
+     *
+     * @return the list devices.
+     * @throws AntException if an error occurs
+     */
     public AntChannel[] listDevices() throws AntException {
         SpeedChannel channel = new SpeedChannel(abstractAntUsbDevice);
 

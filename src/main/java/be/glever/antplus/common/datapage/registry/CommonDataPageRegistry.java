@@ -2,8 +2,14 @@ package be.glever.antplus.common.datapage.registry;
 
 import be.glever.antplus.common.datapage.*;
 
+/**
+ * Registry for Common Data Page.
+ */
 public class CommonDataPageRegistry extends AbstractDataPageRegistry {
 
+    /**
+     * Constructs a new {@link CommonDataPageRegistry}.
+     */
     public CommonDataPageRegistry() {
         add(DataPage67AntFsClientBeacon.PAGE_NR, DataPage67AntFsClientBeacon::new);
         add(DataPage68AntFsHostCommandResponse.PAGE_NR, DataPage68AntFsHostCommandResponse::new);
