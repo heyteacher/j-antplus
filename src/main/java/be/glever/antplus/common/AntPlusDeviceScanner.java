@@ -30,9 +30,9 @@ public class AntPlusDeviceScanner {
 
     /**
      * Scans the Ant+ Network for all Ant+ devices.
-     * For each found device, an AntChannel will be  assigned, until no more devices found or the max number of channels reached (see {@link AbstractAntUsbDevice#getCapabilities()}.
+     * For each found device, an AntChannel will be  assigned, until no more devices found or the max number of channels reached (see {@link AbstractAntUsbDevice#getCapabilities()}).
      * If you need to support more devices than {@link AntUsbDeviceCapabilities#getMaxChannels()}, use continuous scanning (unsupported at time of writing).
-     * Downside is that all RF bandwith is spent scanning and no channels can be formed so you are limited to receiving only..
+     * Downside is that all RF bandwidth is spent scanning and no channels can be formed so you are limited to receiving only.
      *
      * @return List of assigned {@link AntChannel}s. Client should open the channel if he wishes to receive all messages, or unassign if he is not interested.
      * @throws AntException if an error occurs.

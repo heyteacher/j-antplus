@@ -6,7 +6,7 @@ import be.glever.antplus.hrm.datapage.main.HrmDataPage5SwimIntervalSummary;
 
 /**
  * Lists supported capabilities for running/cycling/swimming and if they are enabled.
- * In case this capability is enabled its' specific datapage is transmitted as main datapage instead of the generic {@link HrmDataPage4PreviousHeartBeatEvent}
+ * In case this capability is enabled it's specific datapage is transmitted as main datapage instead of the generic {@link HrmDataPage4PreviousHeartBeatEvent}
  * Currently only swimming seems to be possible ({@link HrmDataPage5SwimIntervalSummary}).
  */
 public class HrmDataPage6Capabilities extends AbstractHRMDataPage {
