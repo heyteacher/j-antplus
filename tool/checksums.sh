@@ -1,0 +1,16 @@
+md5sum $1.jar | cut -d ' ' -f 1 > $1.jar.md5
+sha1sum $1.jar | cut -d ' ' -f 1 > $1.jar.sha1
+sha256sum $1.jar | cut -d ' ' -f 1 > $1.jar.sha256
+sha512sum $1.jar | cut -d ' ' -f 1 > $1.jar.sha512
+md5sum $1.pom | cut -d ' ' -f 1 > $1.pom.md5
+sha1sum $1.pom | cut -d ' ' -f 1 > $1.pom.sha1
+sha256sum $1.pom | cut -d ' ' -f 1 > $1.pom.sha256
+sha512sum $1.pom | cut -d ' ' -f 1 > $1.pom.sha512
+md5sum $1-sources.jar | cut -d ' ' -f 1 > $1-sources.jar.md5
+sha1sum $1-sources.jar | cut -d ' ' -f 1 > $1-sources.jar.sha1
+sha256sum $1-sources.jar | cut -d ' ' -f 1 > $1-sources.jar.sha256
+sha512sum $1-sources.jar | cut -d ' ' -f 1 > $1-sources.jar.sha512
+md5sum $1-javadoc.jar | cut -d ' ' -f 1 > $1-javadoc.jar.md5
+sha1sum $1-javadoc.jar | cut -d ' ' -f 1 > $1-javadoc.jar.sha1
+sha256sum $1-javadoc.jar | cut -d ' ' -f 1 > $1-javadoc.jar.sha256
+sha512sum $1-javadoc.jar | cut -d ' ' -f 1 > $1-javadoc.jar.sha512
