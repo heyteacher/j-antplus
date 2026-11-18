@@ -4,7 +4,7 @@
     <groupId>io.github.heyteacher</groupId>
     <artifactId>j-antplus</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.2.0</version>
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
