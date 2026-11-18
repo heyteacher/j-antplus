@@ -1,7 +1,7 @@
 # j-antplus
 Java Library for speaking with ANT / ANT+ devices through a USB dongle.
 
-This fork support **Android Platform** and is used by [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus)
+This fork of [glever/j-antplus](https://github.com/glever/j-antplus) support **Android Platform** and is used by [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus)
 
 I set up this project trying to talk to my personal ANT+ devices.
 Goal is to implement needed ant messages and ANT+ datapages in order to talk to following set of devices:
@@ -27,20 +27,19 @@ Goal is to implement needed ant messages and ANT+ datapages in order to talk to 
 	* Not all data pages implemented, yet.
 	* TODO: Send command to adjust resistance
 
-
 # Current status: 
 Codebase still unstable but foundation is shaping up. Expect a few heavy refactors until things stabilize.
 Check out the Hrm/SpeedTest/Cadence/Fec examples to get started. Many thanks to https://github.com/JohnAZoidberg for help with implementing most of the devices.
 
-Then you can add a maven dependency to `io.github.heyteacher:j-antplus:0.0.1` in order to use it.
+Then you can add a maven dependency to `io.github.heyteacher:j-antplus:<LATEST_VERSION>` in order to use it.
 
 # Compatibility notes
 
-## Windows
-This project uses usb4java-javax, which underneath uses libusb.
-There seems to be a mismatch between the default windows10 WHQL driver (libusb 1.2.40.201, provided by dynastream) and libusb.
-I resolved this by using the "Zadig" tool, select the ant-m usb stick (you may need to go to "Options" -> "list all devices")
-and *downgrade* the driver to 1.2.6.0 (which is actually the latest libusb driver I could find on the net).
+## Android
+
+It uses built-in `android.hardware.usb` instead of `usb4java-javax`
+
+See [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus) example for configure android application
 
 ## Linux
 Tested on Ubuntu: you need to give access to the usb interface for current user.
@@ -57,11 +56,12 @@ udevadm control --reload-rules
 ```
 After this, unplug and re-plug the dongle.
 
-## Android
+## Windows
+This project uses usb4java-javax, which underneath uses libusb.
+There seems to be a mismatch between the default windows10 WHQL driver (libusb 1.2.40.201, provided by dynastream) and libusb.
+I resolved this by using the "Zadig" tool, select the ant-m usb stick (you may need to go to "Options" -> "list all devices")
+and *downgrade* the driver to 1.2.6.0 (which is actually the latest libusb driver I could find on the net).
 
-It uses built-in `android.hardware.usb` instead of `usb4java-javax`
-
-See [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus) example for configure android application 
 
 # For Developers
 
@@ -69,6 +69,9 @@ See [flutter_antplus](https://codeberg.org/heyteacher/flutter_antplus) example f
   set the environment variable `ANDROID_HOME`
 
 ## Publish on maven central
+
+- install [git-cliff](https://git-cliff.org/docs/installation/) for update `CHANGELOG.md` 
+  on release a new version 
 
 - [Register to Publish Via the Central Portal](https://central.sonatype.org/register/central-portal/)
 
@@ -111,9 +114,9 @@ You need to configure Gpg used by maven to publish on maven central.
 
 - upload the key to `keys.openpgp.org`
 
-```bash
-gpg --keyserver  keys.openpgp.org --send-keys <UID>
-```
+  ```bash
+  gpg --keyserver  keys.openpgp.org --send-keys <UID>
+  ```
 
 - click the confirmation link you'll receive via email and follow the instruction for link your 
   email to gpg public key uploaded
