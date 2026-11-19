@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [j-antplus-0.3.0] - 2026-11-19
+
+### 🛠️ Build [0.3.0]
+
+- Warning corrected adding encoding,  release compiler and replacing `scm.tag` with `project.scm.tag` ([c9fd892](http://github.com/heyteacher/j-antplus/commit/c9fd8923db38fab3b79447689005fec066c7e003)) by **heyteacher**
+
+### 🚜 Refactor [0.3.0]
+
+- [**breaking**] Change `deviceNumber` type from `byte[]` to `Long` in constructor and store it in `AntChannel` adding getter and setter ([1dc6a9d](http://github.com/heyteacher/j-antplus/commit/1dc6a9d6bd83715f1ac006ca45346858b1c11262)) by **heyteacher**
+
 ## [j-antplus-0.2.0] - 2026-11-18
 
 ### 🛠️ Build [0.2.0]
@@ -12,6 +22,7 @@ All notable changes to this project will be documented in this file. See [conven
 
 - Update `README` ([48aaf87](http://github.com/heyteacher/j-antplus/commit/48aaf87fdfbe477ab36f87a0011db571e6463d96)) by **heyteacher**
 - Add missing javadoc ([996844b](http://github.com/heyteacher/j-antplus/commit/996844bf1875a3032a3f8c3515eec7b19628175e)) by **heyteacher**
+- Update CHANGELOG ([2b5e7fe](http://github.com/heyteacher/j-antplus/commit/2b5e7fe02cdb4d4bb762946d1b94ed6a00c3652c)) by **heyteacher**
 
 ### ⚙️ Miscellaneous Tasks [0.2.0]
 
