@@ -4,7 +4,7 @@
     <groupId>io.github.heyteacher</groupId>
     <artifactId>j-antplus</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -36,7 +36,7 @@
         <connection>scm:git:git://github.com/heyteacher/j-antplus.git</connection>
         <developerConnection>scm:git:git@github.com:heyteacher/j-antplus.git</developerConnection>
         <url>http://github.com/heyteacher/j-antplus</url>
-        <tag>j-antplus-0.2.0</tag>
+        <tag>j-antplus-0.3.0</tag>
   </scm>
     <build>
         <plugins>
