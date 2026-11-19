@@ -10,6 +10,11 @@ import reactor.core.publisher.Flux;
 public abstract class AntChannel {
 
     /**
+     * Wildcard device number.
+     */
+    public static final Long DEVICE_NUMBER_WILDCARD = 0L;
+
+    /**
      * Constructs a new {@link AntChannel}.
      */
     protected AntChannel() {
@@ -20,6 +25,7 @@ public abstract class AntChannel {
     private byte[] channelPeriod;
     private AntChannelNetwork network;
     private byte channelNumber;
+    private Long deviceNumber;
 
     /**
      * subscribe to the message flux
@@ -153,4 +159,16 @@ public abstract class AntChannel {
     public void setChannelNumber(byte channelNumber) {
         this.channelNumber = channelNumber;
     }
+
+    /**
+     * Gets the device number
+     * @return the device number
+     */
+    public Long getDeviceNumber() { return this.deviceNumber;}
+
+    /**
+     * Sets the device number
+     * @param deviceNumber the device number
+     */
+    public void setDeviceNumber(Long deviceNumber) { this.deviceNumber = deviceNumber;}
 }
