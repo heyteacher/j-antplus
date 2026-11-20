@@ -12,6 +12,7 @@ import be.glever.ant.message.channel.ChannelEventOrResponseMessage;
 import be.glever.ant.message.data.BroadcastDataMessage;
 import be.glever.ant.usb.AbstractAntUsbDevice;
 import be.glever.ant.util.ByteUtils;
+import be.glever.antplus.common.datapage.DataPage81ProductInformation;
 import be.glever.util.logging.Log;
 import reactor.core.publisher.Flux;
 
@@ -26,10 +27,6 @@ public class SpeedAndCadenceChannel extends AntChannel {
 	 * Channel frequency.
 	 */
 	public static final byte CHANNEL_FREQUENCY = 0x39;  // RF Channel 57 (2457MHz)
-	/**
-	 * Wildcard device number.
-	 */
-	public static final byte[] DEVICE_NUMBER_WILDCARD = {0x00, 0x00};
 	/**
 	 * Default public network.
 	 */
@@ -71,11 +68,15 @@ public class SpeedAndCadenceChannel extends AntChannel {
 	 * @param device     the device to pair with
 	 * @param deviceNumber the device number
 	 */
-	public SpeedAndCadenceChannel(AbstractAntUsbDevice device, byte[] deviceNumber) {
+	public SpeedAndCadenceChannel(AbstractAntUsbDevice device, Long deviceNumber) {
+		setDeviceNumber(deviceNumber);
 		setChannelType(AntChannelType.BIDIRECTIONAL_SLAVE);
 		setNetwork(new AntChannelNetwork(DEFAULT_PUBLIC_NETWORK, AntNetworkKeys.ANT_PLUS_NETWORK_KEY));
 		setRfFrequency(CHANNEL_FREQUENCY);
-		setChannelId(new AntChannelId(AntChannelTransmissionType.PAIRING_TRANSMISSION_TYPE, AntPlusDeviceType.SpeedCadence, deviceNumber));
+		setChannelId(new AntChannelId(
+				AntChannelTransmissionType.PAIRING_TRANSMISSION_TYPE,
+				AntPlusDeviceType.SpeedCadence,
+				DataPage81ProductInformation.getDeviceNumberAsBytes(getDeviceNumber())));
 		setChannelPeriod(CHANNEL_PERIOD);
 
 		device.openChannel(this).block(Duration.ofSeconds(10));

@@ -72,7 +72,7 @@ public class PowerChannel extends AntChannel {
 				new AntChannelId(
 						AntChannelTransmissionType.PAIRING_TRANSMISSION_TYPE,
 						AntPlusDeviceType.Power,
-						DataPage81ProductInformation.getDeviceNumberAsBytes(deviceNumber)));
+						DataPage81ProductInformation.getDeviceNumberAsBytes(getDeviceNumber())));
 		setChannelPeriod(CHANNEL_PERIOD);
 
 		device.openChannel(this).block(Duration.ofSeconds(10));

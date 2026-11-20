@@ -76,7 +76,7 @@ public class CadenceChannel extends AntChannel {
 				new AntChannelId(
 						AntChannelTransmissionType.PAIRING_TRANSMISSION_TYPE,
 						AntPlusDeviceType.Cadence,
-						DataPage81ProductInformation.getDeviceNumberAsBytes(deviceNumber)
+						DataPage81ProductInformation.getDeviceNumberAsBytes(getDeviceNumber())
 				)
 		);
 		setChannelPeriod(CHANNEL_PERIOD);

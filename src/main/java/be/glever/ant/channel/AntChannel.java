@@ -170,5 +170,7 @@ public abstract class AntChannel {
      * Sets the device number
      * @param deviceNumber the device number
      */
-    public void setDeviceNumber(Long deviceNumber) { this.deviceNumber = deviceNumber;}
+    public void setDeviceNumber(Long deviceNumber) {
+        this.deviceNumber = deviceNumber != null? deviceNumber:  DEVICE_NUMBER_WILDCARD;
+    }
 }
