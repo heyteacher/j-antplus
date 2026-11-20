@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file. See [conven
 
 ## [j-antplus-0.3.1] - 2026-11-20
 
+### 🛠️ Build [0.3.1]
+
+- Prefix `build:` to commits in order to be compliant with conventional commits ([922cde7](http://github.com/heyteacher/j-antplus/commit/922cde7c0eba81157a4b72734eb756e5de8168a7)) by **heyteacher**
+
 ### 🚜 Refactor [0.3.1]
 
 - In `*Channel` constructors, if `deviceNumber` is null set to `DEVICE_NUMBER_WILDCARD` and upgrade pom dependencies ([583083c](http://github.com/heyteacher/j-antplus/commit/583083c45c3bf9a881ab6aafcb36068b27d78f4e)) by **heyteacher**
+
+### 📚 Documentation [0.3.1]
+
+- Update CHANGELOG ([e874e3b](http://github.com/heyteacher/j-antplus/commit/e874e3b7e645471d84917c2c97b2971f904d1b31)) by **heyteacher**
 
 ## [j-antplus-0.3.0] - 2026-11-19
 
