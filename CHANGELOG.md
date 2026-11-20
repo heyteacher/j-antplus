@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [j-antplus-0.3.1] - 2026-11-20
+
+### 🚜 Refactor [0.3.1]
+
+- In `*Channel` constructors, if `deviceNumber` is null set to `DEVICE_NUMBER_WILDCARD` and upgrade pom dependencies ([583083c](http://github.com/heyteacher/j-antplus/commit/583083c45c3bf9a881ab6aafcb36068b27d78f4e)) by **heyteacher**
+
 ## [j-antplus-0.3.0] - 2026-11-19
 
 ### 🛠️ Build [0.3.0]
@@ -11,6 +17,10 @@ All notable changes to this project will be documented in this file. See [conven
 ### 🚜 Refactor [0.3.0]
 
 - [**breaking**] Change `deviceNumber` type from `byte[]` to `Long` in constructor and store it in `AntChannel` adding getter and setter ([1dc6a9d](http://github.com/heyteacher/j-antplus/commit/1dc6a9d6bd83715f1ac006ca45346858b1c11262)) by **heyteacher**
+
+### 📚 Documentation [0.3.0]
+
+- Update CHANGELOG ([4c0a9ea](http://github.com/heyteacher/j-antplus/commit/4c0a9ea0508a869e78bb9b82e287fd2dd7d60cf8)) by **heyteacher**
 
 ## [j-antplus-0.2.0] - 2026-11-18
 
