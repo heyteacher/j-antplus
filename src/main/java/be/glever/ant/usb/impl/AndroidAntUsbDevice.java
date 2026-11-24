@@ -32,7 +32,7 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
     /**
      * Constructs a new {@link AndroidAntUsbDevice}.
      *
-     * @param context the context
+     * @param context       the context
      * @param androidDevice the android device
      * @param androidLogger the android logger
      */
@@ -44,6 +44,7 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
 
     /**
      * Returns the usb device in Android platform.
+     * 
      * @return the usb device in Android platform.
      */
     public UsbDevice getAndroidDevice() {
@@ -52,18 +53,24 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
 
     @Override
     protected void closeInterface() {
+        LOG.debug(() -> "<closeInterface>");
         UsbInterface androidUsbInterface = getActiveAndroidUsbInterface();
         if (androidConnection != null && androidUsbInterface != null) {
+            LOG.debug(() -> "(closeInterface): release interface");
             androidConnection.releaseInterface(getActiveAndroidUsbInterface());
             androidConnection.close();
+        } else if (androidConnection != null) {
+            LOG.debug(() -> "(closeInterface): close connection");
+            androidConnection.close();
+        } else {
+            LOG.warn(() -> "(closeInterface): no connection or no interface to close");
         }
     }
 
     @Override
     protected void initUsbInterface() throws AntException {
         LOG.debug(() -> "<initUsbInterface>");
-        UsbManager usbManager = (UsbManager)
-                context.getSystemService(android.content.Context.USB_SERVICE);
+        UsbManager usbManager = (UsbManager) context.getSystemService(android.content.Context.USB_SERVICE);
         androidConnection = usbManager.openDevice(androidDevice);
         UsbInterface usbInterface = getActiveAndroidUsbInterface();
         if (usbInterface != null && androidConnection != null && androidConnection.claimInterface(usbInterface, true)) {
@@ -97,9 +104,15 @@ public class AndroidAntUsbDevice extends AbstractAntUsbDevice {
      * @return the active android usb interface.
      */
     protected UsbInterface getActiveAndroidUsbInterface() {
+        LOG.debug(() -> "<getActiveAnd+roidUsbInterface>");
         if (this.androidDevice != null) {
-            return this.androidDevice.getInterface(0);
+            UsbInterface usbInterface = this.androidDevice.getInterface(0);
+            if (usbInterface != null) {
+                LOG.debug(() -> "(getActiveAndroidUsbInterface): interface 0 found");
+                return usbInterface;
+            }
         }
+        LOG.warn(() -> "(getActiveAndroidUsbInterface): interface 0 not found, returns null");
         return null;
     }
 }
