@@ -37,7 +37,8 @@ import static java.lang.String.format;
 abstract public class AbstractAntUsbDevice implements Closeable {
     private static final int SLEEP_AFTER_RESET = 500;
     private static final Log LOG = Log.getLogger(AbstractAntUsbDevice.class);
-    private final FluxProcessor<AntMessage, AntMessage> antMessageProcessor = DirectProcessor.<AntMessage>create().serialize();
+    private final FluxProcessor<AntMessage, AntMessage> antMessageProcessor = DirectProcessor.<AntMessage>create()
+            .serialize();
     private final FluxSink<AntMessage> antMessageSink = antMessageProcessor.sink();
     private final FluxProcessor<Throwable, Throwable> errorProcessor = DirectProcessor.<Throwable>create().serialize();
     private final FluxSink<Throwable> errorSink = errorProcessor.sink();
@@ -72,7 +73,6 @@ abstract public class AbstractAntUsbDevice implements Closeable {
         return Flux.just(antMessage);
     }
 
-
     /**
      * Initialize.
      *
@@ -94,6 +94,7 @@ abstract public class AbstractAntUsbDevice implements Closeable {
 
     /**
      * Closes the usb device.
+     * 
      * @throws IOException if an error occurs.
      */
     @Override
@@ -139,13 +140,15 @@ abstract public class AbstractAntUsbDevice implements Closeable {
                     closeChannel(channelNumber);
                     break;
                 default:
-                    throw new AntException("Don't know (yet) how to close channel in current state " + channelStatus + ".");
+                    throw new AntException(
+                            "Don't know (yet) how to close channel in current state " + channelStatus + ".");
             }
         }
     }
 
     /**
      * Gets the capabilities of the stick.
+     * 
      * @return the capabilities of the stick.
      */
     public AntUsbDeviceCapabilities getCapabilities() {
@@ -154,6 +157,7 @@ abstract public class AbstractAntUsbDevice implements Closeable {
 
     /**
      * Opens a channel.
+     * 
      * @param channel the channel to open.
      * @return a Mono that completes when the channel is opened.
      */
@@ -164,8 +168,11 @@ abstract public class AbstractAntUsbDevice implements Closeable {
 
         BiFunction<AntMessage, AntMessage, Boolean> responseMatcher = RequestMatcher::isMatchingResponse;
         return send(new NetworkKeyMessage(channelNumber, channel.getNetwork().getNetworkKey()), responseMatcher)
-                .then(send(new AssignChannelMessage(channelNumber, channel.getChannelType().getValue(), channel.getNetwork().getNetworkNumber()), responseMatcher))
-                .then(send(new ChannelIdMessage(channelNumber, channel.getChannelId().getDeviceNumber(), channel.getChannelId().getDeviceType(), channel.getChannelId().getTransmissionType().getValue()), responseMatcher))
+                .then(send(new AssignChannelMessage(channelNumber, channel.getChannelType().getValue(),
+                        channel.getNetwork().getNetworkNumber()), responseMatcher))
+                .then(send(new ChannelIdMessage(channelNumber, channel.getChannelId().getDeviceNumber(),
+                        channel.getChannelId().getDeviceType(),
+                        channel.getChannelId().getTransmissionType().getValue()), responseMatcher))
                 .then(send(new ChannelPeriodMessage(channelNumber, channel.getChannelPeriod()), responseMatcher))
                 .then(send(new ChannelRfFrequencyMessage(channelNumber, channel.getRfFrequency()), responseMatcher))
                 .then(send(new OpenChannelMessage(channelNumber), responseMatcher))
@@ -173,29 +180,32 @@ abstract public class AbstractAntUsbDevice implements Closeable {
                     this.antChannels[channelNumber] = channel;
                     channel.setChannelNumber(channelNumber);
                     channel.subscribeTo(this.antMessageProcessor);
-                    LOG.info(() -> format("(openChannel): channel successfully opened and assigned to channel number %s ", channelNumber));
+                    LOG.info(() -> format(
+                            "(openChannel): channel successfully opened and assigned to channel number %s ",
+                            channelNumber));
                 }))
                 .then();
     }
 
     /**
      * Closes the channel with the given channel number.
+     * 
      * @param channelNumber The number of channel to close.
      */
-    public void closeChannel(byte channelNumber)  {
+    public void closeChannel(byte channelNumber) {
         LOG.info(() -> format("<closeChannel> channel number %s", channelNumber));
         try {
-            ChannelEventOrResponseMessage closeResp = (ChannelEventOrResponseMessage)
-                    sendBlocking(new CloseChannelMessage(channelNumber));
+            ChannelEventOrResponseMessage closeResp = (ChannelEventOrResponseMessage) sendBlocking(
+                    new CloseChannelMessage(channelNumber));
             if (closeResp.getResponseCode() == ChannelEventResponseCode.EVENT_CHANNEL_CLOSED) {
                 LOG.warn(() -> format("(closeChannel): channel %s already closed.", channelNumber));
-            }
-            else if (closeResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
+            } else if (closeResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
                 throw new AntException(format("response code %s", closeResp.getResponseCode()));
             }
             LOG.info(() -> format("(closeChannel): successfully close channel %s.", channelNumber));
         } catch (AntException e) {
-            LOG.error(() -> format("(closeChannel): Error on close channel %s, message '%s'", channelNumber, e.getMessage()));
+            LOG.error(() -> format("(closeChannel): Error on close channel %s, message '%s'", channelNumber,
+                    e.getMessage()));
         }
         // wait 1 second before send unassign message
         try {
@@ -204,17 +214,16 @@ abstract public class AbstractAntUsbDevice implements Closeable {
             throw new RuntimeException(e);
         }
         try {
-            ChannelEventOrResponseMessage unassignResp = (ChannelEventOrResponseMessage) sendBlocking(new UnassignChannelMessage(channelNumber));
+            ChannelEventOrResponseMessage unassignResp = (ChannelEventOrResponseMessage) sendBlocking(
+                    new UnassignChannelMessage(channelNumber));
             if (unassignResp.getResponseCode() != ChannelEventResponseCode.RESPONSE_NO_ERROR) {
                 throw new AntException(format("response code %s", unassignResp.getResponseCode()));
-            }
-            else {
+            } else {
                 LOG.info(() -> format("(closeChannel): successfully unassign channel %s.", channelNumber));
             }
         } catch (AntException e) {
             LOG.error(() -> format("(closeChannel): Error on unassign channel %s, error %s'", channelNumber, e));
-        }
-        finally {
+        } finally {
             LOG.info(() -> format("(closeChannel): unset channel number %s from ant channels.", channelNumber));
             antChannels[channelNumber] = null;
         }
@@ -230,13 +239,15 @@ abstract public class AbstractAntUsbDevice implements Closeable {
     }
 
     /**
-     * Returns a Mono containing the response for a given request. Note that the request is not sent unless subscribed to the Publisher.
+     * Returns a Mono containing the response for a given request. Note that the
+     * request is not sent unless subscribed to the Publisher.
      *
      * @param requestMessage The message to send.
      * @param responseFilter the response filter.
      * @return the send.
      */
-    public Mono<AntMessage> send(AntMessage requestMessage, BiFunction<AntMessage, AntMessage, Boolean> responseFilter) {
+    public Mono<AntMessage> send(AntMessage requestMessage,
+            BiFunction<AntMessage, AntMessage, Boolean> responseFilter) {
         Flux<AntMessage> response = this.antMessageProcessor
                 .filter(responseMessage -> responseFilter.apply(requestMessage, responseMessage))
                 .concatMap(AbstractAntUsbDevice::mapToErrorIfRequired);
@@ -246,11 +257,13 @@ abstract public class AbstractAntUsbDevice implements Closeable {
     }
 
     /**
-     * Sends a message and blocks current thread until it's expected response is returned.
+     * Sends a message and blocks current thread until it's expected response is
+     * returned.
      *
      * @param requestMessage the message to send.
      * @return the response.
-     * @deprecated Best to combine sending through {@link #send(AntMessage)} and listening on # instead.
+     * @deprecated Best to combine sending through {@link #send(AntMessage)} and
+     *             listening on # instead.
      */
     @Deprecated
     public AntMessage sendBlocking(AntBlockingMessage requestMessage) {
@@ -265,6 +278,7 @@ abstract public class AbstractAntUsbDevice implements Closeable {
 
     /**
      * Returns the first available channel number.
+     * 
      * @return the first available channel number.
      */
     private byte getAvailableChannelNumber() {
@@ -301,21 +315,24 @@ abstract public class AbstractAntUsbDevice implements Closeable {
                 .subscribe();
 
         this.errorProcessor.doOnNext(
-                        error -> LOG.error(() -> "TODO Handle error " + error))
+                error -> LOG.error(() -> "TODO Handle error " + error))
                 .subscribe();
     }
 
     private void initAntDevice() throws AntException, InterruptedException {
         resetUsbDevice();
 
-        CapabilitiesResponseMessage capabilitiesResponseMessage = (CapabilitiesResponseMessage) sendBlocking(RequestMessage.forMessageId(CapabilitiesResponseMessage.MSG_ID));
+        CapabilitiesResponseMessage capabilitiesResponseMessage = (CapabilitiesResponseMessage) sendBlocking(
+                RequestMessage.forMessageId(CapabilitiesResponseMessage.MSG_ID));
         this.capabilities = new AntUsbDeviceCapabilities(capabilitiesResponseMessage);
         this.antChannels = new AntChannel[capabilities.getMaxChannels()];
 
-        AntVersionMessage antVersionMessage = (AntVersionMessage) sendBlocking(RequestMessage.forMessageId(AntVersionMessage.MSG_ID));
+        AntVersionMessage antVersionMessage = (AntVersionMessage) sendBlocking(
+                RequestMessage.forMessageId(AntVersionMessage.MSG_ID));
         this.antVersion = antVersionMessage.getAntVersion();
 
-        SerialNumberMessage serialNumberMessage = (SerialNumberMessage) sendBlocking(RequestMessage.forMessageId(SerialNumberMessage.MSG_ID));
+        SerialNumberMessage serialNumberMessage = (SerialNumberMessage) sendBlocking(
+                RequestMessage.forMessageId(SerialNumberMessage.MSG_ID));
         this.serialNumber = serialNumberMessage.getSerialNumber();
 
         LOG.debug(() -> format("Capabilities: %s", this.capabilities.toString()));
