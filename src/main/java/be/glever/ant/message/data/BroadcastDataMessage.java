@@ -2,13 +2,16 @@ package be.glever.ant.message.data;
 
 import be.glever.ant.AntException;
 import be.glever.ant.message.AbstractAntMessage;
+import be.glever.ant.util.ByteArrayBuilder;
 import be.glever.ant.util.ByteUtils;
 
 import java.util.Arrays;
 
 /**
- * Base class for all broadcast messages (ie data payloads received from ant+ devices).
- * TODO when needed, extend this class further to account for extended data behavior as defined in 7.1.1
+ * Base class for all broadcast messages (ie data payloads received from ant+
+ * devices).
+ * TODO when needed, extend this class further to account for extended data
+ * behavior as defined in 7.1.1
  */
 public class BroadcastDataMessage extends AbstractAntMessage {
     /**
@@ -24,6 +27,18 @@ public class BroadcastDataMessage extends AbstractAntMessage {
      */
     public BroadcastDataMessage(byte[] bytes) {
         parse(bytes);
+    }
+
+    /**
+     * Constructs a new {@link BroadcastDataMessage}.
+     * <p>
+     * It's used to send a message with a data page as payload.
+     *
+     * @param channelNumber the channel number
+     * @param payload       the payload
+     */
+    public BroadcastDataMessage(byte channelNumber, byte[] payload) {
+        setMessageBytes(new ByteArrayBuilder().write(channelNumber).write(payload).toByteArray());
     }
 
     @Override
@@ -65,6 +80,4 @@ public class BroadcastDataMessage extends AbstractAntMessage {
                 "messageContentBytes=" + ByteUtils.hexString(messageContentBytes) +
                 '}';
     }
-
-
 }
