@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.heyteacher</groupId>
     <artifactId>j-antplus</artifactId>
     <packaging>jar</packaging>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.4.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -38,7 +36,7 @@
         <connection>scm:git:git://github.com/heyteacher/j-antplus.git</connection>
         <developerConnection>scm:git:git@github.com:heyteacher/j-antplus.git</developerConnection>
         <url>http://github.com/heyteacher/j-antplus</url>
-        <tag>j-antplus-0.2.0</tag>
+        <tag>j-antplus-0.4.0</tag>
     </scm>
     <build>
         <plugins>
