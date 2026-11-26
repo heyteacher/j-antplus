@@ -2,11 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [j-antplus-0.4.0] - 2026-11-26
+
+### 🚀 Features [0.4.0]
+
+- Add constructor to BroadcastDataMessage for payload transmission ([262bcd0](http://github.com/heyteacher/j-antplus/commit/262bcd0a8b16c283080f7fddb2ef3d17e515808f)) by **heyteacher**
+
+### 🛠️ Build [0.4.0]
+
+- Prepare for next development iteration ([4e33a53](http://github.com/heyteacher/j-antplus/commit/4e33a5383c8ebab607da7a2d6b7cc5502ab7b36a)) by **heyteacher**
+
+### 🚜 Refactor [0.4.0]
+
+- Add debug logging and improve handling in AndroidAntUsbDevice ([20f28ec](http://github.com/heyteacher/j-antplus/commit/20f28ec11ef23a979c18c0b87bb6c9c658c5b324)) by **heyteacher**
+- Replace `DataPageBuilder` with constructor function in AbstractDataPageRegistry ([28873fa](http://github.com/heyteacher/j-antplus/commit/28873fa256cccef35f9e3b113728f297e986326a)) by **heyteacher**
+
+### 🎨 Styling [0.4.0]
+
+- Format code and update javadoc comments ([1e45749](http://github.com/heyteacher/j-antplus/commit/1e45749a8b9315f7147ea5099edb9904d9768f9d)) by **heyteacher**
+
+### ⚙️ Miscellaneous Tasks [0.4.0]
+
+- Remove intellij configuration file ([a724e2f](http://github.com/heyteacher/j-antplus/commit/a724e2f83ab00bc4ed71e8b27ef44dface2ba084)) by **heyteacher**
+- Enable `autoPublish` for central publishing plugin and format pom.xml ([b3dd00f](http://github.com/heyteacher/j-antplus/commit/b3dd00f5fb964e2ddaa802be20786eaffbb5eeb1)) by **heyteacher**
+
 ## [j-antplus-0.3.1] - 2026-11-20
 
 ### 🛠️ Build [0.3.1]
 
 - Prefix `build:` to commits in order to be compliant with conventional commits ([922cde7](http://github.com/heyteacher/j-antplus/commit/922cde7c0eba81157a4b72734eb756e5de8168a7)) by **heyteacher**
+- Prepare release j-antplus-0.3.1 ([643ea1d](http://github.com/heyteacher/j-antplus/commit/643ea1d4e4320197fd85091a50f95161e53e99f1)) by **heyteacher**
 
 ### 🚜 Refactor [0.3.1]
 
@@ -15,6 +40,7 @@ All notable changes to this project will be documented in this file. See [conven
 ### 📚 Documentation [0.3.1]
 
 - Update CHANGELOG ([e874e3b](http://github.com/heyteacher/j-antplus/commit/e874e3b7e645471d84917c2c97b2971f904d1b31)) by **heyteacher**
+- Update CHANGELOG ([1936a76](http://github.com/heyteacher/j-antplus/commit/1936a762bf346d123780352c9eeff0be32149d5f)) by **heyteacher**
 
 ## [j-antplus-0.3.0] - 2026-11-19
 
