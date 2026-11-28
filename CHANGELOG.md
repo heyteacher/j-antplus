@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## [j-antplus-0.4.1] - 2026-11-28
+
+### 🛠️ Build [0.4.1]
+
+- Prepare for next development iteration ([25ad989](http://github.com/heyteacher/j-antplus/commit/25ad989d9ebd128414e68883886758fa955dde06)) by **heyteacher**
+- Add script `tool/release.sh` which run maven release prepare and perform ([8882c19](http://github.com/heyteacher/j-antplus/commit/8882c1908cd47d8a33f40fdaf7a4905796d08d17)) by **heyteacher**
+- Add GitHub release automation script in perform release goal ([4a127f5](http://github.com/heyteacher/j-antplus/commit/4a127f5075780302ed060981792765dd1b4d2c14)) by **heyteacher**
+
+### 📚 Documentation [0.4.1]
+
+- Enhanced `README.md` adding TOC, formatting markdown and extending features ([7db806e](http://github.com/heyteacher/j-antplus/commit/7db806e83f992521e96aa0d415751fc9a67b6660)) by **heyteacher**
+
 ## [j-antplus-0.4.0] - 2026-11-26
 
 ### 🚀 Features [0.4.0]
@@ -11,11 +23,16 @@ All notable changes to this project will be documented in this file. See [conven
 ### 🛠️ Build [0.4.0]
 
 - Prepare for next development iteration ([4e33a53](http://github.com/heyteacher/j-antplus/commit/4e33a5383c8ebab607da7a2d6b7cc5502ab7b36a)) by **heyteacher**
+- Prepare release j-antplus-0.4.0 ([9946c0f](http://github.com/heyteacher/j-antplus/commit/9946c0f6fe34adc4e4b838c7f9a0f0723d6dbeb4)) by **heyteacher**
 
 ### 🚜 Refactor [0.4.0]
 
 - Add debug logging and improve handling in AndroidAntUsbDevice ([20f28ec](http://github.com/heyteacher/j-antplus/commit/20f28ec11ef23a979c18c0b87bb6c9c658c5b324)) by **heyteacher**
 - Replace `DataPageBuilder` with constructor function in AbstractDataPageRegistry ([28873fa](http://github.com/heyteacher/j-antplus/commit/28873fa256cccef35f9e3b113728f297e986326a)) by **heyteacher**
+
+### 📚 Documentation [0.4.0]
+
+- Update CHANGELOG ([50ba842](http://github.com/heyteacher/j-antplus/commit/50ba8427ac85719a6b6aeb186e8cb1f911366fd7)) by **heyteacher**
 
 ### 🎨 Styling [0.4.0]
 
